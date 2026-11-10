@@ -1,0 +1,1528 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mashrafi Hossain • Official Portfolio</title>
+  <!-- Apple System Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Three.js -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['-apple-system', 'BlinkMacSystemFont', '"SF Pro Display"', '"SF Pro Text"', '"Inter"', 'sans-serif'],
+          },
+          colors: {
+            appleBg: '#000000',
+            appleHeroBg: '#0b0b0c',
+            appleGrayBg: '#161617',
+            appleCardBg: '#101012',
+            appleText: '#f5f5f7',
+            appleSubtext: '#86868b',
+            appleBlue: '#2997ff',
+            appleBlueHover: '#0071e3',
+            appleGold: '#dfb15b'
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+    html {
+      background-color: #000000;
+      color: #f5f5f7;
+    }
+    body {
+      background-color: #000000;
+      overflow-x: hidden;
+    }
+    /* 3D WebGL Canvas */
+    #webgl-canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: 0;
+      outline: none;
+      pointer-events: none;
+    }
+    /* Authentic Apple Header */
+    .apple-global-nav {
+      background: rgba(0, 0, 0, 0.8);
+      backdrop-filter: saturate(180%) blur(20px);
+      -webkit-backdrop-filter: saturate(180%) blur(20px);
+      height: 48px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      transition: background-color 0.5s ease;
+    }
+    .apple-nav-link {
+      color: #cecece;
+      font-size: 12px;
+      font-weight: 400;
+      letter-spacing: -0.01em;
+      transition: color 0.25s ease;
+      white-space: nowrap;
+    }
+    .apple-nav-link:hover {
+      color: #ffffff;
+    }
+    /* Apple Billboard Units */
+    .apple-billboard {
+      background-color: #000000;
+      position: relative;
+      overflow: hidden;
+      margin-bottom: 12px;
+    }
+    /* Hardware-accelerated cards & buttery-smooth 60+ FPS */
+    .apple-billboard-card {
+      background-color: #161617;
+      border-radius: 20px;
+      overflow: hidden;
+      position: relative;
+      transform: translateZ(0);
+      -webkit-transform: translateZ(0);
+      backface-visibility: hidden;
+      will-change: transform;
+      transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease;
+    }
+    .apple-billboard-card:hover {
+      transform: scale(1.008) translateZ(0);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.7);
+    }
+    /* Strictly hide admin elements for regular visitors */
+    [data-admin-only] {
+      display: none !important;
+    }
+    body.is-owner-mode [data-admin-only] {
+      display: flex !important;
+    }
+    body.is-owner-mode button[data-admin-only] {
+      display: inline-flex !important;
+    }
+    /* Apple Blue CTA Links */
+    .apple-link {
+      color: #2997ff;
+      font-size: 14px;
+      font-weight: 400;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      transition: all 0.2s ease;
+    }
+    .apple-link:hover {
+      text-decoration: underline;
+      gap: 6px;
+    }
+    .apple-btn-round {
+      background: #0071e3;
+      color: #ffffff;
+      font-size: 14px;
+      font-weight: 400;
+      padding: 8px 18px;
+      border-radius: 980px;
+      transition: background 0.2s ease, transform 0.2s ease;
+    }
+    .apple-btn-round:hover {
+      background: #0077ed;
+      transform: scale(1.02);
+    }
+    .apple-btn-round-ghost {
+      background: transparent;
+      color: #2997ff;
+      border: 1px solid #2997ff;
+      font-size: 14px;
+      font-weight: 400;
+      padding: 7px 17px;
+      border-radius: 980px;
+      transition: all 0.2s ease;
+    }
+    .apple-btn-round-ghost:hover {
+      background: #2997ff;
+      color: #ffffff;
+    }
+    /* Horizontal Filmstrip Carousel */
+    .apple-carousel-track {
+      display: flex;
+      gap: 20px;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      padding-bottom: 24px;
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+    .apple-carousel-track::-webkit-scrollbar {
+      display: none;
+    }
+    .apple-carousel-item {
+      flex: 0 0 320px;
+      scroll-snap-align: center;
+      border-radius: 20px;
+      overflow: hidden;
+      background: #161617;
+      cursor: pointer;
+      transition: transform 0.4s ease;
+    }
+    .apple-carousel-item:hover {
+      transform: translateY(-4px);
+    }
+    /* Typography & Hierarchy */
+    .headline-large {
+      font-size: clamp(44px, 7vw, 76px);
+      font-weight: 700;
+      letter-spacing: -0.025em;
+      line-height: 1.05;
+    }
+    .headline-sub {
+      font-size: clamp(20px, 3.2vw, 28px);
+      font-weight: 400;
+      letter-spacing: -0.01em;
+      color: #f5f5f7;
+    }
+    .headline-tag {
+      font-size: 17px;
+      font-weight: 400;
+      color: #86868b;
+    }
+    /* Apple Footer links */
+    .footer-heading {
+      font-size: 12px;
+      font-weight: 600;
+      color: #f5f5f7;
+      margin-bottom: 10px;
+    }
+    .footer-link {
+      font-size: 12px;
+      color: #86868b;
+      display: block;
+      margin-bottom: 8px;
+      transition: color 0.2s ease;
+    }
+    .footer-link:hover {
+      color: #f5f5f7;
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Three.js Minimal Apple 3D Atmosphere Layer -->
+  <canvas id="webgl-canvas"></canvas>
+
+  <!-- Interactive Lightbox Modal -->
+  <div id="photoLightbox" class="fixed inset-0 z-50 bg-black/95 backdrop-blur-2xl hidden flex items-center justify-center p-4">
+    <button onclick="closeLightbox()" class="absolute top-6 right-6 w-11 h-11 rounded-full bg-white/10 text-white flex items-center justify-center text-xl hover:bg-white/20 transition-all z-20">
+      ✕
+    </button>
+    <button onclick="prevLightboxImage()" class="absolute left-6 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-white/10 text-white flex items-center justify-center text-xl hover:bg-white/20 transition-all z-20">
+      ‹
+    </button>
+    <button onclick="nextLightboxImage()" class="absolute right-6 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-white/10 text-white flex items-center justify-center text-xl hover:bg-white/20 transition-all z-20">
+      ›
+    </button>
+    <div class="max-w-4xl w-full text-center">
+      <img id="lightboxImg" src="" alt="Enlarged" class="max-h-[78vh] mx-auto rounded-3xl object-contain shadow-2xl border border-white/10">
+      <div class="mt-4">
+        <span id="lightboxCategory" class="text-xs uppercase tracking-widest text-appleGold font-mono"></span>
+        <h3 id="lightboxTitle" class="text-white text-lg font-semibold mt-1"></h3>
+        <p id="lightboxSubtitle" class="text-appleSubtext text-xs mt-0.5"></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Content Layer -->
+  <div class="relative z-10 flex flex-col min-h-screen">
+    
+    <!-- 1. AUTHENTIC APPLE GLOBAL NAVIGATION BAR -->
+    <header class="w-full apple-global-nav sticky top-0 z-40 flex flex-col justify-center">
+      <div class="max-w-[1024px] mx-auto w-full px-4 flex items-center justify-between h-12">
+        
+        <!-- Brand -->
+        <a href="#hero" class="flex items-center text-white hover:opacity-75 transition-opacity" title="Mashrafi Hossain">
+          <span class="text-xs font-semibold text-white tracking-tight">Mashrafi Hossain</span>
+        </a>
+
+        <!-- Desktop Apple Main Nav Links -->
+        <nav class="hidden md:flex items-center space-x-8">
+          <a href="#hero" class="apple-nav-link">Overview</a>
+          <a href="#section-billboard-2" class="apple-nav-link">Ceremony</a>
+          <a href="#section-grid" class="apple-nav-link">Gallery</a>
+          <a href="#section-college" class="apple-nav-link">College</a>
+          <a href="#social" class="apple-nav-link">Social & Free Fire</a>
+          <a href="#section-reflections" class="apple-nav-link">My Specification</a>
+        </nav>
+
+        <!-- Right Quick Links -->
+        <div class="flex items-center">
+          <a href="#social" class="text-xs text-appleBlue hover:text-white transition-colors flex items-center gap-1.5 font-medium">
+            <span>Contact</span>
+            <svg class="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+          </a>
+        </div>
+
+      </div>
+
+      <!-- Mobile Scrolling Navigation Strip (Accessible on every phone) -->
+      <div class="flex md:hidden overflow-x-auto no-scrollbar px-4 py-2 border-t border-white/5 space-x-5 bg-black/90 text-xs">
+        <a href="#hero" class="apple-nav-link whitespace-nowrap">Overview</a>
+        <a href="#section-billboard-2" class="apple-nav-link whitespace-nowrap">Ceremony</a>
+        <a href="#section-grid" class="apple-nav-link whitespace-nowrap">Gallery</a>
+        <a href="#section-college" class="apple-nav-link whitespace-nowrap">College</a>
+        <a href="#social" class="apple-nav-link whitespace-nowrap">Social & Free Fire</a>
+        <a href="#section-reflections" class="apple-nav-link whitespace-nowrap">My Specification</a>
+      </div>
+    </header>
+
+    <!-- Sub-Ribbon / Announcement Banner -->
+    <div class="w-full bg-[#161617] py-3 text-center text-xs text-appleSubtext border-b border-white/5">
+      <span>Welcome to the official page of Mashrafi Hossain. <a href="#section-billboard-1" class="text-appleBlue hover:underline">Explore &gt;</a></span>
+    </div>
+
+    <!-- ======================================================== -->
+    <!-- 2. BILLBOARD 1: FLAGSHIP HERO (IPHONE PRO STYLE)          -->
+    <!-- ======================================================== -->
+    <section id="hero" class="apple-billboard pt-16 pb-12 text-center flex flex-col items-center">
+      <div class="max-w-[1024px] mx-auto px-4 w-full">
+        
+        <h1 class="headline-large text-white mb-2">
+          Mashrafi Hossain.
+        </h1>
+
+        <p class="headline-sub text-[#a1a1a6] mb-6 font-normal">
+          Student and Free Fire Gamer.
+        </p>
+
+        <!-- Action Button -->
+        <div class="flex items-center justify-center mb-10">
+          <a href="#section-billboard-1" class="apple-btn-round">
+            Explore
+          </a>
+        </div>
+
+        <!-- Flagship Hero Photo Display (Apple Product Stage) -->
+        <div class="relative max-w-3xl mx-auto rounded-3xl overflow-hidden shadow-2xl cursor-pointer group" onclick="openLightboxImage(0)">
+          <div data-admin-only class="absolute top-4 right-4 z-30 flex items-center gap-2">
+            <button onclick="promptRenameCard('titleHero', '', 0, event)" class="px-3 py-1.5 rounded-full bg-black/85 hover:bg-white hover:text-black border border-white/20 text-white text-xs font-semibold backdrop-blur-md transition-all shadow-lg flex items-center gap-1">✏️ Change Name</button>
+            <button onclick="triggerPhotoReplacement('hero', 'cardImgHero', 0, event)" class="px-3 py-1.5 rounded-full bg-black/85 hover:bg-white hover:text-black border border-white/20 text-white text-xs font-semibold backdrop-blur-md transition-all shadow-lg flex items-center gap-1">📷 Change Photo</button>
+          </div>
+          <div class="h-[520px] sm:h-[620px] w-full relative">
+            <img id="cardImgHero" src="assets/photos/hero-portrait.jpg" alt="Mashrafi Hossain" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out">
+            <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/10 to-transparent"></div>
+            
+            <div class="absolute bottom-8 left-8 right-8 flex items-end justify-between text-left">
+              <div>
+                <h3 id="titleHero" class="text-2xl sm:text-3xl font-bold text-white">Personal Portrait</h3>
+              </div>
+              <span class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-white text-base">🔍</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ======================================================== -->
+    <!-- 3. BILLBOARD 2: COLLECTION 01 - THE SIGNATURE SERIES       -->
+    <!-- ======================================================== -->
+    <section id="section-billboard-1" class="apple-billboard pt-14 pb-12 text-center">
+      <div class="max-w-[1024px] mx-auto px-4 w-full">
+        
+        <span class="text-xs font-mono font-semibold uppercase tracking-widest text-appleGold mb-2 block">
+          Portraits
+        </span>
+
+        <div class="flex items-center justify-center gap-3 mb-2 flex-wrap">
+          <h2 id="secTitlePortraits" class="headline-large text-white">
+            Portraits & Signature Looks.
+          </h2>
+          <button data-admin-only onclick="promptRenameSimple('secTitlePortraits', 'Enter Section Title:', event)" class="px-2.5 py-1 rounded-full bg-white/10 hover:bg-white/20 text-white text-xs font-mono">✏️ Edit</button>
+        </div>
+
+        <p class="headline-sub text-appleSubtext mb-4">
+          Natural perspective with balanced studio lighting.
+        </p>
+
+        <div class="flex items-center justify-center gap-6 mb-12">
+          <a href="#section-grid" class="apple-link">View all 15 photos &gt;</a>
+          <a href="#social" class="apple-link">Connect with Mashrafi Hossain &gt;</a>
+        </div>
+
+        <!-- Two Column Apple Hero Side-by-Side -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-left">
+          
+          <!-- Card 1 -->
+          <div class="apple-billboard-card p-6 h-[480px] flex flex-col justify-between group cursor-pointer relative" onclick="openLightboxImage(1)">
+            <div data-admin-only class="absolute top-4 right-4 z-30 flex items-center gap-2">
+              <button onclick="promptRenameCard('titleCard01', 'subCard01', 1, event)" class="px-3 py-1.5 rounded-full bg-black/85 hover:bg-white hover:text-black border border-white/20 text-white text-xs font-semibold backdrop-blur-md transition-all shadow-lg flex items-center gap-1">✏️ Change Name</button>
+              <button onclick="triggerPhotoReplacement('moment-01', 'cardImg01', 1, event)" class="px-3 py-1.5 rounded-full bg-black/85 hover:bg-white hover:text-black border border-white/20 text-white text-xs font-semibold backdrop-blur-md transition-all shadow-lg flex items-center gap-1">📷 Change Photo</button>
+            </div>
+            <div>
+              <span class="text-[11px] font-mono text-appleGold uppercase tracking-widest">Portrait 01</span>
+              <h3 id="titleCard01" class="text-2xl font-bold text-white mt-1">Studio Portrait</h3>
+              <p id="subCard01" class="text-appleSubtext text-xs mt-1">Balanced posture with natural studio lighting.</p>
+            </div>
+            <div class="h-80 rounded-2xl overflow-hidden mt-4">
+              <img id="cardImg01" src="assets/photos/moment-01.jpg" alt="Studio Portrait" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
+            </div>
+          </div>
+
+          <!-- Card 2 -->
+          <div class="apple-billboard-card p-6 h-[480px] flex flex-col justify-between group cursor-pointer relative" onclick="openLightboxImage(2)">
+            <div data-admin-only class="absolute top-4 right-4 z-30 flex items-center gap-2">
+              <button onclick="promptRenameCard('titleCard02', 'subCard02', 2, event)" class="px-3 py-1.5 rounded-full bg-black/85 hover:bg-white hover:text-black border border-white/20 text-white text-xs font-semibold backdrop-blur-md transition-all shadow-lg flex items-center gap-1">✏️ Change Name</button>
+              <button onclick="triggerPhotoReplacement('moment-02', 'cardImg02', 2, event)" class="px-3 py-1.5 rounded-full bg-black/85 hover:bg-white hover:text-black border border-white/20 text-white text-xs font-semibold backdrop-blur-md transition-all shadow-lg flex items-center gap-1">📷 Change Photo</button>
+            </div>
+            <div>
+              <span class="text-[11px] font-mono text-appleGold uppercase tracking-widest">Portrait 02</span>
+              <h3 id="titleCard02" class="text-2xl font-bold text-white mt-1">Outdoor Portrait</h3>
+              <p id="subCard02" class="text-appleSubtext text-xs mt-1">Natural perspective and authentic depth.</p>
+            </div>
+            <div class="h-80 rounded-2xl overflow-hidden mt-4">
+              <img id="cardImg02" src="assets/photos/moment-02.jpg" alt="Outdoor Portrait" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ======================================================== -->
+    <!-- 4. BILLBOARD 3: CELEBRATION SHOWCASE                       -->
+    <!-- ======================================================== -->
+    <section id="section-billboard-2" class="apple-billboard pt-6 pb-12 text-center">
+      <div class="max-w-[1024px] mx-auto px-4 w-full">
+        
+        <!-- Full Width Showcase Card -->
+        <div class="apple-billboard-card relative h-[500px] sm:h-[580px] group cursor-pointer" onclick="openLightboxImage(5)">
+          <div data-admin-only class="absolute top-4 right-4 z-30 flex items-center gap-2">
+            <button onclick="promptRenameCard('titleCard05', 'subCard05', 5, event)" class="px-3 py-1.5 rounded-full bg-black/85 hover:bg-white hover:text-black border border-white/20 text-white text-xs font-semibold backdrop-blur-md transition-all shadow-lg flex items-center gap-1">✏️ Change Name</button>
+            <button onclick="triggerPhotoReplacement('moment-05', 'cardImg05', 5, event)" class="px-3 py-1.5 rounded-full bg-black/85 hover:bg-white hover:text-black border border-white/20 text-white text-xs font-semibold backdrop-blur-md transition-all shadow-lg flex items-center gap-1">📷 Change Photo</button>
+          </div>
+          <img id="cardImg05" src="assets/photos/moment-05.jpg" alt="Wedding Celebration" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
+          <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent"></div>
+          
+          <div class="absolute bottom-8 left-8 right-8 text-left flex items-end justify-between">
+            <div>
+              <span class="text-xs font-mono text-appleBlue uppercase tracking-widest">Wedding & Celebration</span>
+              <h3 id="titleCard05" class="text-2xl sm:text-3xl font-bold text-white mt-1">Wedding Ceremony</h3>
+              <p id="subCard05" class="text-appleSubtext text-sm mt-1 max-w-md">Lush decorative canopies and ceremonial moments.</p>
+            </div>
+            <span class="apple-btn-round text-xs font-medium">View Frame &gt;</span>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ======================================================== -->
+    <!-- 5. APPLE 2X2 PROMO GRID (ICONIC APPLE.COM HOMEPAGE GRID)   -->
+    <!-- ======================================================== -->
+    <section id="section-grid" class="py-8 bg-[#000000]">
+      <div class="max-w-[1024px] mx-auto px-4 w-full">
+        
+        <!-- Owner Only: Add Photos Control -->
+        <div data-admin-only class="flex items-center justify-end mb-6 gap-3">
+          <button onclick="document.getElementById('newPhotoUploadInput').click()" class="apple-btn-round text-xs py-2 px-4 flex items-center gap-1.5 shadow-lg shadow-blue-500/20">
+            <span>📷</span>
+            <span>Add New Photos</span>
+          </button>
+          <input type="file" id="newPhotoUploadInput" accept="image/*" multiple class="hidden" onchange="handleNewPhotoUpload(event)">
+          <input type="file" id="photoReplacerInput" accept="image/*" class="hidden" onchange="executePhotoReplacement(event)">
+        </div>
+
+        <div id="curatedGrid" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          
+          <!-- Grid 1: moment-03 (Travel & Outing) -->
+          <div class="apple-billboard-card p-6 h-[460px] flex flex-col justify-between group cursor-pointer text-center relative" onclick="openLightboxImage(3)">
+            <div data-admin-only class="absolute top-4 right-4 z-30 flex items-center gap-2">
+              <button onclick="promptRenameCard('titleCard03', 'subCard03', 3, event)" class="px-3 py-1.5 rounded-full bg-black/85 hover:bg-white hover:text-black border border-white/20 text-white text-xs font-semibold backdrop-blur-md transition-all shadow-lg flex items-center gap-1">✏️ Change Name</button>
+              <button onclick="triggerPhotoReplacement('moment-03', 'cardImg03', 3, event)" class="px-3 py-1.5 rounded-full bg-black/85 hover:bg-white hover:text-black border border-white/20 text-white text-xs font-semibold backdrop-blur-md transition-all shadow-lg flex items-center gap-1">📷 Change Photo</button>
+            </div>
+            <div>
+              <span class="text-[11px] font-mono text-appleGold uppercase tracking-widest block mb-1">Travel Photo</span>
+              <h3 id="titleCard03" class="text-2xl font-bold text-white">Tour & Outing</h3>
+              <p id="subCard03" class="text-appleSubtext text-xs mt-1">Travel diaries and scenic journey moments.</p>
+              <span class="apple-link mt-2 inline-block">View Photo &gt;</span>
+            </div>
+            <div class="h-72 rounded-2xl overflow-hidden mt-4">
+              <img id="cardImg03" src="assets/photos/moment-03.jpg" alt="Tour & Outing" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
+            </div>
+          </div>
+
+          <!-- Grid 2: moment-04 (Wedding Celebration) -->
+          <div class="apple-billboard-card p-6 h-[460px] flex flex-col justify-between group cursor-pointer text-center relative" onclick="openLightboxImage(4)">
+            <div data-admin-only class="absolute top-4 right-4 z-30 flex items-center gap-2">
+              <button onclick="promptRenameCard('titleCard04', 'subCard04', 4, event)" class="px-3 py-1.5 rounded-full bg-black/85 hover:bg-white hover:text-black border border-white/20 text-white text-xs font-semibold backdrop-blur-md transition-all shadow-lg flex items-center gap-1">✏️ Change Name</button>
+              <button onclick="triggerPhotoReplacement('moment-04', 'cardImg04', 4, event)" class="px-3 py-1.5 rounded-full bg-black/85 hover:bg-white hover:text-black border border-white/20 text-white text-xs font-semibold backdrop-blur-md transition-all shadow-lg flex items-center gap-1">📷 Change Photo</button>
+            </div>
+            <div>
+              <span class="text-[11px] font-mono text-appleGold uppercase tracking-widest block mb-1">Wedding & Celebration</span>
+              <h3 id="titleCard04" class="text-2xl font-bold text-white">Family Gathering</h3>
+              <p id="subCard04" class="text-appleSubtext text-xs mt-1">Festive family and celebratory harmony.</p>
+              <span class="apple-link mt-2 inline-block">View Photo &gt;</span>
+            </div>
+            <div class="h-72 rounded-2xl overflow-hidden mt-4">
+              <img id="cardImg04" src="assets/photos/moment-04.jpg" alt="Family Gathering" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
+            </div>
+          </div>
+
+          <!-- Grid 3: moment-08 (Wedding Stage) -->
+          <div class="apple-billboard-card p-6 h-[460px] flex flex-col justify-between group cursor-pointer text-center relative" onclick="openLightboxImage(8)">
+            <div data-admin-only class="absolute top-4 right-4 z-30 flex items-center gap-2">
+              <button onclick="promptRenameCard('titleCard08', 'subCard08', 8, event)" class="px-3 py-1.5 rounded-full bg-black/85 hover:bg-white hover:text-black border border-white/20 text-white text-xs font-semibold backdrop-blur-md transition-all shadow-lg flex items-center gap-1">✏️ Change Name</button>
+              <button onclick="triggerPhotoReplacement('moment-08', 'cardImg08', 8, event)" class="px-3 py-1.5 rounded-full bg-black/85 hover:bg-white hover:text-black border border-white/20 text-white text-xs font-semibold backdrop-blur-md transition-all shadow-lg flex items-center gap-1">📷 Change Photo</button>
+            </div>
+            <div>
+              <span class="text-[11px] font-mono text-appleGold uppercase tracking-widest block mb-1">Wedding & Celebration</span>
+              <h3 id="titleCard08" class="text-2xl font-bold text-white">Wedding Stage</h3>
+              <p id="subCard08" class="text-appleSubtext text-xs mt-1">Ceremonial stage and festive atmosphere.</p>
+              <span class="apple-link mt-2 inline-block">View Photo &gt;</span>
+            </div>
+            <div class="h-72 rounded-2xl overflow-hidden mt-4">
+              <img id="cardImg08" src="assets/photos/moment-08.jpg" alt="Wedding Stage" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
+            </div>
+          </div>
+
+          <!-- Grid 4: moment-10 (Candid Smile) -->
+          <div class="apple-billboard-card p-6 h-[460px] flex flex-col justify-between group cursor-pointer text-center relative" onclick="openLightboxImage(10)">
+            <div data-admin-only class="absolute top-4 right-4 z-30 flex items-center gap-2">
+              <button onclick="promptRenameCard('titleCard10', 'subCard10', 10, event)" class="px-3 py-1.5 rounded-full bg-black/85 hover:bg-white hover:text-black border border-white/20 text-white text-xs font-semibold backdrop-blur-md transition-all shadow-lg flex items-center gap-1">✏️ Change Name</button>
+              <button onclick="triggerPhotoReplacement('moment-10', 'cardImg10', 10, event)" class="px-3 py-1.5 rounded-full bg-black/85 hover:bg-white hover:text-black border border-white/20 text-white text-xs font-semibold backdrop-blur-md transition-all shadow-lg flex items-center gap-1">📷 Change Photo</button>
+            </div>
+            <div>
+              <span class="text-[11px] font-mono text-appleGold uppercase tracking-widest block mb-1">Portraits</span>
+              <h3 id="titleCard10" class="text-2xl font-bold text-white">Candid Smile</h3>
+              <p id="subCard10" class="text-appleSubtext text-xs mt-1">Unfiltered, authentic expression.</p>
+              <span class="apple-link mt-2 inline-block">View Photo &gt;</span>
+            </div>
+            <div class="h-72 rounded-2xl overflow-hidden mt-4">
+              <img id="cardImg10" src="assets/photos/moment-10.jpg" alt="Candid Smile" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ======================================================== -->
+    <!-- 6. ACADEMICS & COLLEGE SECTION (APPLE BENTO)              -->
+    <!-- ======================================================== -->
+    <section id="section-college" class="py-20 bg-[#000000] border-t border-white/10">
+      <div class="max-w-[1024px] mx-auto px-4 w-full">
+        
+        <div class="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-4">
+          <div>
+            <span class="text-xs font-mono text-appleGold uppercase tracking-widest">Alma Mater</span>
+            <h2 class="text-3xl sm:text-5xl font-bold text-white mt-1 tracking-tight">College & Education.</h2>
+            <p class="text-appleSubtext text-sm mt-2">Where ambition meets knowledge and aspirations take flight.</p>
+          </div>
+          <button data-admin-only onclick="openInfoModal('college')" class="apple-btn-round-ghost text-xs self-start md:self-auto flex items-center gap-1.5">
+            <span>✏️</span>
+            <span>Edit College Info</span>
+          </button>
+        </div>
+
+        <div class="apple-billboard-card p-8 sm:p-10 relative overflow-hidden flex flex-col md:flex-row items-center justify-between gap-8">
+          <div class="flex flex-col sm:flex-row items-center sm:items-start text-center sm:text-left gap-6">
+            
+            <!-- College Logo / Emblem -->
+            <div class="relative group cursor-pointer" onclick="if(window.isAdmin)document.getElementById('collegeLogoInput').click()" title="Moulvibazar Govt College">
+              <div class="w-28 h-28 sm:w-32 sm:h-32 rounded-3xl bg-black/60 border-2 border-amber-500/40 p-2 flex items-center justify-center shadow-2xl shadow-amber-500/20 group-hover:scale-105 transition-transform">
+                <img id="collegeLogoImg" src="assets/moulvibazar-college-original.png" alt="Moulvibazar Govt College Emblem" class="w-full h-full object-contain drop-shadow">
+              </div>
+              <span data-admin-only class="absolute -bottom-2 -right-2 w-7 h-7 rounded-full bg-appleGold text-black font-bold text-xs flex items-center justify-center shadow">📷</span>
+              <input type="file" id="collegeLogoInput" accept="image/*" class="hidden" onchange="handleCollegeLogoUpload(event)">
+            </div>
+
+            <!-- College Info Details -->
+            <div>
+              <div class="flex items-center gap-2">
+                <span class="text-[11px] font-mono text-appleGold uppercase tracking-widest">Premier Institution</span>
+                <span class="text-[10px] px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">✓ Verified Campus</span>
+              </div>
+              <h3 id="collegeNameText" class="text-2xl sm:text-4xl font-bold text-white mt-1">Moulvibazar Govt. College</h3>
+              <p class="text-sm font-mono text-appleGold mt-0.5">Moulvibazar Govt. College (Estd. 1967)</p>
+              <p id="collegeDeptText" class="text-appleLightGray text-sm mt-1.5">HSC 1st Year (Class 11) • Science Group</p>
+              
+              <div class="mt-4 flex flex-wrap gap-2 text-xs">
+                <span class="px-3 py-1 rounded-full bg-white/5 border border-white/10 text-appleWhite font-mono">Affiliated: Sylhet Board</span>
+                <span class="px-3 py-1 rounded-full bg-white/5 border border-white/10 text-appleSubtext">Moulvibazar, Sylhet</span>
+                <span class="px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400">HSC 1st Year (Class 11)</span>
+                <span class="px-3 py-1 rounded-full bg-amber-500/10 border border-amber-500/20 text-appleGold">Science Student</span>
+              </div>
+            </div>
+
+          </div>
+
+          <div class="text-center md:text-right">
+            <span class="text-4xl">🏛️</span>
+            <div class="text-xs text-appleSubtext mt-2 font-mono">Excellence in Academics</div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ======================================================== -->
+    <!-- 8. RESIDENCE & LOCATION (APPLE MAPS & GOOGLE MAPS)       -->
+    <!-- ======================================================== -->
+    <section id="section-location" class="py-12 bg-[#000000] border-t border-white/10">
+      <div class="max-w-[1024px] mx-auto px-4 w-full">
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+          
+          <!-- Apple Maps Card -->
+          <a href="https://maps.apple.com/?q=Mashrafi+Hossain&ll=24.4900476,91.782745" target="_blank" class="apple-billboard-card p-6 flex flex-col justify-between group hover:border-white/40 bg-gradient-to-br from-[#121214] to-[#0a0a0c]">
+            <div class="flex items-center justify-between mb-6">
+              <div class="w-14 h-14 rounded-2xl bg-[#1c1c1e] p-1.5 flex items-center justify-center shadow-lg group-hover:scale-105 transition-all">
+                <!-- Official Apple Maps App Icon -->
+                <svg viewBox="0 0 64 64" class="w-full h-full rounded-xl overflow-hidden shadow">
+                  <rect width="64" height="64" rx="14" fill="#60BA46"/>
+                  <!-- Light land area -->
+                  <path d="M0,0 L64,0 L64,28 Q42,38 20,24 Q6,19 0,26 Z" fill="#F1ECE1"/>
+                  <path d="M0,26 Q12,24 24,38 Q36,52 64,48 L64,64 L0,64 Z" fill="#88D167"/>
+                  <!-- Diagonal Interstate highway -->
+                  <path d="M-6,54 Q24,40 38,20 Q48,6 70,-4" fill="none" stroke="#FFFFFF" stroke-width="9" stroke-linecap="round"/>
+                  <path d="M-6,54 Q24,40 38,20 Q48,6 70,-4" fill="none" stroke="#FFCC00" stroke-width="4.5" stroke-linecap="round"/>
+                  <!-- Secondary cross street -->
+                  <path d="M8,-4 Q18,22 42,42 Q52,50 68,54" fill="none" stroke="#FFFFFF" stroke-width="7" stroke-linecap="round"/>
+                  <path d="M8,-4 Q18,22 42,42 Q52,50 68,54" fill="none" stroke="#FF9500" stroke-width="3" stroke-linecap="round"/>
+                  <!-- Apple Navigation Compass Pointer / Pin Badge -->
+                  <circle cx="38" cy="24" r="10.5" fill="#007AFF" stroke="#FFFFFF" stroke-width="2.5" filter="drop-shadow(0 2px 4px rgba(0,0,0,0.4))"/>
+                  <polygon points="38,18 43,28 38,26 33,28" fill="#FFFFFF"/>
+                </svg>
+              </div>
+              <span class="text-xs text-appleSubtext font-mono group-hover:text-white">iOS & macOS &gt;</span>
+            </div>
+            <div>
+              <span class="text-[11px] font-mono text-appleGold uppercase tracking-widest">Apple Ecosystem</span>
+              <h4 class="text-white font-bold text-2xl mt-1">Apple Maps</h4>
+              <p class="text-appleSubtext text-xs mt-1.5">Turn-by-turn navigation directly on iPhone, iPad, and Mac.</p>
+            </div>
+            <span class="apple-link mt-6 text-appleGold font-medium">Open in Apple Maps &gt;</span>
+          </a>
+
+          <!-- Google Maps Card -->
+          <a href="https://maps.app.goo.gl/LKN4u5MBRq9u6JNE7" target="_blank" class="apple-billboard-card p-6 flex flex-col justify-between group hover:border-emerald-500/40 bg-gradient-to-br from-[#101413] to-[#0a0c0b]">
+            <div class="flex items-center justify-between mb-6">
+              <div class="w-14 h-14 rounded-2xl bg-white/10 flex items-center justify-center shadow-lg group-hover:scale-105 transition-all">
+                <svg viewBox="0 0 24 24" class="w-8 h-8"><path fill="#EA4335" d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 0 1 0-5 2.5 2.5 0 0 1 0 5z"/><path fill="#4285F4" d="M12 2v4.5a2.5 2.5 0 0 1 2.5 2.5h4.5C19 5.13 15.87 2 12 2z"/><path fill="#34A853" d="M12 11.5v10.5s7-7.75 7-13h-4.5a2.5 2.5 0 0 1-2.5 2.5z"/><path fill="#FBBC04" d="M5 9c0 5.25 7 13 7 13V11.5A2.5 2.5 0 0 1 9.5 9H5z"/></svg>
+              </div>
+            </div>
+            <div>
+              <span class="text-[11px] font-mono text-emerald-400 uppercase tracking-widest">Global Navigation</span>
+              <h4 class="text-white font-bold text-2xl mt-1">Google Maps</h4>
+              <p class="text-appleSubtext text-xs mt-1.5">Satellite view, street navigation, and live route perspectives.</p>
+            </div>
+            <span class="apple-link mt-6 text-emerald-400 font-medium">Open in Google Maps &gt;</span>
+          </a>
+
+        </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ======================================================== -->
+    <!-- 9. GAMER STATION & SOCIAL NETWORKS (FREE FIRE + SOCIAL)   -->
+    <!-- ======================================================== -->
+    <section id="social" class="py-20 bg-[#000000] border-t border-white/10">
+      <div class="max-w-[1024px] mx-auto px-4 w-full">
+        
+        <div class="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-4">
+          <div>
+            <span class="text-xs font-mono text-appleGold uppercase tracking-widest">Digital Presence</span>
+            <h2 class="text-3xl sm:text-5xl font-bold text-white mt-1 tracking-tight">Socials & Free Fire ID.</h2>
+            <p class="text-appleSubtext text-sm mt-2">Connect across official social platforms or join squad matches in Free Fire.</p>
+          </div>
+          <button data-admin-only onclick="openInfoModal('socials')" class="apple-btn-round-ghost text-xs self-start md:self-auto flex items-center gap-1.5">
+            <span>✏️</span>
+            <span>Edit Social Profiles</span>
+          </button>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+          
+          <!-- 1. FREE FIRE PRO GAMER CARD (HIGH IMPACT HIGHLIGHT) -->
+          <div class="apple-billboard-card p-6 border-2 border-amber-500/50 relative overflow-hidden group md:col-span-2 lg:col-span-2 bg-gradient-to-br from-[#1c140c] via-[#121115] to-[#0d0d12] shadow-2xl shadow-amber-500/10">
+            
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-white/10">
+              <div class="flex items-center gap-4">
+                <!-- Free Fire Avatar with Fire Glow -->
+                <div class="relative">
+                  <div class="w-16 h-16 rounded-2xl overflow-hidden border-2 border-amber-500 shadow-lg shadow-orange-500/30">
+                    <img src="assets/photos/hero-portrait.jpg" alt="Free Fire Avatar" class="w-full h-full object-cover">
+                  </div>
+                  <span class="absolute -bottom-1 -right-1 text-base">🔥</span>
+                </div>
+
+                <div>
+                  <div class="flex items-center gap-2">
+                    <h4 class="text-white font-extrabold text-xl tracking-wide">Free Fire Battle Royale</h4>
+                    <span class="text-[10px] px-2 py-0.5 rounded-md bg-amber-500/20 text-amber-300 border border-amber-500/40 font-mono font-bold">BD REGION</span>
+                  </div>
+                  <p class="text-xs text-amber-400 font-mono mt-0.5">Competitive Gamer • Squad Leader</p>
+                </div>
+              </div>
+
+              <div class="flex items-center gap-2 self-start sm:self-auto">
+                <span class="text-xs px-3 py-1 rounded-full bg-gradient-to-r from-red-600 to-amber-500 text-white font-bold font-mono shadow">
+                  Grandmaster ★
+                </span>
+                <span class="text-xs px-2.5 py-1 rounded-full bg-white/10 text-appleLightGray font-mono">
+                  Lv. 63
+                </span>
+              </div>
+            </div>
+
+            <!-- In-Game Stats & UID Box -->
+            <div class="my-4 p-4 rounded-2xl bg-black/60 border border-white/10 grid grid-cols-1 sm:grid-cols-2 gap-4 items-center">
+              <div>
+                <span class="text-[10px] text-appleSubtext uppercase font-mono tracking-wider">In-Game Nickname (IGN)</span>
+                <div id="ffNameText" class="text-white font-black text-lg sm:text-xl tracking-wider mt-0.5 flex items-center gap-2">
+                  <span>Mαʂԋ ⸙</span>
+                </div>
+              </div>
+
+              <div class="flex items-center justify-between sm:justify-end gap-3 pt-2 sm:pt-0 border-t sm:border-t-0 border-white/10">
+                <div class="sm:text-right">
+                  <span class="text-[10px] text-appleSubtext uppercase font-mono tracking-wider">Player UID</span>
+                  <div id="ffUidText" class="text-amber-400 font-mono font-black text-lg">2904898715</div>
+                </div>
+                <button onclick="copyToClipboard('ffUidText', 'Free Fire UID 2904898715 Copied!')" class="apple-btn-round text-xs py-2 px-4 bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-400 hover:to-orange-400 text-black font-bold shadow-lg shadow-orange-500/30 transition-transform hover:scale-105">
+                  Copy UID 📋
+                </button>
+              </div>
+            </div>
+
+            <div class="flex flex-wrap items-center justify-between gap-2 text-xs text-appleSubtext font-mono">
+              <span>Guild: MHM ESPORTS</span>
+              <span class="text-emerald-400">● Ready for custom match and rank matches</span>
+            </div>
+          </div>
+
+          <!-- 2. INSTAGRAM CARD (VERIFIED HIGHLIGHT) -->
+          <a id="instaLink" href="https://www.instagram.com/mhm_mashrafi/" target="_blank" class="apple-billboard-card p-6 border-2 border-pink-500/40 flex flex-col justify-between group bg-gradient-to-br from-[#1d1217] via-[#141217] to-[#101014] shadow-2xl shadow-pink-500/10">
+            <div class="flex items-center justify-between mb-4">
+              <div class="relative">
+                <div class="w-14 h-14 rounded-2xl p-[3px] bg-gradient-to-tr from-yellow-400 via-pink-500 to-purple-600 shadow-lg shadow-pink-500/30 group-hover:scale-105 transition-transform flex items-center justify-center">
+                  <svg viewBox="0 0 24 24" class="w-9 h-9"><defs><radialGradient id="igGrad" r="150%" cx="30%" cy="107%"><stop stop-color="#fdf497" offset="0"/><stop stop-color="#fdf497" offset=".05"/><stop stop-color="#fd5949" offset=".45"/><stop stop-color="#d6249f" offset=".6"/><stop stop-color="#285AEB" offset=".9"/></radialGradient></defs><path fill="url(#igGrad)" d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+                </div>
+              </div>
+              <span class="text-xs px-2.5 py-0.5 rounded-full bg-pink-500/20 text-pink-300 font-mono border border-pink-500/40">Instagram</span>
+            </div>
+
+            <div>
+              <div class="flex items-center gap-1.5">
+                <h4 class="text-white font-bold text-lg">Mashrafi Hossain</h4>
+                <span class="text-blue-400 text-xs">✓</span>
+              </div>
+              <p id="instaHandleText" class="text-pink-400 text-sm font-mono mt-0.5 font-semibold">@mhm_mashrafi</p>
+              <p class="text-appleSubtext text-xs mt-1.5">Photos, stories & creative lifestyle updates.</p>
+            </div>
+
+            <div class="mt-4 pt-3 border-t border-white/10 flex items-center justify-between text-xs text-pink-400 font-semibold group-hover:translate-x-1 transition-transform">
+              <span>Follow @mhm_mashrafi</span>
+              <span>&gt;</span>
+            </div>
+          </a>
+
+          <!-- 3. FACEBOOK CARD (HIGHLIGHTED) -->
+          <a id="fbLink" href="https://www.facebook.com/share/18yjMUyw5K/" target="_blank" class="apple-billboard-card p-6 border-2 border-blue-600/40 flex flex-col justify-between group bg-gradient-to-br from-[#0f1524] via-[#11131c] to-[#101014] shadow-2xl shadow-blue-600/10">
+            <div class="flex items-center justify-between mb-4">
+              <div class="relative">
+                <div class="w-14 h-14 rounded-2xl bg-[#1877F2] flex items-center justify-center shadow-lg shadow-blue-600/30 group-hover:scale-105 transition-transform">
+                  <svg viewBox="0 0 24 24" class="w-9 h-9 fill-current text-white"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+                </div>
+                <span class="absolute -bottom-1 -right-1 w-5 h-5 rounded-full bg-[#1877F2] border-2 border-black flex items-center justify-center">
+                  <svg viewBox="0 0 24 24" class="w-3 h-3 fill-current text-white"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+                </span>
+              </div>
+              <span class="text-xs px-2.5 py-0.5 rounded-full bg-blue-500/20 text-blue-300 font-mono border border-blue-500/40">Facebook</span>
+            </div>
+
+            <div>
+              <div class="flex items-center gap-1.5">
+                <h4 class="text-white font-bold text-lg">Mashrafi Hossain</h4>
+                <span class="text-blue-400 text-xs">✓</span>
+              </div>
+              <p class="text-blue-400 text-xs font-mono mt-0.5 font-semibold">Official Profile</p>
+              <p class="text-appleSubtext text-xs mt-1.5">Connect and follow updates on Facebook.</p>
+            </div>
+
+            <div class="mt-4 pt-3 border-t border-white/10 flex items-center justify-between text-xs text-blue-400 font-semibold group-hover:translate-x-1 transition-transform">
+              <span>Connect on Facebook</span>
+              <span>&gt;</span>
+            </div>
+          </a>
+
+          <!-- 4. DISCORD CARD (HIGHLIGHTED COMMUNITY) -->
+          <a href="https://discord.gg/xPaqvkgZV" target="_blank" class="apple-billboard-card p-6 border-2 border-indigo-500/40 flex flex-col justify-between group bg-gradient-to-br from-[#121426] via-[#11121d] to-[#101014] shadow-2xl shadow-indigo-500/10">
+            <div class="flex items-center justify-between mb-4">
+              <div class="w-14 h-14 rounded-2xl bg-[#5865F2] flex items-center justify-center shadow-lg shadow-indigo-600/30 group-hover:scale-105 transition-transform">
+                <svg viewBox="0 0 24 24" class="w-9 h-9 fill-current text-white"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057.1 18.1.12 18.14.144 18.162a19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994a.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/></svg>
+              </div>
+              <span class="text-xs px-2.5 py-0.5 rounded-full bg-indigo-500/20 text-indigo-300 font-mono border border-indigo-500/40">Discord Lounge</span>
+            </div>
+
+            <div>
+              <h4 class="text-white font-bold text-lg">Mashrafi Community</h4>
+              <p class="text-indigo-400 text-xs font-mono mt-0.5 font-semibold">discord.gg/xPaqvkgZV</p>
+              <p class="text-appleSubtext text-xs mt-1.5">Join my server for gaming, voice chat & hangout.</p>
+            </div>
+
+            <div class="mt-4 pt-3 border-t border-white/10 flex items-center justify-between text-xs text-indigo-400 font-semibold group-hover:translate-x-1 transition-transform">
+              <span>Join Discord Server</span>
+              <span>&gt;</span>
+            </div>
+          </a>
+
+          <!-- 5. WHATSAPP DIRECT CARD (HIGHLIGHTED CHAT) -->
+          <a id="waLink" href="https://wa.me/8801722415311?text=Hello%20Mashrafi!" target="_blank" class="apple-billboard-card p-6 border-2 border-emerald-500/40 flex flex-col justify-between group bg-gradient-to-br from-[#0d1c14] via-[#101515] to-[#101014] shadow-2xl shadow-emerald-500/10">
+            <div class="flex items-center justify-between mb-4">
+              <div class="relative">
+                <div class="w-14 h-14 rounded-2xl bg-[#25D366] flex items-center justify-center shadow-lg shadow-emerald-600/30 group-hover:scale-105 transition-transform">
+                  <svg viewBox="0 0 24 24" class="w-9 h-9 fill-current text-white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+                </div>
+                <span class="w-3.5 h-3.5 rounded-full bg-emerald-400 absolute -top-1 -right-1 border-2 border-black animate-pulse"></span>
+              </div>
+              <span class="text-xs px-2.5 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 font-mono border border-emerald-500/40">WhatsApp</span>
+            </div>
+
+            <div>
+              <h4 class="text-white font-bold text-lg">WhatsApp Direct</h4>
+              <p class="text-emerald-400 text-xs font-mono mt-0.5 font-semibold">01722415311 (+880)</p>
+              <p class="text-appleSubtext text-xs mt-1.5">Direct personal chat and messaging on WhatsApp.</p>
+            </div>
+
+            <div class="mt-4 pt-3 border-t border-white/10 flex items-center justify-between text-xs text-emerald-400 font-semibold group-hover:translate-x-1 transition-transform">
+              <span>Chat with Mashrafi</span>
+              <span>&gt;</span>
+            </div>
+          </a>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ======================================================== -->
+    <!-- 8. MY SPECIFICATION SECTION (APPLE KEYNOTE MANIFESTO)     -->
+    <!-- ======================================================== -->
+    <section id="section-reflections" class="py-24 bg-[#0a0a0c] border-t border-white/10 text-center relative overflow-hidden">
+      <div class="max-w-[860px] mx-auto px-6 w-full relative z-10">
+        
+        <span class="text-xs font-mono text-appleGold uppercase tracking-widest mb-3 inline-block">
+          Personal Specification
+        </span>
+
+        <h2 class="text-3xl sm:text-5xl font-bold text-white mb-8 tracking-tight">
+          My Specification.
+        </h2>
+
+        <!-- Apple Keynote Quote Box -->
+        <div class="apple-billboard-card p-8 sm:p-14 text-left relative overflow-hidden border-amber-500/20 shadow-2xl">
+          <span class="text-5xl sm:text-7xl text-appleGold/25 font-serif absolute top-4 left-6 select-none">“</span>
+          
+          <div class="relative z-10 pt-4">
+            <p id="reflectionQuoteText" class="text-xl sm:text-2xl text-white font-bold leading-relaxed mb-6 font-sans tracking-tight">
+              Assalamu Alaikum! My name is Mashrafi Hossain. I am currently an HSC 1st year (Class 11) science student at Moulvibazar Government College. Alongside my studies, I am a graphic designer and a Free Fire player. My goal is to keep moving forward by balancing my education with my passions and creativity.
+            </p>
+
+            <div class="pt-6 border-t border-white/10 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+              <div>
+                <h4 class="text-white font-bold text-lg">Mashrafi Hossain</h4>
+                <p class="text-xs text-appleGold font-mono mt-0.5">HSC 1st Year (Class 11) • Science • Moulvibazar Government College</p>
+                <div class="flex flex-wrap gap-2 mt-2">
+                  <span class="text-[11px] px-2.5 py-0.5 rounded-full bg-white/5 border border-white/10 text-appleSubtext">🎨 Graphic Designer</span>
+                  <span class="text-[11px] px-2.5 py-0.5 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-400">🔥 Free Fire Player</span>
+                </div>
+              </div>
+
+              <button data-admin-only onclick="openInfoModal('reflections')" class="apple-btn-round-ghost text-xs self-start sm:self-auto flex items-center gap-1.5">
+                <span>✏️</span>
+                <span>Edit Specification</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Modal for Editing College, Socials & Reflections -->
+    <div id="quickEditModal" class="fixed inset-0 z-50 bg-black/85 backdrop-blur-xl hidden flex items-center justify-center p-4">
+      <div class="apple-billboard-card max-w-lg w-full p-6 sm:p-8 border border-white/15">
+        <div class="flex items-center justify-between mb-4 pb-3 border-b border-white/10">
+          <h3 id="modalTitle" class="text-lg font-bold text-white">Update Information</h3>
+          <button onclick="closeInfoModal()" class="text-appleSubtext hover:text-white text-lg">✕</button>
+        </div>
+
+        <div id="modalFormContainer" class="space-y-4 text-left text-xs">
+          <!-- Injected dynamically -->
+        </div>
+
+        <div class="mt-6 flex justify-end gap-3 pt-3 border-t border-white/10">
+          <button onclick="closeInfoModal()" class="apple-btn-round-ghost text-xs">Cancel</button>
+          <button onclick="saveModalInfo()" class="apple-btn-round text-xs font-semibold">Save Changes</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ======================================================== -->
+    <!-- 8. AUTHENTIC APPLE GLOBAL FOOTER                          -->
+    <!-- ======================================================== -->
+    <footer class="w-full bg-[#161617] text-[#86868b] text-[11px] pt-8 pb-12 border-t border-white/10">
+      <div class="max-w-[1024px] mx-auto px-4 w-full">
+
+        <!-- Apple Directory Sitemap Grid -->
+        <div class="grid grid-cols-2 sm:grid-cols-3 gap-6 py-4 border-b border-white/10">
+          <div>
+            <h4 class="footer-heading">Collections</h4>
+            <a href="#hero" class="footer-link">Mashrafi Hossain</a>
+            <a href="#section-billboard-1" class="footer-link">Portraits</a>
+            <a href="#section-billboard-2" class="footer-link">Showcase</a>
+            <a href="#section-grid" class="footer-link">Gallery</a>
+          </div>
+
+          <div>
+            <h4 class="footer-heading">Profile & Story</h4>
+            <a href="#hero" class="footer-link">Overview</a>
+            <a href="#section-college" class="footer-link">Academics</a>
+            <a href="#section-location" class="footer-link">Location</a>
+            <a href="#social" class="footer-link">Social & Free Fire</a>
+            <a href="#section-reflections" class="footer-link">My Specification</a>
+          </div>
+
+          <div>
+            <h4 class="footer-heading">Connect</h4>
+            <a href="https://wa.me/8801722415311" target="_blank" class="footer-link">WhatsApp (+880 1722415311)</a>
+            <a href="https://www.facebook.com/share/18yjMUyw5K/" target="_blank" class="footer-link">Facebook</a>
+            <a href="https://www.instagram.com/mhm_mashrafi/" target="_blank" class="footer-link">Instagram</a>
+            <a href="https://discord.gg/xPaqvkgZV" target="_blank" class="footer-link">Discord</a>
+          </div>
+        </div>
+
+        <!-- Apple Bottom Copyright & Legal Links -->
+        <div class="pt-4 flex flex-col sm:flex-row items-center justify-between gap-3 text-[#86868b]">
+          <div>
+            Copyright © 2026 Mashrafi Hossain. All rights reserved.
+          </div>
+          <div class="flex flex-wrap items-center gap-x-4 gap-y-1">
+            <a href="#" class="hover:underline">Privacy Policy</a>
+            <span>|</span>
+            <a href="#" class="hover:underline">Terms of Use</a>
+            <span>|</span>
+            <a href="#" class="hover:underline">Legal</a>
+            <span>|</span>
+            <span class="text-white">Bangladesh (English)</span>
+            <span>|</span>
+            <button onclick="promptAdminLogin()" class="hover:text-white transition-colors" title="Owner Access">🔒 Owner Login</button>
+          </div>
+        </div>
+
+      </div>
+    </footer>
+
+  </div>
+
+  <!-- JavaScript: Lightbox, Carousel & Three.js 3D Background Engine -->
+  <script>
+    // All Curated Photos with Natural, Simple Titles
+    const photosData = [
+      { src: 'assets/photos/hero-portrait.jpg', title: 'Personal Portrait', category: 'Signature Look', desc: '85mm f/1.4 prime portrait in embroidered silk' },
+      { src: 'assets/photos/moment-01.jpg', title: 'Studio Portrait', category: 'Portraits', desc: 'Balanced posture with natural studio lighting' },
+      { src: 'assets/photos/moment-02.jpg', title: 'Outdoor Portrait', category: 'Portraits', desc: 'Natural perspective with warm studio ambient lighting' },
+      { src: 'assets/photos/moment-03.jpg', title: 'Tour & Outing', category: 'Travel Photos', desc: 'Scenic travel and outing memories' },
+      { src: 'assets/photos/moment-04.jpg', title: 'Family Gathering', category: 'Wedding & Celebration', desc: 'Festive family celebration' },
+      { src: 'assets/photos/moment-05.jpg', title: 'Wedding Celebration', category: 'Wedding & Celebration', desc: 'Celebratory stage and wedding ceremony' },
+      { src: 'assets/photos/moment-06.jpg', title: 'Wedding Stage Decor', category: 'Wedding & Celebration', desc: 'Festive hall and floral decor' },
+      { src: 'assets/photos/moment-07.jpg', title: 'Reception Hall', category: 'Wedding & Celebration', desc: 'Reception venue and stage setup' },
+      { src: 'assets/photos/moment-08.jpg', title: 'Wedding Stage', category: 'Wedding & Celebration', desc: 'Traditional ceremonial backdrop' },
+      { src: 'assets/photos/moment-09.jpg', title: 'Celebration Moments', category: 'Wedding & Celebration', desc: 'Family and friends celebration' },
+      { src: 'assets/photos/moment-10.jpg', title: 'Candid Smile', category: 'Portraits', desc: 'Natural candid moment' },
+      { src: 'assets/photos/moment-11.jpg', title: 'Portrait Look', category: 'Portraits', desc: 'Signature portrait' },
+      { src: 'assets/photos/moment-12.jpg', title: 'Casual Portrait', category: 'Portraits', desc: 'Relaxed posture and expression' },
+      { src: 'assets/photos/moment-13.jpg', title: 'Classic Angle', category: 'Portraits', desc: 'Profile angle with fine detail' },
+      { src: 'assets/photos/moment-14.jpg', title: 'Celebration Finale', category: 'Wedding & Celebration', desc: 'Celebratory finale frame' }
+    ];
+
+    let currentPhotoIdx = 0;
+
+    function openLightboxImage(idx) {
+      currentPhotoIdx = idx;
+      updateLightbox();
+      document.getElementById('photoLightbox').classList.remove('hidden');
+    }
+
+    function updateLightbox() {
+      const item = photosData[currentPhotoIdx];
+      document.getElementById('lightboxImg').src = item.src;
+      document.getElementById('lightboxTitle').innerText = item.title;
+      document.getElementById('lightboxCategory').innerText = item.category;
+      document.getElementById('lightboxSubtitle').innerText = item.desc;
+    }
+
+    function closeLightbox() {
+      document.getElementById('photoLightbox').classList.add('hidden');
+    }
+
+    function nextLightboxImage() {
+      currentPhotoIdx = (currentPhotoIdx + 1) % photosData.length;
+      updateLightbox();
+    }
+
+    function prevLightboxImage() {
+      currentPhotoIdx = (currentPhotoIdx - 1 + photosData.length) % photosData.length;
+      updateLightbox();
+    }
+
+    // Keyboard navigation
+    window.addEventListener('keydown', (e) => {
+      const modal = document.getElementById('photoLightbox');
+      if (!modal.classList.contains('hidden')) {
+        if (e.key === 'Escape') closeLightbox();
+        if (e.key === 'ArrowRight') nextLightboxImage();
+        if (e.key === 'ArrowLeft') prevLightboxImage();
+      }
+    });
+
+
+    // --- Three.js Subtle Apple Titanium 3D Studio Setup ---
+    const canvas = document.getElementById('webgl-canvas');
+    const scene = new THREE.Scene();
+
+    const camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 0.1, 1000);
+    camera.position.z = 6.5;
+
+    const renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true, alpha: true });
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer.toneMapping = THREE.ACESFilmicToneMapping;
+    renderer.toneMappingExposure = 1.0;
+
+    // Apple Studio Lights
+    const ambientLight = new THREE.AmbientLight(0xffffff, 0.4);
+    scene.add(ambientLight);
+
+    const goldKeyLight = new THREE.DirectionalLight(0xf5d082, 2.5);
+    goldKeyLight.position.set(5, 7, 5);
+    scene.add(goldKeyLight);
+
+    const rimLight = new THREE.DirectionalLight(0xa5b4fc, 1.8);
+    rimLight.position.set(-6, -4, -3);
+    scene.add(rimLight);
+
+    // Apple Grade Sculpted Titanium Ribbon
+    const sculptureMaterial = new THREE.MeshPhysicalMaterial({
+      color: 0x141416,
+      emissive: 0x2e220a,
+      emissiveIntensity: 0.15,
+      roughness: 0.2,
+      metalness: 0.95,
+      clearcoat: 0.9,
+      clearcoatRoughness: 0.1
+    });
+
+    const sculptureGeom = new THREE.TorusKnotGeometry(1.2, 0.3, 64, 16);
+    const sculptureMesh = new THREE.Mesh(sculptureGeom, sculptureMaterial);
+    scene.add(sculptureMesh);
+
+    // Mouse Parallax with passive listener
+    let targetRotX = 0;
+    let targetRotY = 0;
+    window.addEventListener('mousemove', (e) => {
+      targetRotY = ((e.clientX / window.innerWidth) * 2 - 1) * 0.3;
+      targetRotX = -((e.clientY / window.innerHeight) * 2 - 1) * 0.2;
+    }, { passive: true });
+
+    // Ultra-light 60 FPS Render Loop (Zero CPU/GPU lag on mobile & PC)
+    let lastScrollY = window.scrollY;
+    let ticking = false;
+
+    window.addEventListener('scroll', () => {
+      lastScrollY = window.scrollY;
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          sculptureMesh.position.y = -lastScrollY * 0.001;
+          ticking = false;
+        });
+        ticking = true;
+      }
+    }, { passive: true });
+
+    window.addEventListener('resize', () => {
+      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(window.innerWidth, window.innerHeight);
+    });
+
+    function renderLoop() {
+      requestAnimationFrame(renderLoop);
+      sculptureMesh.rotation.y += 0.003;
+      sculptureMesh.rotation.y += (targetRotY - sculptureMesh.rotation.y) * 0.05;
+      sculptureMesh.rotation.x += (targetRotX - sculptureMesh.rotation.x) * 0.05;
+      renderer.render(scene, camera);
+    }
+
+    // --- Dynamic Photo Slot Replacement (Owner Mode) ---
+    let currentReplacingPhoto = null;
+
+    function triggerPhotoReplacement(key, imgId, idx, event) {
+      if (event) event.stopPropagation();
+      currentReplacingPhoto = { key, imgId, idx };
+      const input = document.getElementById('photoReplacerInput');
+      if (input) input.click();
+    }
+
+    function executePhotoReplacement(event) {
+      const file = event.target.files[0];
+      if (!file || !currentReplacingPhoto) return;
+
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        const dataUrl = e.target.result;
+        try {
+          localStorage.setItem('slot_photo_' + currentReplacingPhoto.key, dataUrl);
+        } catch (err) {
+          console.warn('Storage limit reached, displaying in session:', err);
+        }
+        const img = document.getElementById(currentReplacingPhoto.imgId);
+        if (img) img.src = dataUrl;
+        if (photosData[currentReplacingPhoto.idx]) {
+          photosData[currentReplacingPhoto.idx].src = dataUrl;
+        }
+      };
+      reader.readAsDataURL(file);
+      event.target.value = '';
+    }
+
+    function loadReplacedSlotPhotos() {
+      const slots = [
+        { key: 'hero', imgId: 'cardImgHero', idx: 0 },
+        { key: 'moment-01', imgId: 'cardImg01', idx: 1 },
+        { key: 'moment-02', imgId: 'cardImg02', idx: 2 },
+        { key: 'moment-03', imgId: 'cardImg03', idx: 3 },
+        { key: 'moment-04', imgId: 'cardImg04', idx: 4 },
+        { key: 'moment-05', imgId: 'cardImg05', idx: 5 },
+        { key: 'moment-08', imgId: 'cardImg08', idx: 8 },
+        { key: 'moment-10', imgId: 'cardImg10', idx: 10 }
+      ];
+      slots.forEach(slot => {
+        const saved = localStorage.getItem('slot_photo_' + slot.key);
+        if (saved) {
+          const img = document.getElementById(slot.imgId);
+          if (img) img.src = saved;
+          if (photosData[slot.idx]) photosData[slot.idx].src = saved;
+        }
+      });
+    }
+
+    // --- Dynamic Title / Name Renaming (Owner Mode) ---
+    function promptRenameCard(titleId, subId, photoIdx, event) {
+      if (event) event.stopPropagation();
+      const titleEl = document.getElementById(titleId);
+      const currentTitle = titleEl ? titleEl.innerText : '';
+      const newTitle = prompt('Enter new photo title/name:', currentTitle);
+      if (newTitle !== null && newTitle.trim() !== '') {
+        if (titleEl) titleEl.innerText = newTitle.trim();
+        localStorage.setItem('custom_title_' + titleId, newTitle.trim());
+        if (photosData[photoIdx]) photosData[photoIdx].title = newTitle.trim();
+      }
+    }
+
+    function promptRenameSimple(elId, promptText, event) {
+      if (event) event.stopPropagation();
+      const el = document.getElementById(elId);
+      const currentText = el ? el.innerText : '';
+      const newText = prompt(promptText || 'Enter new text:', currentText);
+      if (newText !== null && newText.trim() !== '') {
+        if (el) el.innerText = newText.trim();
+        localStorage.setItem('custom_text_' + elId, newText.trim());
+      }
+    }
+
+    function loadSavedTitles() {
+      const titleIds = ['titleHero', 'secTitlePortraits', 'titleCard01', 'titleCard02', 'titleCard05', 'titleCard03', 'titleCard04', 'titleCard08', 'titleCard10'];
+      titleIds.forEach(id => {
+        const saved = localStorage.getItem('custom_title_' + id) || localStorage.getItem('custom_text_' + id);
+        if (saved) {
+          const el = document.getElementById(id);
+          if (el) el.innerText = saved;
+        }
+      });
+    }
+
+    // --- Robust Copy to Clipboard (PC & Mobile fallback) ---
+    function copyToClipboard(id, msg) {
+      const el = document.getElementById(id);
+      const text = el ? (el.innerText || el.textContent).trim() : id;
+      
+      if (navigator.clipboard && window.isSecureContext) {
+        navigator.clipboard.writeText(text).then(() => {
+          showToast(msg || 'Copied: ' + text);
+        }).catch(() => {
+          fallbackCopyText(text, msg);
+        });
+      } else {
+        fallbackCopyText(text, msg);
+      }
+    }
+
+    function fallbackCopyText(text, msg) {
+      const textArea = document.createElement("textarea");
+      textArea.value = text;
+      textArea.style.position = "fixed";
+      textArea.style.left = "-999999px";
+      textArea.style.top = "-999999px";
+      document.body.appendChild(textArea);
+      textArea.focus();
+      textArea.select();
+      try {
+        document.execCommand('copy');
+        showToast(msg || 'Copied: ' + text);
+      } catch (err) {
+        prompt('Copy manually:', text);
+      }
+      document.body.removeChild(textArea);
+    }
+
+    function showToast(text) {
+      let toast = document.getElementById('globalToast');
+      if (!toast) {
+        toast = document.createElement('div');
+        toast.id = 'globalToast';
+        toast.className = 'fixed top-14 left-1/2 -translate-x-1/2 z-50 bg-emerald-500 text-black px-4 py-2 rounded-full font-mono text-xs font-bold shadow-2xl transition-all duration-300 pointer-events-none opacity-0';
+        document.body.appendChild(toast);
+      }
+      toast.innerText = text;
+      toast.style.opacity = '1';
+      toast.style.transform = 'translate(-50%, 10px)';
+      setTimeout(() => {
+        toast.style.opacity = '0';
+        toast.style.transform = 'translate(-50%, 0)';
+      }, 2500);
+    }
+
+    // --- College Logo Handler ---
+    function handleCollegeLogoUpload(event) {
+      const file = event.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          localStorage.setItem('college_logo', e.target.result);
+          document.getElementById('collegeLogoImg').src = e.target.result;
+        };
+        reader.readAsDataURL(file);
+      }
+    }
+
+    // --- Admin / Developer Mode vs. Public Visitor Separation ---
+    const urlParams = new URLSearchParams(window.location.search);
+    const hash = window.location.hash;
+    const adminParam = urlParams.get('admin');
+
+    // Only activate admin if explicitly provided via URL param or stored
+    if (adminParam === 'mashrafi' || adminParam === 'true' || adminParam === '2904898715' || adminParam === 'owner' || hash === '#admin') {
+      localStorage.setItem('mashrafi_admin', 'true');
+    }
+
+    let isAdmin = localStorage.getItem('mashrafi_admin') === 'true';
+    window.isAdmin = isAdmin;
+
+    function applyAdminModeUI() {
+      if (isAdmin) {
+        document.body.classList.add('is-owner-mode');
+      } else {
+        document.body.classList.remove('is-owner-mode');
+      }
+
+      const adminElements = document.querySelectorAll('[data-admin-only]');
+      adminElements.forEach(el => {
+        el.style.display = isAdmin ? '' : 'none';
+      });
+
+      const badge = document.getElementById('adminBadge');
+      if (badge) {
+        if (isAdmin) {
+          badge.classList.remove('hidden');
+          badge.classList.add('flex');
+        } else {
+          badge.classList.add('hidden');
+          badge.classList.remove('flex');
+        }
+      }
+    }
+
+    function promptAdminLogin() {
+      const pass = prompt('Enter Developer / Owner Passcode:');
+      if (pass === 'mashrafi' || pass === '2904898715' || pass === 'mash' || pass === 'admin') {
+        localStorage.setItem('mashrafi_admin', 'true');
+        isAdmin = true;
+        window.isAdmin = true;
+        applyAdminModeUI();
+        alert('Welcome back, Mashrafi! Developer / Owner Mode is active.');
+      } else if (pass !== null) {
+        alert('Incorrect passcode.');
+      }
+    }
+
+    function exitAdminMode() {
+      localStorage.removeItem('mashrafi_admin');
+      isAdmin = false;
+      window.isAdmin = false;
+      applyAdminModeUI();
+      const cleanUrl = window.location.origin + window.location.pathname;
+      window.history.replaceState({}, document.title, cleanUrl);
+      alert('Exited Developer Mode. Public Visitor Mode active (No editing allowed).');
+    }
+
+    function copyShareLink() {
+      const publicUrl = window.location.origin + window.location.pathname;
+      navigator.clipboard.writeText(publicUrl).then(() => {
+        alert('Public Visitor Link copied!\n' + publicUrl + '\n(Visitors can view smoothly but cannot edit anything)');
+      }).catch(() => {
+        prompt('Public Visitor Link:', publicUrl);
+      });
+    }
+
+    function copyDevLink() {
+      const devUrl = window.location.origin + window.location.pathname + '?admin=mashrafi';
+      navigator.clipboard.writeText(devUrl).then(() => {
+        alert('Developer Admin Link copied!\n' + devUrl + '\n(Only you have edit controls with this link)');
+      }).catch(() => {
+        prompt('Developer Admin Link:', devUrl);
+      });
+    }
+
+    // --- Dynamic Quick Edit Modal ---
+    let currentModalType = '';
+
+    function openInfoModal(type) {
+      if (!isAdmin) return;
+      currentModalType = type;
+      const title = document.getElementById('modalTitle');
+      const container = document.getElementById('modalFormContainer');
+
+      if (type === 'college') {
+        title.innerText = 'Update College Details';
+        container.innerHTML = `
+          <div>
+            <label class="text-appleSubtext block mb-1">College Name</label>
+            <input type="text" id="mCollegeName" class="w-full px-3 py-2 rounded-xl bg-white/5 border border-white/10 text-white outline-none" value="${document.getElementById('collegeNameText').innerText}">
+          </div>
+          <div>
+            <label class="text-appleSubtext block mb-1">Class & Group</label>
+            <input type="text" id="mCollegeDept" class="w-full px-3 py-2 rounded-xl bg-white/5 border border-white/10 text-white outline-none" value="${document.getElementById('collegeDeptText').innerText}">
+          </div>
+        `;
+      } else if (type === 'socials') {
+        title.innerText = 'Update Gaming & Social Profiles';
+        container.innerHTML = `
+          <div>
+            <label class="text-appleSubtext block mb-1">Free Fire In-Game Name (IGN)</label>
+            <input type="text" id="mFfName" class="w-full px-3 py-2 rounded-xl bg-white/5 border border-white/10 text-white outline-none" value="${document.getElementById('ffNameText').innerText}">
+          </div>
+          <div>
+            <label class="text-appleSubtext block mb-1">Free Fire Player UID</label>
+            <input type="text" id="mFfUid" class="w-full px-3 py-2 rounded-xl bg-white/5 border border-white/10 text-white outline-none" value="${document.getElementById('ffUidText').innerText}">
+          </div>
+          <div>
+            <label class="text-appleSubtext block mb-1">Instagram Handle (@username)</label>
+            <input type="text" id="mInsta" class="w-full px-3 py-2 rounded-xl bg-white/5 border border-white/10 text-white outline-none" value="${document.getElementById('instaHandleText').innerText}">
+          </div>
+        `;
+      } else if (type === 'reflections') {
+        title.innerText = 'Update Personal Specification';
+        container.innerHTML = `
+          <div>
+            <label class="text-appleSubtext block mb-1">Main Specification / Bio</label>
+            <textarea id="mQuote" rows="5" class="w-full px-3 py-2 rounded-xl bg-white/5 border border-white/10 text-white outline-none font-sans">${document.getElementById('reflectionQuoteText').innerText.trim()}</textarea>
+          </div>
+        `;
+      }
+
+      document.getElementById('quickEditModal').classList.remove('hidden');
+    }
+
+    function closeInfoModal() {
+      document.getElementById('quickEditModal').classList.add('hidden');
+    }
+
+    function saveModalInfo() {
+      if (currentModalType === 'college') {
+        const name = document.getElementById('mCollegeName').value;
+        const dept = document.getElementById('mCollegeDept').value;
+        localStorage.setItem('custom_college_name', name);
+        localStorage.setItem('custom_college_dept', dept);
+        document.getElementById('collegeNameText').innerText = name;
+        document.getElementById('collegeDeptText').innerText = dept;
+      } else if (currentModalType === 'socials') {
+        const ffName = document.getElementById('mFfName').value;
+        const ffUid = document.getElementById('mFfUid').value;
+        const insta = document.getElementById('mInsta').value;
+
+        localStorage.setItem('custom_ff_name', ffName);
+        localStorage.setItem('custom_ff_uid', ffUid);
+        localStorage.setItem('custom_insta', insta);
+
+        document.getElementById('ffNameText').innerText = ffName;
+        document.getElementById('ffUidText').innerText = ffUid;
+        document.getElementById('instaHandleText').innerText = insta;
+      } else if (currentModalType === 'reflections') {
+        const quote = document.getElementById('mQuote').value;
+        localStorage.setItem('custom_reflection_quote', quote);
+        document.getElementById('reflectionQuoteText').innerText = quote;
+      }
+
+      closeInfoModal();
+    }
+
+    // --- Custom Photos Management (Owner Only) ---
+    function handleNewPhotoUpload(event) {
+      const files = event.target.files;
+      if (!files || files.length === 0) return;
+
+      let savedCustomPhotos = JSON.parse(localStorage.getItem('mashrafi_custom_photos') || '[]');
+
+      Array.from(files).forEach((file) => {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          const defaultTitle = file.name.replace(/\.[^/.]+$/, '').replace(/[-_]/g, ' ');
+          const title = prompt('Enter a title for this photo:', defaultTitle) || defaultTitle;
+          const photoObj = {
+            src: e.target.result,
+            title: title,
+            category: 'Personal Collection',
+            desc: 'Curated Portrait • Signature Series',
+            isCustom: true,
+            id: 'p_' + Date.now() + '_' + Math.random().toString(36).substr(2, 5)
+          };
+
+          savedCustomPhotos.push(photoObj);
+          localStorage.setItem('mashrafi_custom_photos', JSON.stringify(savedCustomPhotos));
+          photosData.push(photoObj);
+          renderCustomPhotoCard(photoObj, photosData.length - 1);
+        };
+        reader.readAsDataURL(file);
+      });
+      event.target.value = '';
+    }
+
+    function renderCustomPhotoCard(item, idx) {
+      const grid = document.getElementById('curatedGrid');
+      if (!grid) return;
+
+      const card = document.createElement('div');
+      card.id = 'card_' + item.id;
+      card.className = 'apple-billboard-card p-6 h-[460px] flex flex-col justify-between group cursor-pointer text-center relative';
+      card.onclick = () => openLightboxImage(idx);
+
+      card.innerHTML = `
+        <div data-admin-only class="absolute top-4 right-4 z-20" onclick="event.stopPropagation()">
+          <button onclick="deleteCustomPhoto('${item.id}')" class="w-8 h-8 rounded-full bg-red-600/80 hover:bg-red-500 text-white flex items-center justify-center text-xs shadow-lg transition-transform hover:scale-110" title="Delete Photo">
+            🗑️
+          </button>
+        </div>
+        <div>
+          <h3 class="text-2xl font-bold text-white">${item.title}</h3>
+          <p class="text-appleSubtext text-xs mt-1">${item.desc}</p>
+          <span class="apple-link mt-2 inline-block">View Full &gt;</span>
+        </div>
+        <div class="h-72 rounded-2xl overflow-hidden mt-4">
+          <img src="${item.src}" alt="${item.title}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
+        </div>
+      `;
+
+      grid.appendChild(card);
+      applyAdminModeUI();
+    }
+
+    function deleteCustomPhoto(id) {
+      if (!confirm('Are you sure you want to delete this photo?')) return;
+      let savedCustomPhotos = JSON.parse(localStorage.getItem('mashrafi_custom_photos') || '[]');
+      savedCustomPhotos = savedCustomPhotos.filter(p => p.id !== id);
+      localStorage.setItem('mashrafi_custom_photos', JSON.stringify(savedCustomPhotos));
+      
+      const el = document.getElementById('card_' + id);
+      if (el) el.remove();
+
+      const idx = photosData.findIndex(p => p.id === id);
+      if (idx !== -1) photosData.splice(idx, 1);
+    }
+
+    function loadSavedCustomPhotos() {
+      const saved = JSON.parse(localStorage.getItem('mashrafi_custom_photos') || '[]');
+      saved.forEach((photo) => {
+        photosData.push(photo);
+        renderCustomPhotoCard(photo, photosData.length - 1);
+      });
+    }
+
+    // Load persisted data cleanly without stale placeholders
+    function loadSavedData() {
+      const savedCollege = localStorage.getItem('custom_college_name');
+      if (savedCollege && !savedCollege.includes('Dhaka College')) {
+        document.getElementById('collegeNameText').innerText = savedCollege;
+      }
+      const savedFFUid = localStorage.getItem('custom_ff_uid');
+      if (savedFFUid && savedFFUid !== '2489105432') {
+        document.getElementById('ffUidText').innerText = savedFFUid;
+      }
+      const savedQuote = localStorage.getItem('custom_reflection_quote');
+      if (savedQuote && savedQuote.includes('Assalamu Alaikum')) {
+        document.getElementById('reflectionQuoteText').innerText = savedQuote;
+      }
+      const savedLogo = localStorage.getItem('college_logo');
+      if (savedLogo) {
+        document.getElementById('collegeLogoImg').src = savedLogo;
+      }
+      loadSavedCustomPhotos();
+      loadReplacedSlotPhotos();
+      loadSavedTitles();
+    }
+
+    loadSavedData();
+    applyAdminModeUI();
+
+    renderLoop();
+  </script>
+
+  <!-- Floating Developer Control Bar (Only appears when in Developer / Owner Mode) -->
+  <div id="adminBadge" class="fixed bottom-5 right-5 z-40 bg-[#161618]/95 border border-amber-500/50 backdrop-blur-xl px-4 py-2.5 rounded-full items-center gap-3 shadow-2xl text-xs font-mono hidden">
+    <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+    <span class="text-white font-semibold">👑 Developer Mode</span>
+    <button onclick="document.getElementById('newPhotoUploadInput').click()" class="px-3 py-1 rounded-full bg-blue-600 hover:bg-blue-500 text-white transition-all font-sans text-xs flex items-center gap-1">
+      <span>📷</span>
+      <span>Add Photos</span>
+    </button>
+    <button onclick="copyShareLink()" class="px-3 py-1 rounded-full bg-white/10 hover:bg-white/20 text-white transition-all font-sans text-xs" title="Link for father, friends, and visitors (View only)">
+      Copy Visitor Link 📋
+    </button>
+    <button onclick="copyDevLink()" class="px-3 py-1 rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/40 hover:bg-amber-500/30 transition-all font-sans text-xs" title="Your Developer admin link with edit options">
+      Copy Dev Link 🔑
+    </button>
+    <button onclick="exitAdminMode()" class="text-appleSubtext hover:text-red-400 transition-colors font-sans text-xs ml-1" title="Switch to Visitor View">
+      Exit
+    </button>
+  </div>
+</body>
+</html>

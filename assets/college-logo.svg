@@ -1,0 +1,61 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 300" width="100%" height="100%">
+  <defs>
+    <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fef08a"/>
+      <stop offset="50%" stop-color="#dfb15b"/>
+      <stop offset="100%" stop-color="#997328"/>
+    </linearGradient>
+    <linearGradient id="greenGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#065f46"/>
+      <stop offset="100%" stop-color="#022c22"/>
+    </linearGradient>
+    <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="#dfb15b" flood-opacity="0.3"/>
+    </filter>
+  </defs>
+
+  <!-- Outer Ring -->
+  <circle cx="150" cy="150" r="142" fill="url(#greenGrad)" stroke="url(#goldGrad)" stroke-width="6" filter="url(#glow)"/>
+  <circle cx="150" cy="150" r="132" fill="none" stroke="url(#goldGrad)" stroke-width="2" stroke-dasharray="4 2"/>
+
+  <!-- Inscription Path (Circular Text) -->
+  <path id="topTextPath" d="M 30,150 A 120,120 0 0,1 270,150" fill="none"/>
+  <path id="bottomTextPath" d="M 270,150 A 120,120 0 0,1 30,150" fill="none"/>
+
+  <text font-family="'Plus Jakarta Sans', 'Inter', sans-serif" font-size="13" font-weight="700" fill="#fef08a" letter-spacing="2">
+    <textPath href="#topTextPath" startOffset="50%" text-anchor="middle">
+      মৌলভীবাজার সরকারি কলেজ
+    </textPath>
+  </text>
+  <text font-family="'Plus Jakarta Sans', 'Inter', sans-serif" font-size="10.5" font-weight="600" fill="#dfb15b" letter-spacing="1.5">
+    <textPath href="#bottomTextPath" startOffset="50%" text-anchor="middle">
+      MOULVIBAZAR GOVT COLLEGE • 1967
+    </textPath>
+  </text>
+
+  <!-- Inner Crest Circle -->
+  <circle cx="150" cy="150" r="92" fill="#090d16" stroke="url(#goldGrad)" stroke-width="3"/>
+
+  <!-- Sun Rays & Rising Sun -->
+  <g transform="translate(150, 135)">
+    <circle cx="0" cy="0" r="28" fill="#facc15" opacity="0.9"/>
+    <!-- Rays -->
+    <line x1="0" y1="-38" x2="0" y2="-46" stroke="#facc15" stroke-width="3" stroke-linecap="round"/>
+    <line x1="27" y1="-27" x2="33" y2="-33" stroke="#facc15" stroke-width="3" stroke-linecap="round"/>
+    <line x1="38" y1="0" x2="46" y2="0" stroke="#facc15" stroke-width="3" stroke-linecap="round"/>
+    <line x1="-27" y1="-27" x2="-33" y2="-33" stroke="#facc15" stroke-width="3" stroke-linecap="round"/>
+    <line x1="-38" y1="0" x2="-46" y2="0" stroke="#facc15" stroke-width="3" stroke-linecap="round"/>
+  </g>
+
+  <!-- Open Book (Education & Knowledge) -->
+  <path d="M 150,152 C 140,146 115,146 100,152 L 100,192 C 115,186 140,186 150,192 Z" fill="#f8fafc" stroke="#dfb15b" stroke-width="2"/>
+  <path d="M 150,152 C 160,146 185,146 200,152 L 200,192 C 185,186 160,186 150,192 Z" fill="#f8fafc" stroke="#dfb15b" stroke-width="2"/>
+  <!-- Spine -->
+  <line x1="150" y1="152" x2="150" y2="192" stroke="#dfb15b" stroke-width="3"/>
+
+  <!-- Tea Leaves / Olive Branch Motif (Moulvibazar Specialty) -->
+  <path d="M 115,208 Q 150,218 185,208" fill="none" stroke="#22c55e" stroke-width="3" stroke-linecap="round"/>
+  <circle cx="150" cy="214" r="3.5" fill="#dfb15b"/>
+  <circle cx="130" cy="211" r="2.5" fill="#22c55e"/>
+  <circle cx="170" cy="211" r="2.5" fill="#22c55e"/>
+</svg>
