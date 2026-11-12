@@ -1698,12 +1698,12 @@
       }
 
       // Last visit time
-      localStorage.setItem('mv_last', now.toLocaleString('bn-BD'));
+      localStorage.setItem('mv_last', now.toLocaleString('en-US', { dateStyle: 'medium', timeStyle: 'short' }));
 
       // Visitor log entry
       const log = JSON.parse(localStorage.getItem('mv_log') || '[]');
       log.unshift({
-        time: now.toLocaleString('en-BD', { dateStyle: 'short', timeStyle: 'short' }),
+        time: now.toLocaleString('en-US', { dateStyle: 'medium', timeStyle: 'short' }),
         device: /Mobile|Android|iPhone/i.test(navigator.userAgent) ? '📱 Mobile' : '💻 Desktop',
         browser: navigator.userAgent.includes('Chrome') ? 'Chrome' : navigator.userAgent.includes('Firefox') ? 'Firefox' : navigator.userAgent.includes('Safari') ? 'Safari' : 'Other',
         lang: navigator.language || 'Unknown'
@@ -1793,7 +1793,7 @@
       const guestbook = JSON.parse(localStorage.getItem('mv_guestbook') || '[]');
       guestbook.unshift({
         name, email, msg,
-        time: new Date().toLocaleString('en-BD', { dateStyle: 'short', timeStyle: 'short' })
+        time: new Date().toLocaleString('en-US', { dateStyle: 'medium', timeStyle: 'short' })
       });
       localStorage.setItem('mv_guestbook', JSON.stringify(guestbook));
       document.getElementById('gbName').value = '';
