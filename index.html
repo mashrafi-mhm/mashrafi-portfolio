@@ -1633,7 +1633,8 @@
     // --- Add Photo Modal Actions ---
     let pendingModalFiles = [];
 
-    function openAddPhotoModal(defaultSec) {
+    function openAddPhotoModal(defaultSec, evt) {
+      if (evt && evt.stopPropagation) evt.stopPropagation();
       if (!isAdmin) return;
       const sel = document.getElementById('modalTargetSection');
       if (sel && defaultSec) sel.value = defaultSec;
