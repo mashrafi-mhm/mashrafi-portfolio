@@ -1240,12 +1240,17 @@
     const hash = window.location.hash;
     const adminParam = urlParams.get('admin');
 
-    // Only activate admin if explicitly provided via URL param or stored
-    if (adminParam === 'mashrafi' || adminParam === 'true' || adminParam === '2904898715' || adminParam === 'owner' || hash === '#admin') {
+    // Admin mode ONLY activates from URL param — localStorage is never trusted alone
+    // This ensures visitor link NEVER shows developer controls
+    let isAdmin = false;
+    if (adminParam === 'mashrafi' || adminParam === 'true' || adminParam === '2904898715' || adminParam === 'mash' || adminParam === 'admin' || adminParam === 'owner' || hash === '#admin') {
+      isAdmin = true;
       localStorage.setItem('mashrafi_admin', 'true');
+    } else {
+      // Clear any stale admin session — visitor link always resets
+      localStorage.removeItem('mashrafi_admin');
+      isAdmin = false;
     }
-
-    let isAdmin = localStorage.getItem('mashrafi_admin') === 'true';
     window.isAdmin = isAdmin;
 
     function applyAdminModeUI() {
@@ -1275,7 +1280,8 @@
     function promptAdminLogin() {
       const pass = prompt('Enter Developer / Owner Passcode:');
       if (pass === 'mashrafi' || pass === '2904898715' || pass === 'mash' || pass === 'admin') {
-        localStorage.setItem('mashrafi_admin', 'true');
+        // Use sessionStorage only — closes when tab is closed, never persists to visitor link
+        sessionStorage.setItem('mashrafi_admin_session', 'true');
         isAdmin = true;
         window.isAdmin = true;
         applyAdminModeUI();
@@ -1287,6 +1293,7 @@
 
     function exitAdminMode() {
       localStorage.removeItem('mashrafi_admin');
+      sessionStorage.removeItem('mashrafi_admin_session');
       isAdmin = false;
       window.isAdmin = false;
       applyAdminModeUI();
