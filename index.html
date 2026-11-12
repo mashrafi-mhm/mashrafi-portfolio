@@ -984,6 +984,106 @@
       </div>
     </footer>
 
+    <!-- ============================================================ -->
+    <!-- DEVELOPER ANALYTICS DASHBOARD (Only visible in Developer Mode) -->
+    <!-- ============================================================ -->
+    <section data-admin-only id="dev-analytics" class="w-full bg-[#0a0a0c] border-t-2 border-amber-500/40 py-14 px-4">
+      <div class="max-w-[1024px] mx-auto">
+
+        <!-- Header -->
+        <div class="flex items-center gap-3 mb-10">
+          <span class="text-3xl">📊</span>
+          <div>
+            <h2 class="text-2xl sm:text-3xl font-bold text-white tracking-tight">Visitor Analytics</h2>
+            <p class="text-appleSubtext text-sm mt-0.5">Real-time stats — only you can see this section</p>
+          </div>
+          <span class="ml-auto px-3 py-1 rounded-full bg-amber-500/20 border border-amber-500/40 text-amber-300 text-xs font-mono">👑 DEVELOPER ONLY</span>
+        </div>
+
+        <!-- Stats Grid -->
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-10">
+          <!-- Total Visits -->
+          <div class="bg-[#161617] rounded-2xl p-5 border border-white/10 text-center">
+            <div id="totalVisitCount" class="text-4xl font-black text-white mb-1">...</div>
+            <div class="text-appleSubtext text-xs uppercase tracking-widest">Total Visits</div>
+          </div>
+          <!-- Today -->
+          <div class="bg-[#161617] rounded-2xl p-5 border border-white/10 text-center">
+            <div id="todayVisitCount" class="text-4xl font-black text-appleGold mb-1">...</div>
+            <div class="text-appleSubtext text-xs uppercase tracking-widest">Today</div>
+          </div>
+          <!-- Unique -->
+          <div class="bg-[#161617] rounded-2xl p-5 border border-white/10 text-center">
+            <div id="uniqueVisitCount" class="text-4xl font-black text-blue-400 mb-1">...</div>
+            <div class="text-appleSubtext text-xs uppercase tracking-widest">Unique</div>
+          </div>
+          <!-- Last Visit -->
+          <div class="bg-[#161617] rounded-2xl p-5 border border-white/10 text-center">
+            <div id="lastVisitTime" class="text-lg font-bold text-emerald-400 mb-1">—</div>
+            <div class="text-appleSubtext text-xs uppercase tracking-widest">Last Visit</div>
+          </div>
+        </div>
+
+        <!-- Visitor Log -->
+        <div class="bg-[#161617] rounded-2xl border border-white/10 overflow-hidden mb-8">
+          <div class="px-6 py-4 border-b border-white/10 flex items-center justify-between">
+            <h3 class="text-white font-semibold text-sm">📋 Visitor Log</h3>
+            <button onclick="clearVisitorLog()" class="text-xs text-red-400 hover:text-red-300 transition-colors">🗑 Clear Log</button>
+          </div>
+          <div id="visitorLogList" class="divide-y divide-white/5 max-h-80 overflow-y-auto">
+            <div class="px-6 py-8 text-center text-appleSubtext text-sm">Loading visitor data...</div>
+          </div>
+        </div>
+
+        <!-- Note about Gmail -->
+        <div class="bg-[#1a1500] border border-amber-500/30 rounded-2xl p-5 mb-8">
+          <div class="flex gap-3">
+            <span class="text-2xl flex-shrink-0">💡</span>
+            <div>
+              <p class="text-amber-300 font-semibold text-sm mb-1">Gmail কীভাবে দেখবেন?</p>
+              <p class="text-appleSubtext text-xs leading-relaxed">কোনো website visitor এর Gmail স্বয়ংক্রিয়ভাবে জানা সম্ভব নয় — এটা internet এর privacy rule। তবে visitor রা নিচের Guestbook এ নাম ও email লিখলে আপনি দেখতে পাবেন। অথবা <a href="https://analytics.google.com" target="_blank" class="text-appleBlue hover:underline">Google Analytics</a> যোগ করলে device, country, browser সব দেখা যাবে।</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Guestbook Entries (from visitors who signed) -->
+        <div class="bg-[#161617] rounded-2xl border border-white/10 overflow-hidden">
+          <div class="px-6 py-4 border-b border-white/10 flex items-center justify-between">
+            <h3 class="text-white font-semibold text-sm">✍️ Guestbook Entries (Visitors who left their info)</h3>
+            <button onclick="clearGuestbook()" class="text-xs text-red-400 hover:text-red-300 transition-colors">🗑 Clear</button>
+          </div>
+          <div id="guestbookList" class="divide-y divide-white/5 max-h-64 overflow-y-auto">
+            <div class="px-6 py-8 text-center text-appleSubtext text-sm">No guestbook entries yet. Visitors can sign the guestbook below.</div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+  </div>
+
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- GUESTBOOK SECTION (Visible to ALL visitors at bottom)        -->
+  <!-- ============================================================ -->
+  <div class="relative z-10 w-full bg-[#0d0d10] border-t border-white/10 py-10 px-4" id="guestbook-section">
+    <div class="max-w-lg mx-auto text-center">
+      <h3 class="text-white font-bold text-lg mb-1">✍️ Sign the Guestbook</h3>
+      <p class="text-appleSubtext text-xs mb-5">আপনার নাম ও email লিখে রাখুন — Mashrafi দেখতে পাবে কে ভিজিট করেছে</p>
+      <div class="bg-[#161617] rounded-2xl p-5 border border-white/10 text-left">
+        <input id="gbName" type="text" placeholder="আপনার নাম" maxlength="50"
+          class="w-full bg-black/50 border border-white/15 rounded-xl px-4 py-3 text-white text-sm placeholder-appleSubtext mb-3 outline-none focus:border-appleBlue transition-colors" />
+        <input id="gbEmail" type="email" placeholder="আপনার Email (যেমন: example@gmail.com)" maxlength="80"
+          class="w-full bg-black/50 border border-white/15 rounded-xl px-4 py-3 text-white text-sm placeholder-appleSubtext mb-3 outline-none focus:border-appleBlue transition-colors" />
+        <input id="gbMessage" type="text" placeholder="একটি ছোট বার্তা (optional)" maxlength="100"
+          class="w-full bg-black/50 border border-white/15 rounded-xl px-4 py-3 text-white text-sm placeholder-appleSubtext mb-4 outline-none focus:border-appleBlue transition-colors" />
+        <button onclick="submitGuestbook()" class="w-full apple-btn-round text-sm py-3 font-semibold">
+          Submit ✓
+        </button>
+        <div id="gbSuccess" class="hidden mt-3 text-center text-emerald-400 text-sm font-semibold">✅ ধন্যবাদ! আপনার entry সেভ হয়েছে।</div>
+      </div>
+    </div>
   </div>
 
   <!-- JavaScript: Lightbox, Carousel & Three.js 3D Background Engine -->
@@ -1566,6 +1666,165 @@
     applyAdminModeUI();
 
     renderLoop();
+
+    // ============================================================
+    // VISITOR TRACKING & ANALYTICS SYSTEM
+    // ============================================================
+
+    // --- Track this visit ---
+    function trackVisit() {
+      const now = new Date();
+      const todayKey = now.toISOString().slice(0, 10); // YYYY-MM-DD
+      const visitorId = localStorage.getItem('mashrafi_vid') || (() => {
+        const id = 'v_' + Math.random().toString(36).slice(2, 10);
+        localStorage.setItem('mashrafi_vid', id);
+        return id;
+      })();
+
+      // Total visits
+      const total = parseInt(localStorage.getItem('mv_total') || '0') + 1;
+      localStorage.setItem('mv_total', total);
+
+      // Today's visits
+      const todayData = JSON.parse(localStorage.getItem('mv_today') || '{"date":"","count":0}');
+      const todayCount = todayData.date === todayKey ? todayData.count + 1 : 1;
+      localStorage.setItem('mv_today', JSON.stringify({ date: todayKey, count: todayCount }));
+
+      // Unique visitors set
+      const uniques = JSON.parse(localStorage.getItem('mv_uniques') || '[]');
+      if (!uniques.includes(visitorId)) {
+        uniques.push(visitorId);
+        localStorage.setItem('mv_uniques', JSON.stringify(uniques));
+      }
+
+      // Last visit time
+      localStorage.setItem('mv_last', now.toLocaleString('bn-BD'));
+
+      // Visitor log entry
+      const log = JSON.parse(localStorage.getItem('mv_log') || '[]');
+      log.unshift({
+        time: now.toLocaleString('en-BD', { dateStyle: 'short', timeStyle: 'short' }),
+        device: /Mobile|Android|iPhone/i.test(navigator.userAgent) ? '📱 Mobile' : '💻 Desktop',
+        browser: navigator.userAgent.includes('Chrome') ? 'Chrome' : navigator.userAgent.includes('Firefox') ? 'Firefox' : navigator.userAgent.includes('Safari') ? 'Safari' : 'Other',
+        lang: navigator.language || 'Unknown'
+      });
+      if (log.length > 50) log.pop(); // keep last 50
+      localStorage.setItem('mv_log', JSON.stringify(log));
+
+      // Also ping countapi for real cross-device count
+      fetch('https://api.counterapi.dev/v1/mashrafi-mhm-portfolio/visits/up')
+        .then(r => r.json())
+        .then(d => {
+          if (d && d.count) localStorage.setItem('mv_real_total', d.count);
+        }).catch(() => {});
+    }
+
+    trackVisit();
+
+    // --- Load analytics dashboard (dev mode only) ---
+    function loadAnalyticsDashboard() {
+      const realTotal = localStorage.getItem('mv_real_total');
+      const total = realTotal || localStorage.getItem('mv_total') || '0';
+      const todayData = JSON.parse(localStorage.getItem('mv_today') || '{"count":0}');
+      const uniques = JSON.parse(localStorage.getItem('mv_uniques') || '[]');
+      const last = localStorage.getItem('mv_last') || '—';
+      const log = JSON.parse(localStorage.getItem('mv_log') || '[]');
+
+      // Update stat cards
+      const totalEl = document.getElementById('totalVisitCount');
+      const todayEl = document.getElementById('todayVisitCount');
+      const uniqueEl = document.getElementById('uniqueVisitCount');
+      const lastEl = document.getElementById('lastVisitTime');
+      if (totalEl) totalEl.textContent = total;
+      if (todayEl) todayEl.textContent = todayData.count || 0;
+      if (uniqueEl) uniqueEl.textContent = uniques.length;
+      if (lastEl) lastEl.textContent = last;
+
+      // Visitor log
+      const logEl = document.getElementById('visitorLogList');
+      if (logEl) {
+        if (log.length === 0) {
+          logEl.innerHTML = '<div class="px-6 py-8 text-center text-appleSubtext text-sm">কোনো visitor data নেই এখনো।</div>';
+        } else {
+          logEl.innerHTML = log.map((v, i) => `
+            <div class="px-6 py-3 flex items-center justify-between gap-4">
+              <div class="flex items-center gap-3">
+                <span class="text-lg">${v.device.split(' ')[0]}</span>
+                <div>
+                  <div class="text-white text-xs font-medium">${v.device} · ${v.browser}</div>
+                  <div class="text-appleSubtext text-xs">${v.lang}</div>
+                </div>
+              </div>
+              <div class="text-appleSubtext text-xs whitespace-nowrap">${v.time}</div>
+            </div>
+          `).join('');
+        }
+      }
+
+      // Guestbook entries
+      const guestbook = JSON.parse(localStorage.getItem('mv_guestbook') || '[]');
+      const gbEl = document.getElementById('guestbookList');
+      if (gbEl) {
+        if (guestbook.length === 0) {
+          gbEl.innerHTML = '<div class="px-6 py-8 text-center text-appleSubtext text-sm">এখনো কেউ guestbook এ sign করেনি।</div>';
+        } else {
+          gbEl.innerHTML = guestbook.map(g => `
+            <div class="px-6 py-4">
+              <div class="flex items-start justify-between gap-3">
+                <div>
+                  <div class="text-white font-semibold text-sm">${g.name || 'Anonymous'}</div>
+                  <div class="text-appleBlue text-xs mt-0.5">${g.email || '—'}</div>
+                  ${g.msg ? `<div class="text-appleSubtext text-xs mt-1 italic">"${g.msg}"</div>` : ''}
+                </div>
+                <div class="text-appleSubtext text-xs whitespace-nowrap">${g.time}</div>
+              </div>
+            </div>
+          `).join('');
+        }
+      }
+    }
+
+    // --- Guestbook submit ---
+    function submitGuestbook() {
+      const name = document.getElementById('gbName').value.trim();
+      const email = document.getElementById('gbEmail').value.trim();
+      const msg = document.getElementById('gbMessage').value.trim();
+      if (!name && !email) { alert('অন্তত নাম অথবা email দিন।'); return; }
+      const guestbook = JSON.parse(localStorage.getItem('mv_guestbook') || '[]');
+      guestbook.unshift({
+        name, email, msg,
+        time: new Date().toLocaleString('en-BD', { dateStyle: 'short', timeStyle: 'short' })
+      });
+      localStorage.setItem('mv_guestbook', JSON.stringify(guestbook));
+      document.getElementById('gbName').value = '';
+      document.getElementById('gbEmail').value = '';
+      document.getElementById('gbMessage').value = '';
+      const succ = document.getElementById('gbSuccess');
+      if (succ) { succ.classList.remove('hidden'); setTimeout(() => succ.classList.add('hidden'), 3000); }
+    }
+
+    // --- Clear functions ---
+    function clearVisitorLog() {
+      if (confirm('সব visitor log মুছে ফেলবেন?')) {
+        localStorage.removeItem('mv_log');
+        localStorage.removeItem('mv_total');
+        localStorage.removeItem('mv_today');
+        localStorage.removeItem('mv_uniques');
+        localStorage.removeItem('mv_last');
+        loadAnalyticsDashboard();
+      }
+    }
+
+    function clearGuestbook() {
+      if (confirm('সব guestbook entries মুছে ফেলবেন?')) {
+        localStorage.removeItem('mv_guestbook');
+        loadAnalyticsDashboard();
+      }
+    }
+
+    // Load dashboard if in admin mode
+    if (isAdmin) loadAnalyticsDashboard();
+
   </script>
 
   <!-- Floating Developer Control Bar (Only appears when in Developer / Owner Mode) -->
