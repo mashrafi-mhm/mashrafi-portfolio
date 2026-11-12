@@ -3,9 +3,6 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-  <meta http-equiv="Pragma" content="no-cache">
-  <meta http-equiv="Expires" content="0">
   <title>Mashrafi Hossain • Official Portfolio</title>
   <!-- Apple System Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -364,8 +361,8 @@
         <!-- Flagship Hero Photo Display (Apple Product Stage) -->
         <div id="heroCardContainer" class="relative max-w-3xl mx-auto rounded-3xl overflow-hidden shadow-2xl cursor-pointer group">
           <div data-admin-only class="absolute top-4 right-4 z-30 flex items-center gap-2" onclick="event.stopPropagation()">
-            <button onclick="openEditHeroModal(event)" class="px-3 py-1.5 rounded-full bg-black/85 hover:bg-white hover:text-black border border-white/20 text-white text-xs font-semibold backdrop-blur-md transition-all shadow-lg flex items-center gap-1">✏️ Change Name</button>
-            <button onclick="triggerPhotoReplace('hero', (sectionsData.hero && sectionsData.hero[0] && sectionsData.hero[0].id) || 'hero_0', event)" class="px-3 py-1.5 rounded-full bg-black/85 hover:bg-white hover:text-black border border-white/20 text-white text-xs font-semibold backdrop-blur-md transition-all shadow-lg flex items-center gap-1">📷 Change Photo</button>
+            <button onclick="openAddPhotoModal('hero', event)" class="px-3 py-1.5 rounded-full bg-appleBlue hover:bg-appleBlueHover text-white text-xs font-semibold backdrop-blur-md transition-all shadow-lg flex items-center gap-1">➕ Add</button>
+            <button onclick="deletePhotoFromSection('hero', (sectionsData.hero && sectionsData.hero[0] && sectionsData.hero[0].id) || 'hero_0', event)" class="px-3 py-1.5 rounded-full bg-red-600/90 hover:bg-red-500 text-white text-xs font-semibold transition-all shadow-lg flex items-center gap-1">🗑️ Remove</button>
           </div>
           <div class="h-[380px] sm:h-[520px] lg:h-[620px] w-full relative" onclick="openLightboxByPhotoId((sectionsData.hero && sectionsData.hero[0] && sectionsData.hero[0].id) || 'hero_0')">
             <img id="cardImgHero" src="assets/photos/hero-portrait.jpg" alt="Mashrafi Hossain" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out">
@@ -398,58 +395,29 @@
           <h2 id="secTitlePortraits" class="headline-large text-white">
             Portraits &amp; Signature Looks.
           </h2>
-          <button data-admin-only onclick="promptRenameSimple('secTitlePortraits', 'Enter Section Title:', event)" class="px-2.5 py-1 rounded-full bg-white/10 hover:bg-white/20 text-white text-xs font-mono">✏️ Edit</button>
+          
         </div>
 
-        <p class="headline-sub text-appleSubtext mb-8">
-          Controlled studio ambient and natural outdoor perspectives.
+        <p class="headline-sub text-appleSubtext mb-4">
+          Natural perspective with balanced studio lighting.
         </p>
 
-        <!-- SUB-SECTION 1: STUDIO PORTRAITS -->
-        <div class="mb-14">
-          <div class="flex flex-col sm:flex-row items-center justify-between mb-5 gap-3 border-b border-white/10 pb-3">
-            <div class="text-center sm:text-left">
-              <span class="text-xs font-mono font-semibold uppercase tracking-widest text-appleGold">Collection A</span>
-              <h3 class="text-xl sm:text-2xl font-bold text-white mt-0.5">📸 Studio Portraits (স্টুডিও পোর্টেট)</h3>
-              <p class="text-appleSubtext text-xs">Balanced posture with natural studio lighting</p>
-            </div>
-            <div data-admin-only class="flex items-center gap-2">
-              <button onclick="openAddPhotoModal('studio')" class="apple-btn-round text-xs py-2 px-4 bg-appleBlue hover:bg-appleBlueHover flex items-center gap-1.5 shadow-lg shadow-blue-500/20 font-medium">
-                <span>➕</span>
-                <span>Add Photo to Studio</span>
-              </button>
-            </div>
-          </div>
-          <!-- Studio Grid -->
-          <div id="studioGrid" class="grid grid-cols-1 md:grid-cols-2 gap-4 text-left">
-            <!-- Rendered dynamically -->
-          </div>
+        <!-- Developer Mode Add Button for Portraits -->
+        <div data-admin-only class="flex items-center justify-center gap-3 mb-6">
+          <button onclick="openAddPhotoModal('portraits')" class="apple-btn-round text-xs py-2 px-4 bg-appleBlue hover:bg-appleBlueHover flex items-center gap-1.5 shadow-lg shadow-blue-500/20 font-medium">
+            <span>➕</span>
+            <span>Add Photo to Portraits</span>
+          </button>
         </div>
 
-        <!-- SUB-SECTION 2: OUTDOOR PORTRAITS -->
-        <div class="mb-6">
-          <div class="flex flex-col sm:flex-row items-center justify-between mb-5 gap-3 border-b border-white/10 pb-3">
-            <div class="text-center sm:text-left">
-              <span class="text-xs font-mono font-semibold uppercase tracking-widest text-emerald-400">Collection B</span>
-              <h3 class="text-xl sm:text-2xl font-bold text-white mt-0.5">🌿 Outdoor Portraits (আউটডোর পোর্টেট)</h3>
-              <p class="text-appleSubtext text-xs">Natural perspective, authentic ambient and scenic depth</p>
-            </div>
-            <div data-admin-only class="flex items-center gap-2">
-              <button onclick="openAddPhotoModal('outdoor')" class="apple-btn-round text-xs py-2 px-4 bg-appleBlue hover:bg-appleBlueHover flex items-center gap-1.5 shadow-lg shadow-blue-500/20 font-medium">
-                <span>➕</span>
-                <span>Add Photo to Outdoor</span>
-              </button>
-            </div>
-          </div>
-          <!-- Outdoor Grid -->
-          <div id="outdoorGrid" class="grid grid-cols-1 md:grid-cols-2 gap-4 text-left">
-            <!-- Rendered dynamically -->
-          </div>
-        </div>
-
-        <div class="flex items-center justify-center gap-6 mt-10 mb-4">
+        <div class="flex items-center justify-center gap-6 mb-12">
           <a href="#section-grid" class="apple-link" id="viewAllPortraitsLink">View all photos &gt;</a>
           <a href="#social" class="apple-link">Connect with Mashrafi Hossain &gt;</a>
+        </div>
+
+        <!-- Dynamic Grid for Portraits -->
+        <div id="portraitsGrid" class="grid grid-cols-1 md:grid-cols-2 gap-4 text-left">
+          <!-- Rendered dynamically via JavaScript -->
         </div>
 
       </div>
@@ -461,12 +429,12 @@
     <section id="section-billboard-2" class="apple-billboard pt-6 pb-12 text-center">
       <div class="max-w-[1024px] mx-auto px-4 w-full">
         
-        <div class="flex flex-col sm:flex-row items-center justify-between mb-6 gap-4 border-b border-white/10 pb-4">
+        <div class="flex flex-col sm:flex-row items-center justify-between mb-8 gap-4">
           <div class="text-center sm:text-left">
             <span class="text-xs font-mono font-semibold uppercase tracking-widest text-appleBlue block mb-1">Celebrations &amp; Events</span>
             <div class="flex items-center gap-2 flex-wrap justify-center sm:justify-start">
-              <h2 id="secTitleCelebration" class="headline-large text-white">🎉 Ceremonial Showcase (অনুষ্ঠান ও বিয়ে).</h2>
-              <button data-admin-only onclick="promptRenameSimple('secTitleCelebration', 'Enter Section Title:', event)" class="px-2.5 py-1 rounded-full bg-white/10 hover:bg-white/20 text-white text-xs font-mono">✏️ Edit</button>
+              <h2 id="secTitleCelebration" class="headline-large text-white">Ceremonial Showcase.</h2>
+              
             </div>
             <p class="headline-sub text-appleSubtext mt-1">Lush decorative moments, traditional events and ceremonies.</p>
           </div>
@@ -480,7 +448,7 @@
 
         <!-- Dynamic Grid for Celebration -->
         <div id="celebrationGrid" class="grid grid-cols-1 md:grid-cols-2 gap-5 text-left">
-          <!-- Rendered dynamically -->
+          <!-- Rendered dynamically via JavaScript -->
         </div>
 
       </div>
@@ -492,57 +460,26 @@
     <section id="section-grid" class="py-8 bg-[#000000]">
       <div class="max-w-[1024px] mx-auto px-4 w-full">
         
-        <div class="flex flex-col sm:flex-row items-center justify-between mb-8 gap-3">
+        <div class="flex flex-col sm:flex-row items-center justify-between mb-6 gap-3">
           <div>
             <span class="text-xs font-mono font-semibold uppercase tracking-widest text-appleGold block mb-1">Moments &amp; Highlights</span>
             <div class="flex items-center gap-2 flex-wrap">
               <h2 id="secTitleGallery" class="text-2xl sm:text-4xl font-bold text-white tracking-tight">Curated Gallery.</h2>
-              <button data-admin-only onclick="promptRenameSimple('secTitleGallery', 'Enter Section Title:', event)" class="px-2.5 py-1 rounded-full bg-white/10 hover:bg-white/20 text-white text-xs font-mono">✏️ Edit</button>
+              
             </div>
             <p class="text-appleSubtext text-xs mt-1">Scenic travels, family gatherings, and everyday authentic moments.</p>
           </div>
-        </div>
-
-        <!-- SUB-SECTION 1: TOUR & OUTING -->
-        <div class="mb-14">
-          <div class="flex flex-col sm:flex-row items-center justify-between mb-5 gap-3 border-b border-white/10 pb-3">
-            <div class="text-center sm:text-left">
-              <span class="text-xs font-mono font-semibold uppercase tracking-widest text-appleGold">Travel Diaries</span>
-              <h3 class="text-xl sm:text-2xl font-bold text-white mt-0.5">✈️ Tour &amp; Outing (ট্যুর ও ভ্রমণ)</h3>
-              <p class="text-appleSubtext text-xs">Scenic journeys, road trips and exploration moments</p>
-            </div>
-            <div data-admin-only class="flex items-center gap-2">
-              <button onclick="openAddPhotoModal('travel')" class="apple-btn-round text-xs py-2 px-4 bg-appleBlue hover:bg-appleBlueHover flex items-center gap-1.5 shadow-lg shadow-blue-500/20 font-medium">
-                <span>➕</span>
-                <span>Add Photo to Tour &amp; Outing</span>
-              </button>
-            </div>
-          </div>
-          <!-- Travel Grid -->
-          <div id="travelGrid" class="grid grid-cols-1 md:grid-cols-2 gap-4 text-center">
-            <!-- Rendered dynamically -->
+          <!-- Owner Only: Add Photos Control -->
+          <div data-admin-only class="flex items-center gap-3">
+            <button onclick="openAddPhotoModal('gallery')" class="apple-btn-round text-xs py-2 px-4 bg-appleBlue hover:bg-appleBlueHover flex items-center gap-1.5 shadow-lg shadow-blue-500/20 font-medium">
+              <span>➕</span>
+              <span>Add Photo to Gallery</span>
+            </button>
           </div>
         </div>
 
-        <!-- SUB-SECTION 2: FAMILY & CANDID -->
-        <div>
-          <div class="flex flex-col sm:flex-row items-center justify-between mb-5 gap-3 border-b border-white/10 pb-3">
-            <div class="text-center sm:text-left">
-              <span class="text-xs font-mono font-semibold uppercase tracking-widest text-pink-400">Harmony &amp; Life</span>
-              <h3 class="text-xl sm:text-2xl font-bold text-white mt-0.5">👨‍👩‍👧‍👦 Family &amp; Candid Moments (পারিবারিক ও মোমেন্টস)</h3>
-              <p class="text-appleSubtext text-xs">Festive family celebration, genuine smiles and authentic expressions</p>
-            </div>
-            <div data-admin-only class="flex items-center gap-2">
-              <button onclick="openAddPhotoModal('family')" class="apple-btn-round text-xs py-2 px-4 bg-appleBlue hover:bg-appleBlueHover flex items-center gap-1.5 shadow-lg shadow-blue-500/20 font-medium">
-                <span>➕</span>
-                <span>Add Photo to Family &amp; Candid</span>
-              </button>
-            </div>
-          </div>
-          <!-- Family Grid -->
-          <div id="familyGrid" class="grid grid-cols-1 md:grid-cols-2 gap-4 text-center">
-            <!-- Rendered dynamically -->
-          </div>
+        <div id="curatedGrid" class="grid grid-cols-1 md:grid-cols-2 gap-4 text-center">
+          <!-- Rendered dynamically via JavaScript -->
         </div>
 
       </div>
@@ -955,11 +892,9 @@
           <div>
             <label class="text-appleSubtext block mb-1 font-semibold uppercase tracking-wider text-[11px]">Target Section</label>
             <select id="modalTargetSection" class="w-full px-3 py-2.5 rounded-xl bg-[#1c1c1e] border border-white/20 text-white outline-none focus:border-appleBlue transition-colors font-medium text-xs">
-              <option value="studio">📸 Studio Portraits (স্টুডিও পোর্টেট)</option>
-              <option value="outdoor">🌿 Outdoor Portraits (আউটডোর পোর্টেট)</option>
-              <option value="celebration">🎉 Wedding Ceremony &amp; Events (ওয়েডিং ও অনুষ্ঠান)</option>
-              <option value="travel">✈️ Tour &amp; Outing (ট্যুর ও ভ্রমণ)</option>
-              <option value="family">👨‍👩‍👧‍👦 Family &amp; Candid Moments (পারিবারিক ও মোমেন্টস)</option>
+              <option value="portraits">📸 Portraits &amp; Signature Looks</option>
+              <option value="celebration">🎉 Ceremony &amp; Celebration Showcase</option>
+              <option value="gallery">🖼️ Curated Gallery &amp; Moments</option>
               <option value="hero">⭐ Flagship Hero Portrait</option>
             </select>
           </div>
@@ -1186,7 +1121,7 @@
 
   <!-- JavaScript: Lightbox, Carousel & Three.js 3D Background Engine -->
   <script>
-    // Master Default Sections Data (Independent Sub-Categories)
+    // Master Default Sections Data (Initial photos for each section)
     const DEFAULT_SECTIONS_DATA = {
       hero: [
         {
@@ -1198,37 +1133,35 @@
           tag: 'Hero Showcase'
         }
       ],
-      studio: [
+      portraits: [
         {
-          id: 'studio_01',
+          id: 'p_01',
           src: 'assets/photos/moment-01.jpg',
-          title: 'Studio Portrait 01',
+          title: 'Studio Portrait',
           desc: 'Balanced posture with natural studio lighting.',
-          category: 'Studio Portraits',
-          tag: 'Studio Look'
-        }
-      ],
-      outdoor: [
+          category: 'Portraits',
+          tag: 'Portrait 01'
+        },
         {
-          id: 'outdoor_01',
+          id: 'p_02',
           src: 'assets/photos/moment-02.jpg',
-          title: 'Outdoor Portrait 01',
+          title: 'Outdoor Portrait',
           desc: 'Natural perspective and authentic depth.',
-          category: 'Outdoor Portraits',
-          tag: 'Outdoor Look'
+          category: 'Portraits',
+          tag: 'Portrait 02'
         }
       ],
       celebration: [
         {
-          id: 'celeb_01',
+          id: 'c_05',
           src: 'assets/photos/moment-05.jpg',
           title: 'Wedding Ceremony',
           desc: 'Lush decorative canopies and ceremonial moments.',
           category: 'Wedding & Celebration',
-          tag: 'Wedding'
+          tag: 'Ceremony'
         },
         {
-          id: 'celeb_02',
+          id: 'c_06',
           src: 'assets/photos/moment-06.jpg',
           title: 'Wedding Stage Decor',
           desc: 'Festive hall and floral decor.',
@@ -1236,19 +1169,17 @@
           tag: 'Stage Decor'
         }
       ],
-      travel: [
+      gallery: [
         {
-          id: 'travel_01',
+          id: 'g_03',
           src: 'assets/photos/moment-03.jpg',
           title: 'Tour & Outing',
           desc: 'Travel diaries and scenic journey moments.',
           category: 'Travel Photos',
           tag: 'Travel Photo'
-        }
-      ],
-      family: [
+        },
         {
-          id: 'family_01',
+          id: 'g_04',
           src: 'assets/photos/moment-04.jpg',
           title: 'Family Gathering',
           desc: 'Festive family and celebratory harmony.',
@@ -1256,7 +1187,7 @@
           tag: 'Family'
         },
         {
-          id: 'family_02',
+          id: 'g_08',
           src: 'assets/photos/moment-08.jpg',
           title: 'Wedding Stage',
           desc: 'Ceremonial stage and festive atmosphere.',
@@ -1264,7 +1195,7 @@
           tag: 'Celebration'
         },
         {
-          id: 'candid_01',
+          id: 'g_10',
           src: 'assets/photos/moment-10.jpg',
           title: 'Candid Smile',
           desc: 'Unfiltered, authentic expression.',
@@ -1529,10 +1460,32 @@
 
     async function loadSectionsData() {
       const saved = await idbGet('mashrafi_sections_photos');
-      if (saved && (saved.studio || saved.outdoor || saved.celebration || saved.travel || saved.family || saved.hero)) {
+      if (saved && (saved.portraits || saved.celebration || saved.gallery || saved.hero)) {
         sectionsData = saved;
       } else {
+        // Check legacy localStorage keys to migrate seamlessly
         sectionsData = JSON.parse(JSON.stringify(DEFAULT_SECTIONS_DATA));
+        const oldHero = localStorage.getItem('slot_photo_hero');
+        if (oldHero && sectionsData.hero[0]) sectionsData.hero[0].src = oldHero;
+        const oldP1 = localStorage.getItem('slot_photo_moment-01');
+        if (oldP1 && sectionsData.portraits[0]) sectionsData.portraits[0].src = oldP1;
+        const oldP2 = localStorage.getItem('slot_photo_moment-02');
+        if (oldP2 && sectionsData.portraits[1]) sectionsData.portraits[1].src = oldP2;
+        const oldC5 = localStorage.getItem('slot_photo_moment-05');
+        if (oldC5 && sectionsData.celebration[0]) sectionsData.celebration[0].src = oldC5;
+        const oldCustom = JSON.parse(localStorage.getItem('mashrafi_custom_photos') || '[]');
+        if (oldCustom.length) {
+          oldCustom.forEach(p => {
+            sectionsData.gallery.push({
+              id: p.id || ('p_' + Date.now() + Math.random().toString(36).substr(2, 4)),
+              src: p.src,
+              title: p.title || 'Custom Photo',
+              desc: p.desc || '',
+              tag: 'Curated Look',
+              category: 'Personal Collection'
+            });
+          });
+        }
         await saveSectionsData();
       }
     }
@@ -1548,60 +1501,27 @@
       if (descEl && item) descEl.innerText = item.desc || 'Flagship Signature Look';
     }
 
-    function renderStudio() {
-      const grid = document.getElementById('studioGrid');
+    function renderPortraits() {
+      const grid = document.getElementById('portraitsGrid');
       if (!grid) return;
-      const list = sectionsData.studio || [];
+      const list = sectionsData.portraits || [];
       if (list.length === 0) {
         grid.innerHTML = `
-          <div class="col-span-full py-10 px-6 text-center text-appleSubtext border border-dashed border-white/15 rounded-2xl bg-[#121214]">
+          <div class="col-span-full py-12 px-6 text-center text-appleSubtext border border-dashed border-white/15 rounded-2xl bg-[#121214]">
             <span class="text-3xl block mb-2">📸</span>
-            <p class="text-sm text-white font-medium">No studio portraits added yet.</p>
-            <p class="text-xs mt-1">Click "+ Add Photo to Studio" above to add your studio portraits.</p>
+            <p class="text-sm text-white font-medium">No portraits in this section.</p>
+            <p class="text-xs mt-1">Click "+ Add Photo to Portraits" above to add as many portraits as you like.</p>
           </div>`;
         return;
       }
       grid.innerHTML = list.map((item, idx) => `
         <div class="apple-billboard-card p-6 h-[480px] flex flex-col justify-between group cursor-pointer relative" onclick="openLightboxByPhotoId('${item.id}')">
           <div data-admin-only class="absolute top-4 right-4 z-30 flex items-center gap-2" onclick="event.stopPropagation()">
-            <button onclick="openEditPhotoModal('studio', '${item.id}', event)" class="px-2.5 py-1.5 rounded-full bg-black/85 hover:bg-white hover:text-black border border-white/20 text-white text-xs font-semibold backdrop-blur-md transition-all shadow-lg flex items-center gap-1">✏️ Edit</button>
-            <button onclick="triggerPhotoReplace('studio', '${item.id}', event)" class="px-2.5 py-1.5 rounded-full bg-black/85 hover:bg-white hover:text-black border border-white/20 text-white text-xs font-semibold backdrop-blur-md transition-all shadow-lg flex items-center gap-1">📷 Change</button>
-            <button onclick="deletePhotoFromSection('studio', '${item.id}', event)" class="w-8 h-8 rounded-full bg-red-600/90 hover:bg-red-500 text-white flex items-center justify-center text-xs shadow-lg transition-transform hover:scale-110" title="Delete Photo">🗑️</button>
+            <button onclick="openAddPhotoModal('portraits', event)" class="px-3 py-1.5 rounded-full bg-appleBlue hover:bg-appleBlueHover text-white text-xs font-semibold backdrop-blur-md transition-all shadow-lg flex items-center gap-1">➕ Add</button>
+            <button onclick="deletePhotoFromSection('portraits', '${item.id}', event)" class="px-3 py-1.5 rounded-full bg-red-600/90 hover:bg-red-500 text-white text-xs font-semibold transition-all shadow-lg flex items-center gap-1">🗑️ Remove</button>
           </div>
           <div>
-            <span class="text-[11px] font-mono text-appleGold uppercase tracking-widest">${escapeHtml(item.tag || ('Studio Look 0' + (idx + 1)))}</span>
-            <h3 class="text-2xl font-bold text-white mt-1">${escapeHtml(item.title)}</h3>
-            <p class="text-appleSubtext text-xs mt-1">${escapeHtml(item.desc || '')}</p>
-          </div>
-          <div class="h-80 rounded-2xl overflow-hidden mt-4">
-            <img src="${item.src}" alt="${escapeHtml(item.title)}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
-          </div>
-        </div>
-      `).join('');
-    }
-
-    function renderOutdoor() {
-      const grid = document.getElementById('outdoorGrid');
-      if (!grid) return;
-      const list = sectionsData.outdoor || [];
-      if (list.length === 0) {
-        grid.innerHTML = `
-          <div class="col-span-full py-10 px-6 text-center text-appleSubtext border border-dashed border-white/15 rounded-2xl bg-[#121214]">
-            <span class="text-3xl block mb-2">🌿</span>
-            <p class="text-sm text-white font-medium">No outdoor portraits added yet.</p>
-            <p class="text-xs mt-1">Click "+ Add Photo to Outdoor" above to add your outdoor perspectives.</p>
-          </div>`;
-        return;
-      }
-      grid.innerHTML = list.map((item, idx) => `
-        <div class="apple-billboard-card p-6 h-[480px] flex flex-col justify-between group cursor-pointer relative" onclick="openLightboxByPhotoId('${item.id}')">
-          <div data-admin-only class="absolute top-4 right-4 z-30 flex items-center gap-2" onclick="event.stopPropagation()">
-            <button onclick="openEditPhotoModal('outdoor', '${item.id}', event)" class="px-2.5 py-1.5 rounded-full bg-black/85 hover:bg-white hover:text-black border border-white/20 text-white text-xs font-semibold backdrop-blur-md transition-all shadow-lg flex items-center gap-1">✏️ Edit</button>
-            <button onclick="triggerPhotoReplace('outdoor', '${item.id}', event)" class="px-2.5 py-1.5 rounded-full bg-black/85 hover:bg-white hover:text-black border border-white/20 text-white text-xs font-semibold backdrop-blur-md transition-all shadow-lg flex items-center gap-1">📷 Change</button>
-            <button onclick="deletePhotoFromSection('outdoor', '${item.id}', event)" class="w-8 h-8 rounded-full bg-red-600/90 hover:bg-red-500 text-white flex items-center justify-center text-xs shadow-lg transition-transform hover:scale-110" title="Delete Photo">🗑️</button>
-          </div>
-          <div>
-            <span class="text-[11px] font-mono text-emerald-400 uppercase tracking-widest">${escapeHtml(item.tag || ('Outdoor Look 0' + (idx + 1)))}</span>
+            <span class="text-[11px] font-mono text-appleGold uppercase tracking-widest">${escapeHtml(item.tag || ('Portrait 0' + (idx + 1)))}</span>
             <h3 class="text-2xl font-bold text-white mt-1">${escapeHtml(item.title)}</h3>
             <p class="text-appleSubtext text-xs mt-1">${escapeHtml(item.desc || '')}</p>
           </div>
@@ -1619,10 +1539,10 @@
       if (list.length === 0) {
         grid.className = "grid grid-cols-1 gap-6 text-left";
         grid.innerHTML = `
-          <div class="col-span-full py-10 px-6 text-center text-appleSubtext border border-dashed border-white/15 rounded-2xl bg-[#121214]">
+          <div class="col-span-full py-12 px-6 text-center text-appleSubtext border border-dashed border-white/15 rounded-2xl bg-[#121214]">
             <span class="text-3xl block mb-2">🎉</span>
-            <p class="text-sm text-white font-medium">No celebration photos added yet.</p>
-            <p class="text-xs mt-1">Click "+ Add Photo to Celebration" to showcase your wedding and festive events.</p>
+            <p class="text-sm text-white font-medium">No celebration photos in this section.</p>
+            <p class="text-xs mt-1">Click "+ Add Photo to Celebration" to showcase wedding & ceremonial moments.</p>
           </div>`;
         return;
       }
@@ -1631,9 +1551,8 @@
       grid.innerHTML = list.map((item) => `
         <div class="apple-billboard-card relative ${isSingle ? 'h-[500px] sm:h-[580px]' : 'h-[460px] sm:h-[500px]'} group cursor-pointer" onclick="openLightboxByPhotoId('${item.id}')">
           <div data-admin-only class="absolute top-4 right-4 z-30 flex items-center gap-2" onclick="event.stopPropagation()">
-            <button onclick="openEditPhotoModal('celebration', '${item.id}', event)" class="px-2.5 py-1.5 rounded-full bg-black/85 hover:bg-white hover:text-black border border-white/20 text-white text-xs font-semibold backdrop-blur-md transition-all shadow-lg flex items-center gap-1">✏️ Edit</button>
-            <button onclick="triggerPhotoReplace('celebration', '${item.id}', event)" class="px-2.5 py-1.5 rounded-full bg-black/85 hover:bg-white hover:text-black border border-white/20 text-white text-xs font-semibold backdrop-blur-md transition-all shadow-lg flex items-center gap-1">📷 Change</button>
-            <button onclick="deletePhotoFromSection('celebration', '${item.id}', event)" class="w-8 h-8 rounded-full bg-red-600/90 hover:bg-red-500 text-white flex items-center justify-center text-xs shadow-lg transition-transform hover:scale-110" title="Delete Photo">🗑️</button>
+            <button onclick="openAddPhotoModal('celebration', event)" class="px-3 py-1.5 rounded-full bg-appleBlue hover:bg-appleBlueHover text-white text-xs font-semibold backdrop-blur-md transition-all shadow-lg flex items-center gap-1">➕ Add</button>
+            <button onclick="deletePhotoFromSection('celebration', '${item.id}', event)" class="px-3 py-1.5 rounded-full bg-red-600/90 hover:bg-red-500 text-white text-xs font-semibold transition-all shadow-lg flex items-center gap-1">🗑️ Remove</button>
           </div>
           <img src="${item.src}" alt="${escapeHtml(item.title)}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
           <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent"></div>
@@ -1649,61 +1568,27 @@
       `).join('');
     }
 
-    function renderTravel() {
-      const grid = document.getElementById('travelGrid');
+    function renderGallery() {
+      const grid = document.getElementById('curatedGrid');
       if (!grid) return;
-      const list = sectionsData.travel || [];
+      const list = sectionsData.gallery || [];
       if (list.length === 0) {
         grid.innerHTML = `
-          <div class="col-span-full py-10 px-6 text-center text-appleSubtext border border-dashed border-white/15 rounded-2xl bg-[#121214]">
-            <span class="text-3xl block mb-2">✈️</span>
-            <p class="text-sm text-white font-medium">No tour & outing photos added yet.</p>
-            <p class="text-xs mt-1">Click "+ Add Photo to Tour & Outing" to showcase your travel memories.</p>
+          <div class="col-span-full py-12 px-6 text-center text-appleSubtext border border-dashed border-white/15 rounded-2xl bg-[#121214]">
+            <span class="text-3xl block mb-2">🖼️</span>
+            <p class="text-sm text-white font-medium">No photos in the gallery.</p>
+            <p class="text-xs mt-1">Click "+ Add Photo to Gallery" to showcase your moments.</p>
           </div>`;
         return;
       }
       grid.innerHTML = list.map((item) => `
         <div class="apple-billboard-card p-6 h-[460px] flex flex-col justify-between group cursor-pointer text-center relative" onclick="openLightboxByPhotoId('${item.id}')">
           <div data-admin-only class="absolute top-4 right-4 z-30 flex items-center gap-2" onclick="event.stopPropagation()">
-            <button onclick="openEditPhotoModal('travel', '${item.id}', event)" class="px-2.5 py-1.5 rounded-full bg-black/85 hover:bg-white hover:text-black border border-white/20 text-white text-xs font-semibold backdrop-blur-md transition-all shadow-lg flex items-center gap-1">✏️ Edit</button>
-            <button onclick="triggerPhotoReplace('travel', '${item.id}', event)" class="px-2.5 py-1.5 rounded-full bg-black/85 hover:bg-white hover:text-black border border-white/20 text-white text-xs font-semibold backdrop-blur-md transition-all shadow-lg flex items-center gap-1">📷 Change</button>
-            <button onclick="deletePhotoFromSection('travel', '${item.id}', event)" class="w-8 h-8 rounded-full bg-red-600/90 hover:bg-red-500 text-white flex items-center justify-center text-xs shadow-lg transition-transform hover:scale-110" title="Delete Photo">🗑️</button>
+            <button onclick="openAddPhotoModal('gallery', event)" class="px-3 py-1.5 rounded-full bg-appleBlue hover:bg-appleBlueHover text-white text-xs font-semibold backdrop-blur-md transition-all shadow-lg flex items-center gap-1">➕ Add</button>
+            <button onclick="deletePhotoFromSection('gallery', '${item.id}', event)" class="px-3 py-1.5 rounded-full bg-red-600/90 hover:bg-red-500 text-white text-xs font-semibold transition-all shadow-lg flex items-center gap-1">🗑️ Remove</button>
           </div>
           <div>
-            <span class="text-[11px] font-mono text-appleGold uppercase tracking-widest block mb-1">${escapeHtml(item.tag || 'Tour')}</span>
-            <h3 class="text-2xl font-bold text-white">${escapeHtml(item.title)}</h3>
-            <p class="text-appleSubtext text-xs mt-1">${escapeHtml(item.desc || '')}</p>
-            <span class="apple-link mt-2 inline-block">View Photo &gt;</span>
-          </div>
-          <div class="h-72 rounded-2xl overflow-hidden mt-4">
-            <img src="${item.src}" alt="${escapeHtml(item.title)}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
-          </div>
-        </div>
-      `).join('');
-    }
-
-    function renderFamily() {
-      const grid = document.getElementById('familyGrid');
-      if (!grid) return;
-      const list = sectionsData.family || [];
-      if (list.length === 0) {
-        grid.innerHTML = `
-          <div class="col-span-full py-10 px-6 text-center text-appleSubtext border border-dashed border-white/15 rounded-2xl bg-[#121214]">
-            <span class="text-3xl block mb-2">👨‍👩‍👧‍👦</span>
-            <p class="text-sm text-white font-medium">No family or candid photos added yet.</p>
-            <p class="text-xs mt-1">Click "+ Add Photo to Family & Candid" to showcase warm family moments.</p>
-          </div>`;
-        return;
-      }
-      grid.innerHTML = list.map((item) => `
-        <div class="apple-billboard-card p-6 h-[460px] flex flex-col justify-between group cursor-pointer text-center relative" onclick="openLightboxByPhotoId('${item.id}')">
-          <div data-admin-only class="absolute top-4 right-4 z-30 flex items-center gap-2" onclick="event.stopPropagation()">
-            <button onclick="openEditPhotoModal('family', '${item.id}', event)" class="px-2.5 py-1.5 rounded-full bg-black/85 hover:bg-white hover:text-black border border-white/20 text-white text-xs font-semibold backdrop-blur-md transition-all shadow-lg flex items-center gap-1">✏️ Edit</button>
-            <button onclick="triggerPhotoReplace('family', '${item.id}', event)" class="px-2.5 py-1.5 rounded-full bg-black/85 hover:bg-white hover:text-black border border-white/20 text-white text-xs font-semibold backdrop-blur-md transition-all shadow-lg flex items-center gap-1">📷 Change</button>
-            <button onclick="deletePhotoFromSection('family', '${item.id}', event)" class="w-8 h-8 rounded-full bg-red-600/90 hover:bg-red-500 text-white flex items-center justify-center text-xs shadow-lg transition-transform hover:scale-110" title="Delete Photo">🗑️</button>
-          </div>
-          <div>
-            <span class="text-[11px] font-mono text-pink-400 uppercase tracking-widest block mb-1">${escapeHtml(item.tag || 'Family')}</span>
+            <span class="text-[11px] font-mono text-appleGold uppercase tracking-widest block mb-1">${escapeHtml(item.tag || 'Moment')}</span>
             <h3 class="text-2xl font-bold text-white">${escapeHtml(item.title)}</h3>
             <p class="text-appleSubtext text-xs mt-1">${escapeHtml(item.desc || '')}</p>
             <span class="apple-link mt-2 inline-block">View Photo &gt;</span>
@@ -1717,7 +1602,7 @@
 
     function rebuildLightboxData() {
       photosData = [];
-      ['hero', 'studio', 'outdoor', 'celebration', 'travel', 'family'].forEach(sec => {
+      ['hero', 'portraits', 'celebration', 'gallery'].forEach(sec => {
         if (sectionsData[sec] && Array.isArray(sectionsData[sec])) {
           sectionsData[sec].forEach(p => {
             photosData.push({
@@ -1738,11 +1623,9 @@
 
     function renderAllSections() {
       renderHero();
-      renderStudio();
-      renderOutdoor();
+      renderPortraits();
       renderCelebration();
-      renderTravel();
-      renderFamily();
+      renderGallery();
       rebuildLightboxData();
       applyAdminModeUI();
     }
@@ -1822,29 +1705,13 @@
           const compressedDataUrl = await compressImage(file, 1600, 0.85);
           const autoTitle = file.name.replace(/\.[^/.]+$/, '').replace(/[-_]/g, ' ');
           const title = customTitle || autoTitle;
-          const tagMap = {
-            studio: 'Studio Look',
-            outdoor: 'Outdoor Look',
-            celebration: 'Wedding',
-            travel: 'Tour & Outing',
-            family: 'Family & Moments',
-            hero: 'Hero Look'
-          };
-          const catMap = {
-            studio: 'Studio Portraits',
-            outdoor: 'Outdoor Portraits',
-            celebration: 'Wedding & Celebration',
-            travel: 'Travel Photos',
-            family: 'Family & Friends',
-            hero: 'Signature Look'
-          };
           const newPhoto = {
             id: 'p_' + Date.now() + '_' + Math.random().toString(36).substr(2, 5),
             src: compressedDataUrl,
             title: title,
-            desc: customDesc || 'Signature Collection',
-            tag: customTag || tagMap[targetSection] || 'Portrait',
-            category: catMap[targetSection] || 'Gallery'
+            desc: customDesc || 'Personal Collection',
+            tag: customTag || (targetSection === 'portraits' ? 'Portrait' : targetSection === 'celebration' ? 'Celebration' : 'Moments'),
+            category: targetSection === 'portraits' ? 'Portraits' : targetSection === 'celebration' ? 'Wedding & Celebration' : 'Travel Photos'
           };
 
           if (targetSection === 'hero') {
