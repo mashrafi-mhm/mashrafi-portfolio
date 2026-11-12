@@ -1040,8 +1040,8 @@
           <div class="flex gap-3">
             <span class="text-2xl flex-shrink-0">💡</span>
             <div>
-              <p class="text-amber-300 font-semibold text-sm mb-1">Gmail কীভাবে দেখবেন?</p>
-              <p class="text-appleSubtext text-xs leading-relaxed">কোনো website visitor এর Gmail স্বয়ংক্রিয়ভাবে জানা সম্ভব নয় — এটা internet এর privacy rule। তবে visitor রা নিচের Guestbook এ নাম ও email লিখলে আপনি দেখতে পাবেন। অথবা <a href="https://analytics.google.com" target="_blank" class="text-appleBlue hover:underline">Google Analytics</a> যোগ করলে device, country, browser সব দেখা যাবে।</p>
+              <p class="text-amber-300 font-semibold text-sm mb-1">How to see visitor Gmail?</p>
+              <p class="text-appleSubtext text-xs leading-relaxed">A visitor's Gmail cannot be automatically captured — this is an internet privacy rule. However, if visitors sign the Guestbook below with their name and email, you will be able to see it here. You can also add <a href="https://analytics.google.com" target="_blank" class="text-appleBlue hover:underline">Google Analytics</a> to track device, country, and browser data.</p>
             </div>
           </div>
         </div>
@@ -1070,18 +1070,18 @@
   <div class="relative z-10 w-full bg-[#0d0d10] border-t border-white/10 py-10 px-4" id="guestbook-section">
     <div class="max-w-lg mx-auto text-center">
       <h3 class="text-white font-bold text-lg mb-1">✍️ Sign the Guestbook</h3>
-      <p class="text-appleSubtext text-xs mb-5">আপনার নাম ও email লিখে রাখুন — Mashrafi দেখতে পাবে কে ভিজিট করেছে</p>
+      <p class="text-appleSubtext text-xs mb-5">Leave your name & email — Mashrafi will see who visited</p>
       <div class="bg-[#161617] rounded-2xl p-5 border border-white/10 text-left">
-        <input id="gbName" type="text" placeholder="আপনার নাম" maxlength="50"
+        <input id="gbName" type="text" placeholder="Your Name" maxlength="50"
           class="w-full bg-black/50 border border-white/15 rounded-xl px-4 py-3 text-white text-sm placeholder-appleSubtext mb-3 outline-none focus:border-appleBlue transition-colors" />
-        <input id="gbEmail" type="email" placeholder="আপনার Email (যেমন: example@gmail.com)" maxlength="80"
+        <input id="gbEmail" type="email" placeholder="Your Email (e.g. example@gmail.com)" maxlength="80"
           class="w-full bg-black/50 border border-white/15 rounded-xl px-4 py-3 text-white text-sm placeholder-appleSubtext mb-3 outline-none focus:border-appleBlue transition-colors" />
-        <input id="gbMessage" type="text" placeholder="একটি ছোট বার্তা (optional)" maxlength="100"
+        <input id="gbMessage" type="text" placeholder="A short message (optional)" maxlength="100"
           class="w-full bg-black/50 border border-white/15 rounded-xl px-4 py-3 text-white text-sm placeholder-appleSubtext mb-4 outline-none focus:border-appleBlue transition-colors" />
         <button onclick="submitGuestbook()" class="w-full apple-btn-round text-sm py-3 font-semibold">
           Submit ✓
         </button>
-        <div id="gbSuccess" class="hidden mt-3 text-center text-emerald-400 text-sm font-semibold">✅ ধন্যবাদ! আপনার entry সেভ হয়েছে।</div>
+        <div id="gbSuccess" class="hidden mt-3 text-center text-emerald-400 text-sm font-semibold">✅ Thank you! Your entry has been saved.</div>
       </div>
     </div>
   </div>
@@ -1744,7 +1744,7 @@
       const logEl = document.getElementById('visitorLogList');
       if (logEl) {
         if (log.length === 0) {
-          logEl.innerHTML = '<div class="px-6 py-8 text-center text-appleSubtext text-sm">কোনো visitor data নেই এখনো।</div>';
+          logEl.innerHTML = '<div class="px-6 py-8 text-center text-appleSubtext text-sm">No visitor data yet.</div>';
         } else {
           logEl.innerHTML = log.map((v, i) => `
             <div class="px-6 py-3 flex items-center justify-between gap-4">
@@ -1766,7 +1766,7 @@
       const gbEl = document.getElementById('guestbookList');
       if (gbEl) {
         if (guestbook.length === 0) {
-          gbEl.innerHTML = '<div class="px-6 py-8 text-center text-appleSubtext text-sm">এখনো কেউ guestbook এ sign করেনি।</div>';
+          gbEl.innerHTML = '<div class="px-6 py-8 text-center text-appleSubtext text-sm">No one has signed the guestbook yet.</div>';
         } else {
           gbEl.innerHTML = guestbook.map(g => `
             <div class="px-6 py-4">
@@ -1789,7 +1789,7 @@
       const name = document.getElementById('gbName').value.trim();
       const email = document.getElementById('gbEmail').value.trim();
       const msg = document.getElementById('gbMessage').value.trim();
-      if (!name && !email) { alert('অন্তত নাম অথবা email দিন।'); return; }
+      if (!name && !email) { alert('Please enter at least a name or email.'); return; }
       const guestbook = JSON.parse(localStorage.getItem('mv_guestbook') || '[]');
       guestbook.unshift({
         name, email, msg,
@@ -1805,7 +1805,7 @@
 
     // --- Clear functions ---
     function clearVisitorLog() {
-      if (confirm('সব visitor log মুছে ফেলবেন?')) {
+      if (confirm('Delete all visitor log entries?')) {
         localStorage.removeItem('mv_log');
         localStorage.removeItem('mv_total');
         localStorage.removeItem('mv_today');
@@ -1816,7 +1816,7 @@
     }
 
     function clearGuestbook() {
-      if (confirm('সব guestbook entries মুছে ফেলবেন?')) {
+      if (confirm('Delete all guestbook entries?')) {
         localStorage.removeItem('mv_guestbook');
         loadAnalyticsDashboard();
       }
