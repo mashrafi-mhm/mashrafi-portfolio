@@ -359,18 +359,19 @@
         </div>
 
         <!-- Flagship Hero Photo Display (Apple Product Stage) -->
-        <div class="relative max-w-3xl mx-auto rounded-3xl overflow-hidden shadow-2xl cursor-pointer group" onclick="openLightboxImage(0)">
-          <div data-admin-only class="absolute top-4 right-4 z-30 flex items-center gap-2">
-            <button onclick="promptRenameCard('titleHero', '', 0, event)" class="px-3 py-1.5 rounded-full bg-black/85 hover:bg-white hover:text-black border border-white/20 text-white text-xs font-semibold backdrop-blur-md transition-all shadow-lg flex items-center gap-1">✏️ Change Name</button>
-            <button onclick="triggerPhotoReplacement('hero', 'cardImgHero', 0, event)" class="px-3 py-1.5 rounded-full bg-black/85 hover:bg-white hover:text-black border border-white/20 text-white text-xs font-semibold backdrop-blur-md transition-all shadow-lg flex items-center gap-1">📷 Change Photo</button>
+        <div id="heroCardContainer" class="relative max-w-3xl mx-auto rounded-3xl overflow-hidden shadow-2xl cursor-pointer group">
+          <div data-admin-only class="absolute top-4 right-4 z-30 flex items-center gap-2" onclick="event.stopPropagation()">
+            <button onclick="openEditHeroModal(event)" class="px-3 py-1.5 rounded-full bg-black/85 hover:bg-white hover:text-black border border-white/20 text-white text-xs font-semibold backdrop-blur-md transition-all shadow-lg flex items-center gap-1">✏️ Change Name</button>
+            <button onclick="triggerPhotoReplace('hero', (sectionsData.hero && sectionsData.hero[0] && sectionsData.hero[0].id) || 'hero_0', event)" class="px-3 py-1.5 rounded-full bg-black/85 hover:bg-white hover:text-black border border-white/20 text-white text-xs font-semibold backdrop-blur-md transition-all shadow-lg flex items-center gap-1">📷 Change Photo</button>
           </div>
-          <div class="h-[380px] sm:h-[520px] lg:h-[620px] w-full relative">
+          <div class="h-[380px] sm:h-[520px] lg:h-[620px] w-full relative" onclick="openLightboxByPhotoId((sectionsData.hero && sectionsData.hero[0] && sectionsData.hero[0].id) || 'hero_0')">
             <img id="cardImgHero" src="assets/photos/hero-portrait.jpg" alt="Mashrafi Hossain" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out">
             <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/10 to-transparent"></div>
             
             <div class="absolute bottom-8 left-8 right-8 flex items-end justify-between text-left">
               <div>
                 <h3 id="titleHero" class="text-2xl sm:text-3xl font-bold text-white">Personal Portrait</h3>
+                <p id="descHero" class="text-appleSubtext text-xs mt-1">Flagship Signature Look</p>
               </div>
               <span class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-white text-base">🔍</span>
             </div>
@@ -392,7 +393,7 @@
 
         <div class="flex items-center justify-center gap-3 mb-2 flex-wrap">
           <h2 id="secTitlePortraits" class="headline-large text-white">
-            Portraits & Signature Looks.
+            Portraits &amp; Signature Looks.
           </h2>
           <button data-admin-only onclick="promptRenameSimple('secTitlePortraits', 'Enter Section Title:', event)" class="px-2.5 py-1 rounded-full bg-white/10 hover:bg-white/20 text-white text-xs font-mono">✏️ Edit</button>
         </div>
@@ -401,46 +402,22 @@
           Natural perspective with balanced studio lighting.
         </p>
 
+        <!-- Developer Mode Add Button for Portraits -->
+        <div data-admin-only class="flex items-center justify-center gap-3 mb-6">
+          <button onclick="openAddPhotoModal('portraits')" class="apple-btn-round text-xs py-2 px-4 bg-appleBlue hover:bg-appleBlueHover flex items-center gap-1.5 shadow-lg shadow-blue-500/20 font-medium">
+            <span>➕</span>
+            <span>Add Photo to Portraits</span>
+          </button>
+        </div>
+
         <div class="flex items-center justify-center gap-6 mb-12">
-          <a href="#section-grid" class="apple-link">View all 15 photos &gt;</a>
+          <a href="#section-grid" class="apple-link" id="viewAllPortraitsLink">View all photos &gt;</a>
           <a href="#social" class="apple-link">Connect with Mashrafi Hossain &gt;</a>
         </div>
 
-        <!-- Two Column Apple Hero Side-by-Side -->
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-left">
-          
-          <!-- Card 1 -->
-          <div class="apple-billboard-card p-6 h-[480px] flex flex-col justify-between group cursor-pointer relative" onclick="openLightboxImage(1)">
-            <div data-admin-only class="absolute top-4 right-4 z-30 flex items-center gap-2">
-              <button onclick="promptRenameCard('titleCard01', 'subCard01', 1, event)" class="px-3 py-1.5 rounded-full bg-black/85 hover:bg-white hover:text-black border border-white/20 text-white text-xs font-semibold backdrop-blur-md transition-all shadow-lg flex items-center gap-1">✏️ Change Name</button>
-              <button onclick="triggerPhotoReplacement('moment-01', 'cardImg01', 1, event)" class="px-3 py-1.5 rounded-full bg-black/85 hover:bg-white hover:text-black border border-white/20 text-white text-xs font-semibold backdrop-blur-md transition-all shadow-lg flex items-center gap-1">📷 Change Photo</button>
-            </div>
-            <div>
-              <span class="text-[11px] font-mono text-appleGold uppercase tracking-widest">Portrait 01</span>
-              <h3 id="titleCard01" class="text-2xl font-bold text-white mt-1">Studio Portrait</h3>
-              <p id="subCard01" class="text-appleSubtext text-xs mt-1">Balanced posture with natural studio lighting.</p>
-            </div>
-            <div class="h-80 rounded-2xl overflow-hidden mt-4">
-              <img id="cardImg01" src="assets/photos/moment-01.jpg" alt="Studio Portrait" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
-            </div>
-          </div>
-
-          <!-- Card 2 -->
-          <div class="apple-billboard-card p-6 h-[480px] flex flex-col justify-between group cursor-pointer relative" onclick="openLightboxImage(2)">
-            <div data-admin-only class="absolute top-4 right-4 z-30 flex items-center gap-2">
-              <button onclick="promptRenameCard('titleCard02', 'subCard02', 2, event)" class="px-3 py-1.5 rounded-full bg-black/85 hover:bg-white hover:text-black border border-white/20 text-white text-xs font-semibold backdrop-blur-md transition-all shadow-lg flex items-center gap-1">✏️ Change Name</button>
-              <button onclick="triggerPhotoReplacement('moment-02', 'cardImg02', 2, event)" class="px-3 py-1.5 rounded-full bg-black/85 hover:bg-white hover:text-black border border-white/20 text-white text-xs font-semibold backdrop-blur-md transition-all shadow-lg flex items-center gap-1">📷 Change Photo</button>
-            </div>
-            <div>
-              <span class="text-[11px] font-mono text-appleGold uppercase tracking-widest">Portrait 02</span>
-              <h3 id="titleCard02" class="text-2xl font-bold text-white mt-1">Outdoor Portrait</h3>
-              <p id="subCard02" class="text-appleSubtext text-xs mt-1">Natural perspective and authentic depth.</p>
-            </div>
-            <div class="h-80 rounded-2xl overflow-hidden mt-4">
-              <img id="cardImg02" src="assets/photos/moment-02.jpg" alt="Outdoor Portrait" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
-            </div>
-          </div>
-
+        <!-- Dynamic Grid for Portraits -->
+        <div id="portraitsGrid" class="grid grid-cols-1 md:grid-cols-2 gap-4 text-left">
+          <!-- Rendered dynamically via JavaScript -->
         </div>
 
       </div>
@@ -452,23 +429,26 @@
     <section id="section-billboard-2" class="apple-billboard pt-6 pb-12 text-center">
       <div class="max-w-[1024px] mx-auto px-4 w-full">
         
-        <!-- Full Width Showcase Card -->
-        <div class="apple-billboard-card relative h-[500px] sm:h-[580px] group cursor-pointer" onclick="openLightboxImage(5)">
-          <div data-admin-only class="absolute top-4 right-4 z-30 flex items-center gap-2">
-            <button onclick="promptRenameCard('titleCard05', 'subCard05', 5, event)" class="px-3 py-1.5 rounded-full bg-black/85 hover:bg-white hover:text-black border border-white/20 text-white text-xs font-semibold backdrop-blur-md transition-all shadow-lg flex items-center gap-1">✏️ Change Name</button>
-            <button onclick="triggerPhotoReplacement('moment-05', 'cardImg05', 5, event)" class="px-3 py-1.5 rounded-full bg-black/85 hover:bg-white hover:text-black border border-white/20 text-white text-xs font-semibold backdrop-blur-md transition-all shadow-lg flex items-center gap-1">📷 Change Photo</button>
-          </div>
-          <img id="cardImg05" src="assets/photos/moment-05.jpg" alt="Wedding Celebration" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
-          <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent"></div>
-          
-          <div class="absolute bottom-8 left-8 right-8 text-left flex items-end justify-between">
-            <div>
-              <span class="text-xs font-mono text-appleBlue uppercase tracking-widest">Wedding & Celebration</span>
-              <h3 id="titleCard05" class="text-2xl sm:text-3xl font-bold text-white mt-1">Wedding Ceremony</h3>
-              <p id="subCard05" class="text-appleSubtext text-sm mt-1 max-w-md">Lush decorative canopies and ceremonial moments.</p>
+        <div class="flex flex-col sm:flex-row items-center justify-between mb-8 gap-4">
+          <div class="text-center sm:text-left">
+            <span class="text-xs font-mono font-semibold uppercase tracking-widest text-appleBlue block mb-1">Celebrations &amp; Events</span>
+            <div class="flex items-center gap-2 flex-wrap justify-center sm:justify-start">
+              <h2 id="secTitleCelebration" class="headline-large text-white">Ceremonial Showcase.</h2>
+              <button data-admin-only onclick="promptRenameSimple('secTitleCelebration', 'Enter Section Title:', event)" class="px-2.5 py-1 rounded-full bg-white/10 hover:bg-white/20 text-white text-xs font-mono">✏️ Edit</button>
             </div>
-            <span class="apple-btn-round text-xs font-medium">View Frame &gt;</span>
+            <p class="headline-sub text-appleSubtext mt-1">Lush decorative moments, traditional events and ceremonies.</p>
           </div>
+          <div data-admin-only class="flex items-center gap-2">
+            <button onclick="openAddPhotoModal('celebration')" class="apple-btn-round text-xs py-2 px-4 bg-appleBlue hover:bg-appleBlueHover flex items-center gap-1.5 shadow-lg shadow-blue-500/20 font-medium">
+              <span>➕</span>
+              <span>Add Photo to Celebration</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Dynamic Grid for Celebration -->
+        <div id="celebrationGrid" class="grid grid-cols-1 md:grid-cols-2 gap-5 text-left">
+          <!-- Rendered dynamically via JavaScript -->
         </div>
 
       </div>
@@ -480,86 +460,26 @@
     <section id="section-grid" class="py-8 bg-[#000000]">
       <div class="max-w-[1024px] mx-auto px-4 w-full">
         
-        <!-- Owner Only: Add Photos Control -->
-        <div data-admin-only class="flex items-center justify-end mb-6 gap-3">
-          <button onclick="document.getElementById('newPhotoUploadInput').click()" class="apple-btn-round text-xs py-2 px-4 flex items-center gap-1.5 shadow-lg shadow-blue-500/20">
-            <span>📷</span>
-            <span>Add New Photos</span>
-          </button>
-          <input type="file" id="newPhotoUploadInput" accept="image/*" multiple class="hidden" onchange="handleNewPhotoUpload(event)">
-          <input type="file" id="photoReplacerInput" accept="image/*" class="hidden" onchange="executePhotoReplacement(event)">
+        <div class="flex flex-col sm:flex-row items-center justify-between mb-6 gap-3">
+          <div>
+            <span class="text-xs font-mono font-semibold uppercase tracking-widest text-appleGold block mb-1">Moments &amp; Highlights</span>
+            <div class="flex items-center gap-2 flex-wrap">
+              <h2 id="secTitleGallery" class="text-2xl sm:text-4xl font-bold text-white tracking-tight">Curated Gallery.</h2>
+              <button data-admin-only onclick="promptRenameSimple('secTitleGallery', 'Enter Section Title:', event)" class="px-2.5 py-1 rounded-full bg-white/10 hover:bg-white/20 text-white text-xs font-mono">✏️ Edit</button>
+            </div>
+            <p class="text-appleSubtext text-xs mt-1">Scenic travels, family gatherings, and everyday authentic moments.</p>
+          </div>
+          <!-- Owner Only: Add Photos Control -->
+          <div data-admin-only class="flex items-center gap-3">
+            <button onclick="openAddPhotoModal('gallery')" class="apple-btn-round text-xs py-2 px-4 bg-appleBlue hover:bg-appleBlueHover flex items-center gap-1.5 shadow-lg shadow-blue-500/20 font-medium">
+              <span>➕</span>
+              <span>Add Photo to Gallery</span>
+            </button>
+          </div>
         </div>
 
-        <div id="curatedGrid" class="grid grid-cols-1 md:grid-cols-2 gap-4">
-          
-          <!-- Grid 1: moment-03 (Travel & Outing) -->
-          <div class="apple-billboard-card p-6 h-[460px] flex flex-col justify-between group cursor-pointer text-center relative" onclick="openLightboxImage(3)">
-            <div data-admin-only class="absolute top-4 right-4 z-30 flex items-center gap-2">
-              <button onclick="promptRenameCard('titleCard03', 'subCard03', 3, event)" class="px-3 py-1.5 rounded-full bg-black/85 hover:bg-white hover:text-black border border-white/20 text-white text-xs font-semibold backdrop-blur-md transition-all shadow-lg flex items-center gap-1">✏️ Change Name</button>
-              <button onclick="triggerPhotoReplacement('moment-03', 'cardImg03', 3, event)" class="px-3 py-1.5 rounded-full bg-black/85 hover:bg-white hover:text-black border border-white/20 text-white text-xs font-semibold backdrop-blur-md transition-all shadow-lg flex items-center gap-1">📷 Change Photo</button>
-            </div>
-            <div>
-              <span class="text-[11px] font-mono text-appleGold uppercase tracking-widest block mb-1">Travel Photo</span>
-              <h3 id="titleCard03" class="text-2xl font-bold text-white">Tour & Outing</h3>
-              <p id="subCard03" class="text-appleSubtext text-xs mt-1">Travel diaries and scenic journey moments.</p>
-              <span class="apple-link mt-2 inline-block">View Photo &gt;</span>
-            </div>
-            <div class="h-72 rounded-2xl overflow-hidden mt-4">
-              <img id="cardImg03" src="assets/photos/moment-03.jpg" alt="Tour & Outing" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
-            </div>
-          </div>
-
-          <!-- Grid 2: moment-04 (Wedding Celebration) -->
-          <div class="apple-billboard-card p-6 h-[460px] flex flex-col justify-between group cursor-pointer text-center relative" onclick="openLightboxImage(4)">
-            <div data-admin-only class="absolute top-4 right-4 z-30 flex items-center gap-2">
-              <button onclick="promptRenameCard('titleCard04', 'subCard04', 4, event)" class="px-3 py-1.5 rounded-full bg-black/85 hover:bg-white hover:text-black border border-white/20 text-white text-xs font-semibold backdrop-blur-md transition-all shadow-lg flex items-center gap-1">✏️ Change Name</button>
-              <button onclick="triggerPhotoReplacement('moment-04', 'cardImg04', 4, event)" class="px-3 py-1.5 rounded-full bg-black/85 hover:bg-white hover:text-black border border-white/20 text-white text-xs font-semibold backdrop-blur-md transition-all shadow-lg flex items-center gap-1">📷 Change Photo</button>
-            </div>
-            <div>
-              <span class="text-[11px] font-mono text-appleGold uppercase tracking-widest block mb-1">Wedding & Celebration</span>
-              <h3 id="titleCard04" class="text-2xl font-bold text-white">Family Gathering</h3>
-              <p id="subCard04" class="text-appleSubtext text-xs mt-1">Festive family and celebratory harmony.</p>
-              <span class="apple-link mt-2 inline-block">View Photo &gt;</span>
-            </div>
-            <div class="h-72 rounded-2xl overflow-hidden mt-4">
-              <img id="cardImg04" src="assets/photos/moment-04.jpg" alt="Family Gathering" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
-            </div>
-          </div>
-
-          <!-- Grid 3: moment-08 (Wedding Stage) -->
-          <div class="apple-billboard-card p-6 h-[460px] flex flex-col justify-between group cursor-pointer text-center relative" onclick="openLightboxImage(8)">
-            <div data-admin-only class="absolute top-4 right-4 z-30 flex items-center gap-2">
-              <button onclick="promptRenameCard('titleCard08', 'subCard08', 8, event)" class="px-3 py-1.5 rounded-full bg-black/85 hover:bg-white hover:text-black border border-white/20 text-white text-xs font-semibold backdrop-blur-md transition-all shadow-lg flex items-center gap-1">✏️ Change Name</button>
-              <button onclick="triggerPhotoReplacement('moment-08', 'cardImg08', 8, event)" class="px-3 py-1.5 rounded-full bg-black/85 hover:bg-white hover:text-black border border-white/20 text-white text-xs font-semibold backdrop-blur-md transition-all shadow-lg flex items-center gap-1">📷 Change Photo</button>
-            </div>
-            <div>
-              <span class="text-[11px] font-mono text-appleGold uppercase tracking-widest block mb-1">Wedding & Celebration</span>
-              <h3 id="titleCard08" class="text-2xl font-bold text-white">Wedding Stage</h3>
-              <p id="subCard08" class="text-appleSubtext text-xs mt-1">Ceremonial stage and festive atmosphere.</p>
-              <span class="apple-link mt-2 inline-block">View Photo &gt;</span>
-            </div>
-            <div class="h-72 rounded-2xl overflow-hidden mt-4">
-              <img id="cardImg08" src="assets/photos/moment-08.jpg" alt="Wedding Stage" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
-            </div>
-          </div>
-
-          <!-- Grid 4: moment-10 (Candid Smile) -->
-          <div class="apple-billboard-card p-6 h-[460px] flex flex-col justify-between group cursor-pointer text-center relative" onclick="openLightboxImage(10)">
-            <div data-admin-only class="absolute top-4 right-4 z-30 flex items-center gap-2">
-              <button onclick="promptRenameCard('titleCard10', 'subCard10', 10, event)" class="px-3 py-1.5 rounded-full bg-black/85 hover:bg-white hover:text-black border border-white/20 text-white text-xs font-semibold backdrop-blur-md transition-all shadow-lg flex items-center gap-1">✏️ Change Name</button>
-              <button onclick="triggerPhotoReplacement('moment-10', 'cardImg10', 10, event)" class="px-3 py-1.5 rounded-full bg-black/85 hover:bg-white hover:text-black border border-white/20 text-white text-xs font-semibold backdrop-blur-md transition-all shadow-lg flex items-center gap-1">📷 Change Photo</button>
-            </div>
-            <div>
-              <span class="text-[11px] font-mono text-appleGold uppercase tracking-widest block mb-1">Portraits</span>
-              <h3 id="titleCard10" class="text-2xl font-bold text-white">Candid Smile</h3>
-              <p id="subCard10" class="text-appleSubtext text-xs mt-1">Unfiltered, authentic expression.</p>
-              <span class="apple-link mt-2 inline-block">View Photo &gt;</span>
-            </div>
-            <div class="h-72 rounded-2xl overflow-hidden mt-4">
-              <img id="cardImg10" src="assets/photos/moment-10.jpg" alt="Candid Smile" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
-            </div>
-          </div>
-
+        <div id="curatedGrid" class="grid grid-cols-1 md:grid-cols-2 gap-4 text-center">
+          <!-- Rendered dynamically via JavaScript -->
         </div>
 
       </div>
@@ -951,6 +871,121 @@
       </div>
     </div>
 
+    <!-- ============================================================ -->
+    <!-- ADD PHOTO MODAL (Owner/Dev Mode: Add unlimited photos)        -->
+    <!-- ============================================================ -->
+    <div id="addPhotoModal" class="fixed inset-0 z-50 bg-black/90 backdrop-blur-2xl hidden flex items-center justify-center p-4">
+      <div class="apple-billboard-card max-w-lg w-full p-6 sm:p-8 border border-white/20 max-h-[92vh] overflow-y-auto">
+        <div class="flex items-center justify-between mb-5 pb-3 border-b border-white/10">
+          <div class="flex items-center gap-2.5">
+            <span class="text-2xl">📷</span>
+            <div>
+              <h3 class="text-lg font-bold text-white">Add Photo to Section</h3>
+              <p class="text-appleSubtext text-[11px]">Upload photos to any section of your portfolio</p>
+            </div>
+          </div>
+          <button onclick="closeAddPhotoModal()" class="w-8 h-8 rounded-full bg-white/10 text-appleSubtext hover:text-white flex items-center justify-center text-sm transition-colors">✕</button>
+        </div>
+
+        <form id="addPhotoForm" onsubmit="submitNewPhoto(event)" class="space-y-4 text-left text-xs">
+          <!-- Target Section -->
+          <div>
+            <label class="text-appleSubtext block mb-1 font-semibold uppercase tracking-wider text-[11px]">Target Section</label>
+            <select id="modalTargetSection" class="w-full px-3 py-2.5 rounded-xl bg-[#1c1c1e] border border-white/20 text-white outline-none focus:border-appleBlue transition-colors font-medium text-xs">
+              <option value="portraits">📸 Portraits &amp; Signature Looks</option>
+              <option value="celebration">🎉 Ceremony &amp; Celebration Showcase</option>
+              <option value="gallery">🖼️ Curated Gallery &amp; Moments</option>
+              <option value="hero">⭐ Flagship Hero Portrait</option>
+            </select>
+          </div>
+
+          <!-- File Upload Zone -->
+          <div>
+            <label class="text-appleSubtext block mb-1 font-semibold uppercase tracking-wider text-[11px]">Select Photo(s)</label>
+            <div id="modalDropZone" onclick="document.getElementById('modalPhotoFileInput').click()" class="border-2 border-dashed border-white/20 hover:border-appleBlue rounded-2xl p-6 text-center cursor-pointer bg-white/5 hover:bg-white/10 transition-all">
+              <div class="text-3xl mb-1.5">🖼️</div>
+              <div class="text-white text-xs font-semibold" id="dropZonePrompt">Click to browse or drop image here</div>
+              <div class="text-appleSubtext text-[10px] mt-1">Select one or multiple photos (JPG, PNG, WEBP)</div>
+            </div>
+            <input type="file" id="modalPhotoFileInput" accept="image/*" multiple class="hidden" onchange="handleModalFileSelected(event)">
+          </div>
+
+          <!-- Previews list -->
+          <div id="modalPhotoPreviewContainer" class="hidden flex flex-wrap gap-2.5 max-h-36 overflow-y-auto p-2 bg-black/40 rounded-xl border border-white/10"></div>
+
+          <!-- Title -->
+          <div>
+            <label class="text-appleSubtext block mb-1 font-semibold uppercase tracking-wider text-[11px]">Photo Title / Name</label>
+            <input type="text" id="modalPhotoTitle" placeholder="e.g. Signature Look, Scenic Tour..." class="w-full px-3 py-2.5 rounded-xl bg-white/5 border border-white/15 text-white placeholder-white/30 outline-none focus:border-appleBlue text-xs">
+          </div>
+
+          <!-- Subtitle / Description -->
+          <div>
+            <label class="text-appleSubtext block mb-1 font-semibold uppercase tracking-wider text-[11px]">Description / Details</label>
+            <input type="text" id="modalPhotoDesc" placeholder="e.g. Balanced lighting, festive celebration moments..." class="w-full px-3 py-2.5 rounded-xl bg-white/5 border border-white/15 text-white placeholder-white/30 outline-none focus:border-appleBlue text-xs">
+          </div>
+
+          <!-- Category Tag -->
+          <div>
+            <label class="text-appleSubtext block mb-1 font-semibold uppercase tracking-wider text-[11px]">Category / Tag</label>
+            <input type="text" id="modalPhotoTag" placeholder="e.g. Portraits, Wedding, Travel, Candid..." class="w-full px-3 py-2.5 rounded-xl bg-white/5 border border-white/15 text-white placeholder-white/30 outline-none focus:border-appleBlue text-xs">
+          </div>
+
+          <!-- Submit Buttons -->
+          <div class="mt-6 flex justify-end gap-3 pt-4 border-t border-white/10">
+            <button type="button" onclick="closeAddPhotoModal()" class="apple-btn-round-ghost text-xs">Cancel</button>
+            <button type="submit" id="modalSubmitPhotoBtn" class="apple-btn-round text-xs font-semibold flex items-center gap-1.5 shadow-lg shadow-blue-500/30">
+              <span>✓ Add Photo</span>
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- EDIT PHOTO DETAILS MODAL (Change Name, Desc & Tag)           -->
+    <!-- ============================================================ -->
+    <div id="editPhotoModal" class="fixed inset-0 z-50 bg-black/90 backdrop-blur-2xl hidden flex items-center justify-center p-4">
+      <div class="apple-billboard-card max-w-md w-full p-6 sm:p-8 border border-white/20">
+        <div class="flex items-center justify-between mb-4 pb-3 border-b border-white/10">
+          <div class="flex items-center gap-2">
+            <span class="text-xl">✏️</span>
+            <h3 class="text-lg font-bold text-white">Edit Photo Details</h3>
+          </div>
+          <button onclick="closeEditPhotoModal()" class="w-8 h-8 rounded-full bg-white/10 text-appleSubtext hover:text-white flex items-center justify-center text-sm transition-colors">✕</button>
+        </div>
+
+        <form onsubmit="savePhotoEdit(event)" class="space-y-4 text-left text-xs">
+          <input type="hidden" id="editPhotoSection">
+          <input type="hidden" id="editPhotoId">
+
+          <div>
+            <label class="text-appleSubtext block mb-1 font-semibold uppercase tracking-wider text-[11px]">Photo Title / Name</label>
+            <input type="text" id="editPhotoTitle" class="w-full px-3 py-2.5 rounded-xl bg-white/5 border border-white/15 text-white outline-none focus:border-appleBlue text-xs" required>
+          </div>
+
+          <div>
+            <label class="text-appleSubtext block mb-1 font-semibold uppercase tracking-wider text-[11px]">Description / Subtitle</label>
+            <input type="text" id="editPhotoDesc" class="w-full px-3 py-2.5 rounded-xl bg-white/5 border border-white/15 text-white outline-none focus:border-appleBlue text-xs">
+          </div>
+
+          <div>
+            <label class="text-appleSubtext block mb-1 font-semibold uppercase tracking-wider text-[11px]">Category / Tag</label>
+            <input type="text" id="editPhotoTag" class="w-full px-3 py-2.5 rounded-xl bg-white/5 border border-white/15 text-white outline-none focus:border-appleBlue text-xs">
+          </div>
+
+          <div class="mt-6 flex justify-end gap-3 pt-3 border-t border-white/10">
+            <button type="button" onclick="closeEditPhotoModal()" class="apple-btn-round-ghost text-xs">Cancel</button>
+            <button type="submit" class="apple-btn-round text-xs font-semibold">Save Changes</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Hidden file inputs for direct replacement & import -->
+    <input type="file" id="singlePhotoReplacerInput" accept="image/*" class="hidden" onchange="executeSinglePhotoReplacement(event)">
+    <input type="file" id="importBackupInput" accept=".json" class="hidden" onchange="handleImportBackup(event)">
+
     <!-- ======================================================== -->
     <!-- 8. AUTHENTIC APPLE GLOBAL FOOTER                          -->
     <!-- ======================================================== -->
@@ -1086,39 +1121,119 @@
 
   <!-- JavaScript: Lightbox, Carousel & Three.js 3D Background Engine -->
   <script>
-    // All Curated Photos with Natural, Simple Titles
-    const photosData = [
-      { src: 'assets/photos/hero-portrait.jpg', title: 'Personal Portrait', category: 'Signature Look', desc: '85mm f/1.4 prime portrait in embroidered silk' },
-      { src: 'assets/photos/moment-01.jpg', title: 'Studio Portrait', category: 'Portraits', desc: 'Balanced posture with natural studio lighting' },
-      { src: 'assets/photos/moment-02.jpg', title: 'Outdoor Portrait', category: 'Portraits', desc: 'Natural perspective with warm studio ambient lighting' },
-      { src: 'assets/photos/moment-03.jpg', title: 'Tour & Outing', category: 'Travel Photos', desc: 'Scenic travel and outing memories' },
-      { src: 'assets/photos/moment-04.jpg', title: 'Family Gathering', category: 'Wedding & Celebration', desc: 'Festive family celebration' },
-      { src: 'assets/photos/moment-05.jpg', title: 'Wedding Celebration', category: 'Wedding & Celebration', desc: 'Celebratory stage and wedding ceremony' },
-      { src: 'assets/photos/moment-06.jpg', title: 'Wedding Stage Decor', category: 'Wedding & Celebration', desc: 'Festive hall and floral decor' },
-      { src: 'assets/photos/moment-07.jpg', title: 'Reception Hall', category: 'Wedding & Celebration', desc: 'Reception venue and stage setup' },
-      { src: 'assets/photos/moment-08.jpg', title: 'Wedding Stage', category: 'Wedding & Celebration', desc: 'Traditional ceremonial backdrop' },
-      { src: 'assets/photos/moment-09.jpg', title: 'Celebration Moments', category: 'Wedding & Celebration', desc: 'Family and friends celebration' },
-      { src: 'assets/photos/moment-10.jpg', title: 'Candid Smile', category: 'Portraits', desc: 'Natural candid moment' },
-      { src: 'assets/photos/moment-11.jpg', title: 'Portrait Look', category: 'Portraits', desc: 'Signature portrait' },
-      { src: 'assets/photos/moment-12.jpg', title: 'Casual Portrait', category: 'Portraits', desc: 'Relaxed posture and expression' },
-      { src: 'assets/photos/moment-13.jpg', title: 'Classic Angle', category: 'Portraits', desc: 'Profile angle with fine detail' },
-      { src: 'assets/photos/moment-14.jpg', title: 'Celebration Finale', category: 'Wedding & Celebration', desc: 'Celebratory finale frame' }
-    ];
+    // Master Default Sections Data (Initial photos for each section)
+    const DEFAULT_SECTIONS_DATA = {
+      hero: [
+        {
+          id: 'hero_0',
+          src: 'assets/photos/hero-portrait.jpg',
+          title: 'Personal Portrait',
+          desc: 'Flagship Signature Look',
+          category: 'Signature Look',
+          tag: 'Hero Showcase'
+        }
+      ],
+      portraits: [
+        {
+          id: 'p_01',
+          src: 'assets/photos/moment-01.jpg',
+          title: 'Studio Portrait',
+          desc: 'Balanced posture with natural studio lighting.',
+          category: 'Portraits',
+          tag: 'Portrait 01'
+        },
+        {
+          id: 'p_02',
+          src: 'assets/photos/moment-02.jpg',
+          title: 'Outdoor Portrait',
+          desc: 'Natural perspective and authentic depth.',
+          category: 'Portraits',
+          tag: 'Portrait 02'
+        }
+      ],
+      celebration: [
+        {
+          id: 'c_05',
+          src: 'assets/photos/moment-05.jpg',
+          title: 'Wedding Ceremony',
+          desc: 'Lush decorative canopies and ceremonial moments.',
+          category: 'Wedding & Celebration',
+          tag: 'Ceremony'
+        },
+        {
+          id: 'c_06',
+          src: 'assets/photos/moment-06.jpg',
+          title: 'Wedding Stage Decor',
+          desc: 'Festive hall and floral decor.',
+          category: 'Wedding & Celebration',
+          tag: 'Stage Decor'
+        }
+      ],
+      gallery: [
+        {
+          id: 'g_03',
+          src: 'assets/photos/moment-03.jpg',
+          title: 'Tour & Outing',
+          desc: 'Travel diaries and scenic journey moments.',
+          category: 'Travel Photos',
+          tag: 'Travel Photo'
+        },
+        {
+          id: 'g_04',
+          src: 'assets/photos/moment-04.jpg',
+          title: 'Family Gathering',
+          desc: 'Festive family and celebratory harmony.',
+          category: 'Wedding & Celebration',
+          tag: 'Family'
+        },
+        {
+          id: 'g_08',
+          src: 'assets/photos/moment-08.jpg',
+          title: 'Wedding Stage',
+          desc: 'Ceremonial stage and festive atmosphere.',
+          category: 'Wedding & Celebration',
+          tag: 'Celebration'
+        },
+        {
+          id: 'g_10',
+          src: 'assets/photos/moment-10.jpg',
+          title: 'Candid Smile',
+          desc: 'Unfiltered, authentic expression.',
+          category: 'Portraits',
+          tag: 'Candid'
+        }
+      ]
+    };
 
+    let sectionsData = JSON.parse(JSON.stringify(DEFAULT_SECTIONS_DATA));
+    let photosData = [];
     let currentPhotoIdx = 0;
 
     function openLightboxImage(idx) {
-      currentPhotoIdx = idx;
+      if (!photosData || photosData.length === 0) rebuildLightboxData();
+      currentPhotoIdx = Math.max(0, Math.min(idx, photosData.length - 1));
       updateLightbox();
       document.getElementById('photoLightbox').classList.remove('hidden');
     }
 
+    function openLightboxByPhotoId(id) {
+      if (!photosData || photosData.length === 0) rebuildLightboxData();
+      const idx = photosData.findIndex(p => p.id === id);
+      if (idx !== -1) {
+        openLightboxImage(idx);
+      } else {
+        openLightboxImage(0);
+      }
+    }
+
     function updateLightbox() {
+      if (!photosData || photosData.length === 0) return;
       const item = photosData[currentPhotoIdx];
+      if (!item) return;
       document.getElementById('lightboxImg').src = item.src;
-      document.getElementById('lightboxTitle').innerText = item.title;
-      document.getElementById('lightboxCategory').innerText = item.category;
-      document.getElementById('lightboxSubtitle').innerText = item.desc;
+      document.getElementById('lightboxTitle').innerText = item.title || '';
+      document.getElementById('lightboxCategory').innerText = item.category || item.tag || '';
+      document.getElementById('lightboxSubtitle').innerText = item.desc || '';
     }
 
     function closeLightbox() {
@@ -1126,11 +1241,13 @@
     }
 
     function nextLightboxImage() {
+      if (!photosData || photosData.length === 0) return;
       currentPhotoIdx = (currentPhotoIdx + 1) % photosData.length;
       updateLightbox();
     }
 
     function prevLightboxImage() {
+      if (!photosData || photosData.length === 0) return;
       currentPhotoIdx = (currentPhotoIdx - 1 + photosData.length) % photosData.length;
       updateLightbox();
     }
@@ -1236,72 +1353,551 @@
     }
     renderLoop();
 
-    // --- Dynamic Photo Slot Replacement (Owner Mode) ---
-    let currentReplacingPhoto = null;
+    // ============================================================
+    // PHOTO MANAGEMENT SYSTEM (IndexedDB + Unlimited Sections)
+    // ============================================================
 
-    function triggerPhotoReplacement(key, imgId, idx, event) {
-      if (event) event.stopPropagation();
-      currentReplacingPhoto = { key, imgId, idx };
-      const input = document.getElementById('photoReplacerInput');
-      if (input) input.click();
+    function escapeHtml(str) {
+      if (typeof str !== 'string') return '';
+      return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#039;');
     }
 
-    function executePhotoReplacement(event) {
-      const file = event.target.files[0];
-      if (!file || !currentReplacingPhoto) return;
+    const DB_NAME = 'mashrafi_portfolio_db';
+    const DB_VERSION = 1;
+    const STORE_NAME = 'photos_store';
 
-      const reader = new FileReader();
-      reader.onload = function(e) {
-        const dataUrl = e.target.result;
-        try {
-          localStorage.setItem('slot_photo_' + currentReplacingPhoto.key, dataUrl);
-        } catch (err) {
-          console.warn('Storage limit reached, displaying in session:', err);
-        }
-        const img = document.getElementById(currentReplacingPhoto.imgId);
-        if (img) img.src = dataUrl;
-        if (photosData[currentReplacingPhoto.idx]) {
-          photosData[currentReplacingPhoto.idx].src = dataUrl;
-        }
-      };
-      reader.readAsDataURL(file);
-      event.target.value = '';
-    }
-
-    function loadReplacedSlotPhotos() {
-      const slots = [
-        { key: 'hero', imgId: 'cardImgHero', idx: 0 },
-        { key: 'moment-01', imgId: 'cardImg01', idx: 1 },
-        { key: 'moment-02', imgId: 'cardImg02', idx: 2 },
-        { key: 'moment-03', imgId: 'cardImg03', idx: 3 },
-        { key: 'moment-04', imgId: 'cardImg04', idx: 4 },
-        { key: 'moment-05', imgId: 'cardImg05', idx: 5 },
-        { key: 'moment-08', imgId: 'cardImg08', idx: 8 },
-        { key: 'moment-10', imgId: 'cardImg10', idx: 10 }
-      ];
-      slots.forEach(slot => {
-        const saved = localStorage.getItem('slot_photo_' + slot.key);
-        if (saved) {
-          const img = document.getElementById(slot.imgId);
-          if (img) img.src = saved;
-          if (photosData[slot.idx]) photosData[slot.idx].src = saved;
-        }
+    function openPhotoDB() {
+      return new Promise((resolve) => {
+        if (!window.indexedDB) { resolve(null); return; }
+        const req = indexedDB.open(DB_NAME, DB_VERSION);
+        req.onupgradeneeded = (e) => {
+          const db = e.target.result;
+          if (!db.objectStoreNames.contains(STORE_NAME)) {
+            db.createObjectStore(STORE_NAME);
+          }
+        };
+        req.onsuccess = () => resolve(req.result);
+        req.onerror = () => resolve(null);
       });
     }
 
-    // --- Dynamic Title / Name Renaming (Owner Mode) ---
-    function promptRenameCard(titleId, subId, photoIdx, event) {
-      if (event) event.stopPropagation();
-      const titleEl = document.getElementById(titleId);
-      const currentTitle = titleEl ? titleEl.innerText : '';
-      const newTitle = prompt('Enter new photo title/name:', currentTitle);
-      if (newTitle !== null && newTitle.trim() !== '') {
-        if (titleEl) titleEl.innerText = newTitle.trim();
-        localStorage.setItem('custom_title_' + titleId, newTitle.trim());
-        if (photosData[photoIdx]) photosData[photoIdx].title = newTitle.trim();
+    async function idbGet(key) {
+      try {
+        const db = await openPhotoDB();
+        if (!db) return JSON.parse(localStorage.getItem(key) || 'null');
+        return new Promise((resolve) => {
+          const tx = db.transaction(STORE_NAME, 'readonly');
+          const store = tx.objectStore(STORE_NAME);
+          const req = store.get(key);
+          req.onsuccess = () => {
+            if (req.result !== undefined && req.result !== null) resolve(req.result);
+            else resolve(JSON.parse(localStorage.getItem(key) || 'null'));
+          };
+          req.onerror = () => resolve(JSON.parse(localStorage.getItem(key) || 'null'));
+        });
+      } catch (err) {
+        return JSON.parse(localStorage.getItem(key) || 'null');
       }
     }
 
+    async function idbSet(key, value) {
+      try {
+        localStorage.setItem(key, JSON.stringify(value));
+      } catch (e) {
+        // LocalStorage quota may be exceeded for large media; IndexedDB will safely handle it
+      }
+      try {
+        const db = await openPhotoDB();
+        if (!db) return;
+        return new Promise((resolve, reject) => {
+          const tx = db.transaction(STORE_NAME, 'readwrite');
+          const store = tx.objectStore(STORE_NAME);
+          const req = store.put(value, key);
+          req.onsuccess = () => resolve();
+          req.onerror = () => reject(req.error);
+        });
+      } catch (err) {
+        console.warn('IDB write error:', err);
+      }
+    }
+
+    // High performance client-side image compression
+    function compressImage(file, maxWidth = 1600, quality = 0.85) {
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          const img = new Image();
+          img.onload = () => {
+            let w = img.width;
+            let h = img.height;
+            if (w > maxWidth || h > maxWidth) {
+              if (w > h) {
+                h = Math.round((h * maxWidth) / w);
+                w = maxWidth;
+              } else {
+                w = Math.round((w * maxWidth) / h);
+                h = maxWidth;
+              }
+            }
+            const canvas = document.createElement('canvas');
+            canvas.width = w;
+            canvas.height = h;
+            const ctx = canvas.getContext('2d');
+            ctx.drawImage(img, 0, 0, w, h);
+            resolve(canvas.toDataURL('image/jpeg', quality));
+          };
+          img.onerror = reject;
+          img.src = e.target.result;
+        };
+        reader.onerror = reject;
+        reader.readAsDataURL(file);
+      });
+    }
+
+    async function saveSectionsData() {
+      await idbSet('mashrafi_sections_photos', sectionsData);
+    }
+
+    async function loadSectionsData() {
+      const saved = await idbGet('mashrafi_sections_photos');
+      if (saved && (saved.portraits || saved.celebration || saved.gallery || saved.hero)) {
+        sectionsData = saved;
+      } else {
+        // Check legacy localStorage keys to migrate seamlessly
+        sectionsData = JSON.parse(JSON.stringify(DEFAULT_SECTIONS_DATA));
+        const oldHero = localStorage.getItem('slot_photo_hero');
+        if (oldHero && sectionsData.hero[0]) sectionsData.hero[0].src = oldHero;
+        const oldP1 = localStorage.getItem('slot_photo_moment-01');
+        if (oldP1 && sectionsData.portraits[0]) sectionsData.portraits[0].src = oldP1;
+        const oldP2 = localStorage.getItem('slot_photo_moment-02');
+        if (oldP2 && sectionsData.portraits[1]) sectionsData.portraits[1].src = oldP2;
+        const oldC5 = localStorage.getItem('slot_photo_moment-05');
+        if (oldC5 && sectionsData.celebration[0]) sectionsData.celebration[0].src = oldC5;
+        const oldCustom = JSON.parse(localStorage.getItem('mashrafi_custom_photos') || '[]');
+        if (oldCustom.length) {
+          oldCustom.forEach(p => {
+            sectionsData.gallery.push({
+              id: p.id || ('p_' + Date.now() + Math.random().toString(36).substr(2, 4)),
+              src: p.src,
+              title: p.title || 'Custom Photo',
+              desc: p.desc || '',
+              tag: 'Curated Look',
+              category: 'Personal Collection'
+            });
+          });
+        }
+        await saveSectionsData();
+      }
+    }
+
+    // --- Section Rendering ---
+    function renderHero() {
+      const item = (sectionsData.hero && sectionsData.hero[0]) || DEFAULT_SECTIONS_DATA.hero[0];
+      const cardImg = document.getElementById('cardImgHero');
+      const titleEl = document.getElementById('titleHero');
+      const descEl = document.getElementById('descHero');
+      if (cardImg && item) cardImg.src = item.src;
+      if (titleEl && item) titleEl.innerText = item.title;
+      if (descEl && item) descEl.innerText = item.desc || 'Flagship Signature Look';
+    }
+
+    function renderPortraits() {
+      const grid = document.getElementById('portraitsGrid');
+      if (!grid) return;
+      const list = sectionsData.portraits || [];
+      if (list.length === 0) {
+        grid.innerHTML = `
+          <div class="col-span-full py-12 px-6 text-center text-appleSubtext border border-dashed border-white/15 rounded-2xl bg-[#121214]">
+            <span class="text-3xl block mb-2">📸</span>
+            <p class="text-sm text-white font-medium">No portraits in this section.</p>
+            <p class="text-xs mt-1">Click "+ Add Photo to Portraits" above to add as many portraits as you like.</p>
+          </div>`;
+        return;
+      }
+      grid.innerHTML = list.map((item, idx) => `
+        <div class="apple-billboard-card p-6 h-[480px] flex flex-col justify-between group cursor-pointer relative" onclick="openLightboxByPhotoId('${item.id}')">
+          <div data-admin-only class="absolute top-4 right-4 z-30 flex items-center gap-2" onclick="event.stopPropagation()">
+            <button onclick="openEditPhotoModal('portraits', '${item.id}', event)" class="px-2.5 py-1.5 rounded-full bg-black/85 hover:bg-white hover:text-black border border-white/20 text-white text-xs font-semibold backdrop-blur-md transition-all shadow-lg flex items-center gap-1">✏️ Edit</button>
+            <button onclick="triggerPhotoReplace('portraits', '${item.id}', event)" class="px-2.5 py-1.5 rounded-full bg-black/85 hover:bg-white hover:text-black border border-white/20 text-white text-xs font-semibold backdrop-blur-md transition-all shadow-lg flex items-center gap-1">📷 Change</button>
+            <button onclick="deletePhotoFromSection('portraits', '${item.id}', event)" class="w-8 h-8 rounded-full bg-red-600/90 hover:bg-red-500 text-white flex items-center justify-center text-xs shadow-lg transition-transform hover:scale-110" title="Delete Photo">🗑️</button>
+          </div>
+          <div>
+            <span class="text-[11px] font-mono text-appleGold uppercase tracking-widest">${escapeHtml(item.tag || ('Portrait 0' + (idx + 1)))}</span>
+            <h3 class="text-2xl font-bold text-white mt-1">${escapeHtml(item.title)}</h3>
+            <p class="text-appleSubtext text-xs mt-1">${escapeHtml(item.desc || '')}</p>
+          </div>
+          <div class="h-80 rounded-2xl overflow-hidden mt-4">
+            <img src="${item.src}" alt="${escapeHtml(item.title)}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function renderCelebration() {
+      const grid = document.getElementById('celebrationGrid');
+      if (!grid) return;
+      const list = sectionsData.celebration || [];
+      if (list.length === 0) {
+        grid.className = "grid grid-cols-1 gap-6 text-left";
+        grid.innerHTML = `
+          <div class="col-span-full py-12 px-6 text-center text-appleSubtext border border-dashed border-white/15 rounded-2xl bg-[#121214]">
+            <span class="text-3xl block mb-2">🎉</span>
+            <p class="text-sm text-white font-medium">No celebration photos in this section.</p>
+            <p class="text-xs mt-1">Click "+ Add Photo to Celebration" to showcase wedding & ceremonial moments.</p>
+          </div>`;
+        return;
+      }
+      const isSingle = list.length === 1;
+      grid.className = isSingle ? "grid grid-cols-1 gap-6 text-left" : "grid grid-cols-1 md:grid-cols-2 gap-5 text-left";
+      grid.innerHTML = list.map((item) => `
+        <div class="apple-billboard-card relative ${isSingle ? 'h-[500px] sm:h-[580px]' : 'h-[460px] sm:h-[500px]'} group cursor-pointer" onclick="openLightboxByPhotoId('${item.id}')">
+          <div data-admin-only class="absolute top-4 right-4 z-30 flex items-center gap-2" onclick="event.stopPropagation()">
+            <button onclick="openEditPhotoModal('celebration', '${item.id}', event)" class="px-2.5 py-1.5 rounded-full bg-black/85 hover:bg-white hover:text-black border border-white/20 text-white text-xs font-semibold backdrop-blur-md transition-all shadow-lg flex items-center gap-1">✏️ Edit</button>
+            <button onclick="triggerPhotoReplace('celebration', '${item.id}', event)" class="px-2.5 py-1.5 rounded-full bg-black/85 hover:bg-white hover:text-black border border-white/20 text-white text-xs font-semibold backdrop-blur-md transition-all shadow-lg flex items-center gap-1">📷 Change</button>
+            <button onclick="deletePhotoFromSection('celebration', '${item.id}', event)" class="w-8 h-8 rounded-full bg-red-600/90 hover:bg-red-500 text-white flex items-center justify-center text-xs shadow-lg transition-transform hover:scale-110" title="Delete Photo">🗑️</button>
+          </div>
+          <img src="${item.src}" alt="${escapeHtml(item.title)}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
+          <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent"></div>
+          <div class="absolute bottom-8 left-8 right-8 text-left flex items-end justify-between">
+            <div>
+              <span class="text-xs font-mono text-appleBlue uppercase tracking-widest">${escapeHtml(item.tag || 'Wedding & Celebration')}</span>
+              <h3 class="text-2xl sm:text-3xl font-bold text-white mt-1">${escapeHtml(item.title)}</h3>
+              <p class="text-appleSubtext text-sm mt-1 max-w-md">${escapeHtml(item.desc || '')}</p>
+            </div>
+            <span class="apple-btn-round text-xs font-medium">View Frame &gt;</span>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function renderGallery() {
+      const grid = document.getElementById('curatedGrid');
+      if (!grid) return;
+      const list = sectionsData.gallery || [];
+      if (list.length === 0) {
+        grid.innerHTML = `
+          <div class="col-span-full py-12 px-6 text-center text-appleSubtext border border-dashed border-white/15 rounded-2xl bg-[#121214]">
+            <span class="text-3xl block mb-2">🖼️</span>
+            <p class="text-sm text-white font-medium">No photos in the gallery.</p>
+            <p class="text-xs mt-1">Click "+ Add Photo to Gallery" to showcase your moments.</p>
+          </div>`;
+        return;
+      }
+      grid.innerHTML = list.map((item) => `
+        <div class="apple-billboard-card p-6 h-[460px] flex flex-col justify-between group cursor-pointer text-center relative" onclick="openLightboxByPhotoId('${item.id}')">
+          <div data-admin-only class="absolute top-4 right-4 z-30 flex items-center gap-2" onclick="event.stopPropagation()">
+            <button onclick="openEditPhotoModal('gallery', '${item.id}', event)" class="px-2.5 py-1.5 rounded-full bg-black/85 hover:bg-white hover:text-black border border-white/20 text-white text-xs font-semibold backdrop-blur-md transition-all shadow-lg flex items-center gap-1">✏️ Edit</button>
+            <button onclick="triggerPhotoReplace('gallery', '${item.id}', event)" class="px-2.5 py-1.5 rounded-full bg-black/85 hover:bg-white hover:text-black border border-white/20 text-white text-xs font-semibold backdrop-blur-md transition-all shadow-lg flex items-center gap-1">📷 Change</button>
+            <button onclick="deletePhotoFromSection('gallery', '${item.id}', event)" class="w-8 h-8 rounded-full bg-red-600/90 hover:bg-red-500 text-white flex items-center justify-center text-xs shadow-lg transition-transform hover:scale-110" title="Delete Photo">🗑️</button>
+          </div>
+          <div>
+            <span class="text-[11px] font-mono text-appleGold uppercase tracking-widest block mb-1">${escapeHtml(item.tag || 'Moment')}</span>
+            <h3 class="text-2xl font-bold text-white">${escapeHtml(item.title)}</h3>
+            <p class="text-appleSubtext text-xs mt-1">${escapeHtml(item.desc || '')}</p>
+            <span class="apple-link mt-2 inline-block">View Photo &gt;</span>
+          </div>
+          <div class="h-72 rounded-2xl overflow-hidden mt-4">
+            <img src="${item.src}" alt="${escapeHtml(item.title)}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function rebuildLightboxData() {
+      photosData = [];
+      ['hero', 'portraits', 'celebration', 'gallery'].forEach(sec => {
+        if (sectionsData[sec] && Array.isArray(sectionsData[sec])) {
+          sectionsData[sec].forEach(p => {
+            photosData.push({
+              id: p.id,
+              src: p.src,
+              title: p.title || 'Photo',
+              category: p.category || p.tag || 'Gallery',
+              desc: p.desc || ''
+            });
+          });
+        }
+      });
+      const countLink = document.getElementById('viewAllPortraitsLink');
+      if (countLink) {
+        countLink.innerText = `View all ${photosData.length} photos >`;
+      }
+    }
+
+    function renderAllSections() {
+      renderHero();
+      renderPortraits();
+      renderCelebration();
+      renderGallery();
+      rebuildLightboxData();
+      applyAdminModeUI();
+    }
+
+    // --- Add Photo Modal Actions ---
+    let pendingModalFiles = [];
+
+    function openAddPhotoModal(defaultSec) {
+      if (!isAdmin) return;
+      const sel = document.getElementById('modalTargetSection');
+      if (sel && defaultSec) sel.value = defaultSec;
+      pendingModalFiles = [];
+      const preview = document.getElementById('modalPhotoPreviewContainer');
+      if (preview) { preview.innerHTML = ''; preview.classList.add('hidden'); }
+      const titleInput = document.getElementById('modalPhotoTitle');
+      const descInput = document.getElementById('modalPhotoDesc');
+      const tagInput = document.getElementById('modalPhotoTag');
+      if (titleInput) titleInput.value = '';
+      if (descInput) descInput.value = '';
+      if (tagInput) tagInput.value = '';
+      const prompt = document.getElementById('dropZonePrompt');
+      if (prompt) prompt.innerText = 'Click to browse or drop image here';
+      document.getElementById('addPhotoModal').classList.remove('hidden');
+    }
+
+    function closeAddPhotoModal() {
+      document.getElementById('addPhotoModal').classList.add('hidden');
+      pendingModalFiles = [];
+    }
+
+    async function handleModalFileSelected(event) {
+      const files = Array.from(event.target.files || []);
+      if (!files.length) return;
+      pendingModalFiles = files;
+      const preview = document.getElementById('modalPhotoPreviewContainer');
+      preview.innerHTML = '';
+      preview.classList.remove('hidden');
+
+      for (let i = 0; i < files.length; i++) {
+        const f = files[i];
+        const thumbUrl = URL.createObjectURL(f);
+        const thumb = document.createElement('div');
+        thumb.className = 'w-14 h-14 rounded-xl overflow-hidden border border-white/20 relative flex-shrink-0';
+        thumb.innerHTML = `<img src="${thumbUrl}" class="w-full h-full object-cover">`;
+        preview.appendChild(thumb);
+      }
+
+      const prompt = document.getElementById('dropZonePrompt');
+      if (prompt) prompt.innerText = `${files.length} photo(s) selected`;
+
+      const titleInput = document.getElementById('modalPhotoTitle');
+      if (titleInput && !titleInput.value.trim() && files.length === 1) {
+        titleInput.value = files[0].name.replace(/\.[^/.]+$/, '').replace(/[-_]/g, ' ');
+      }
+    }
+
+    async function submitNewPhoto(event) {
+      event.preventDefault();
+      if (!pendingModalFiles || pendingModalFiles.length === 0) {
+        alert('Please select at least one photo image file.');
+        return;
+      }
+      const submitBtn = document.getElementById('modalSubmitPhotoBtn');
+      if (submitBtn) {
+        submitBtn.disabled = true;
+        submitBtn.innerText = 'Compressing & Saving...';
+      }
+
+      const targetSection = document.getElementById('modalTargetSection').value || 'gallery';
+      const customTitle = (document.getElementById('modalPhotoTitle').value || '').trim();
+      const customDesc = (document.getElementById('modalPhotoDesc').value || '').trim();
+      const customTag = (document.getElementById('modalPhotoTag').value || '').trim();
+
+      try {
+        for (let i = 0; i < pendingModalFiles.length; i++) {
+          const file = pendingModalFiles[i];
+          const compressedDataUrl = await compressImage(file, 1600, 0.85);
+          const autoTitle = file.name.replace(/\.[^/.]+$/, '').replace(/[-_]/g, ' ');
+          const title = customTitle || autoTitle;
+          const newPhoto = {
+            id: 'p_' + Date.now() + '_' + Math.random().toString(36).substr(2, 5),
+            src: compressedDataUrl,
+            title: title,
+            desc: customDesc || 'Personal Collection',
+            tag: customTag || (targetSection === 'portraits' ? 'Portrait' : targetSection === 'celebration' ? 'Celebration' : 'Moments'),
+            category: targetSection === 'portraits' ? 'Portraits' : targetSection === 'celebration' ? 'Wedding & Celebration' : 'Travel Photos'
+          };
+
+          if (targetSection === 'hero') {
+            sectionsData.hero = [newPhoto];
+          } else {
+            if (!sectionsData[targetSection]) sectionsData[targetSection] = [];
+            sectionsData[targetSection].push(newPhoto);
+          }
+        }
+
+        await saveSectionsData();
+        renderAllSections();
+        closeAddPhotoModal();
+        showToast(`✓ Added ${pendingModalFiles.length} photo(s) to ${targetSection.toUpperCase()}!`);
+      } catch (err) {
+        console.error('Photo save error:', err);
+        alert('Error saving photo: ' + err.message);
+      } finally {
+        if (submitBtn) {
+          submitBtn.disabled = false;
+          submitBtn.innerText = '✓ Add Photo';
+        }
+      }
+    }
+
+    // --- Delete Photo Action ---
+    async function deletePhotoFromSection(section, id, event) {
+      if (event) event.stopPropagation();
+      if (!isAdmin) return;
+      const list = sectionsData[section] || [];
+      const item = list.find(p => p.id === id);
+      const itemName = item ? item.title : 'this photo';
+      if (!confirm(`Are you sure you want to delete "${itemName}" from ${section}?`)) {
+        return;
+      }
+      sectionsData[section] = list.filter(p => p.id !== id);
+      await saveSectionsData();
+      renderAllSections();
+      showToast(`🗑️ Photo deleted from ${section}`);
+    }
+
+    // --- Replace Single Photo Action ---
+    let replaceTarget = null;
+
+    function triggerPhotoReplace(section, id, event) {
+      if (event) event.stopPropagation();
+      if (!isAdmin) return;
+      replaceTarget = { section, id };
+      const input = document.getElementById('singlePhotoReplacerInput');
+      if (input) input.click();
+    }
+
+    async function executeSinglePhotoReplacement(event) {
+      const file = event.target.files && event.target.files[0];
+      if (!file || !replaceTarget) return;
+      showToast('Compressing photo...');
+      try {
+        const compressedUrl = await compressImage(file, 1600, 0.85);
+        const { section, id } = replaceTarget;
+        if (section === 'hero') {
+          if (!sectionsData.hero || !sectionsData.hero[0]) {
+            sectionsData.hero = [{ ...DEFAULT_SECTIONS_DATA.hero[0], id: id, src: compressedUrl }];
+          } else {
+            sectionsData.hero[0].src = compressedUrl;
+          }
+        } else {
+          const list = sectionsData[section] || [];
+          const item = list.find(p => p.id === id);
+          if (item) item.src = compressedUrl;
+        }
+        await saveSectionsData();
+        renderAllSections();
+        showToast('📷 Photo updated successfully!');
+      } catch (err) {
+        alert('Photo update failed: ' + err.message);
+      } finally {
+        event.target.value = '';
+        replaceTarget = null;
+      }
+    }
+
+    // --- Edit Photo Details Action ---
+    function openEditPhotoModal(section, id, event) {
+      if (event) event.stopPropagation();
+      if (!isAdmin) return;
+      const list = sectionsData[section] || [];
+      const item = list.find(p => p.id === id) || (section === 'hero' ? (sectionsData.hero && sectionsData.hero[0]) : null);
+      if (!item) return;
+
+      document.getElementById('editPhotoSection').value = section;
+      document.getElementById('editPhotoId').value = id;
+      document.getElementById('editPhotoTitle').value = item.title || '';
+      document.getElementById('editPhotoDesc').value = item.desc || '';
+      document.getElementById('editPhotoTag').value = item.tag || '';
+      document.getElementById('editPhotoModal').classList.remove('hidden');
+    }
+
+    function closeEditPhotoModal() {
+      document.getElementById('editPhotoModal').classList.add('hidden');
+    }
+
+    async function savePhotoEdit(event) {
+      event.preventDefault();
+      const section = document.getElementById('editPhotoSection').value;
+      const id = document.getElementById('editPhotoId').value;
+      const title = (document.getElementById('editPhotoTitle').value || '').trim();
+      const desc = (document.getElementById('editPhotoDesc').value || '').trim();
+      const tag = (document.getElementById('editPhotoTag').value || '').trim();
+
+      if (section === 'hero') {
+        if (sectionsData.hero && sectionsData.hero[0]) {
+          sectionsData.hero[0].title = title;
+          sectionsData.hero[0].desc = desc;
+        }
+      } else {
+        const list = sectionsData[section] || [];
+        const item = list.find(p => p.id === id);
+        if (item) {
+          item.title = title;
+          item.desc = desc;
+          item.tag = tag;
+        }
+      }
+
+      await saveSectionsData();
+      renderAllSections();
+      closeEditPhotoModal();
+      showToast('✓ Photo details updated!');
+    }
+
+    function openEditHeroModal(event) {
+      if (event) event.stopPropagation();
+      const heroItem = (sectionsData.hero && sectionsData.hero[0]) || DEFAULT_SECTIONS_DATA.hero[0];
+      openEditPhotoModal('hero', heroItem.id, event);
+    }
+
+    // --- Reset to Original Defaults ---
+    async function resetPhotosToDefault() {
+      if (!confirm('Are you sure you want to reset all sections to original default photos? Any custom added photos will be removed.')) {
+        return;
+      }
+      sectionsData = JSON.parse(JSON.stringify(DEFAULT_SECTIONS_DATA));
+      await idbSet('mashrafi_sections_photos', sectionsData);
+      renderAllSections();
+      showToast('🔄 All sections restored to default photos!');
+    }
+
+    // --- Backup & Restore ---
+    function exportSiteData() {
+      const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(sectionsData, null, 2));
+      const dlAnchor = document.createElement('a');
+      dlAnchor.setAttribute("href", dataStr);
+      dlAnchor.setAttribute("download", `mashrafi-portfolio-photos-${new Date().toISOString().slice(0, 10)}.json`);
+      document.body.appendChild(dlAnchor);
+      dlAnchor.click();
+      dlAnchor.remove();
+      showToast('💾 Photos backup JSON downloaded!');
+    }
+
+    async function handleImportBackup(event) {
+      const file = event.target.files && event.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = async (e) => {
+        try {
+          const imported = JSON.parse(e.target.result);
+          if (imported && (imported.portraits || imported.celebration || imported.gallery || imported.hero)) {
+            sectionsData = imported;
+            await saveSectionsData();
+            renderAllSections();
+            showToast('📂 Photos backup imported successfully!');
+          } else {
+            alert('Invalid backup file format.');
+          }
+        } catch (err) {
+          alert('Failed to parse backup JSON: ' + err.message);
+        }
+      };
+      reader.readAsText(file);
+      event.target.value = '';
+    }
+
+    // --- Section Header Title Renaming (Owner Mode) ---
     function promptRenameSimple(elId, promptText, event) {
       if (event) event.stopPropagation();
       const el = document.getElementById(elId);
@@ -1314,9 +1910,9 @@
     }
 
     function loadSavedTitles() {
-      const titleIds = ['titleHero', 'secTitlePortraits', 'titleCard01', 'titleCard02', 'titleCard05', 'titleCard03', 'titleCard04', 'titleCard08', 'titleCard10'];
+      const titleIds = ['secTitlePortraits', 'secTitleCelebration', 'secTitleGallery'];
       titleIds.forEach(id => {
-        const saved = localStorage.getItem('custom_title_' + id) || localStorage.getItem('custom_text_' + id);
+        const saved = localStorage.getItem('custom_text_' + id);
         if (saved) {
           const el = document.getElementById(id);
           if (el) el.innerText = saved;
@@ -1556,108 +2152,31 @@
       closeInfoModal();
     }
 
-    // --- Custom Photos Management (Owner Only) ---
-    function handleNewPhotoUpload(event) {
-      const files = event.target.files;
-      if (!files || files.length === 0) return;
-
-      let savedCustomPhotos = JSON.parse(localStorage.getItem('mashrafi_custom_photos') || '[]');
-
-      Array.from(files).forEach((file) => {
-        const reader = new FileReader();
-        reader.onload = function(e) {
-          const defaultTitle = file.name.replace(/\.[^/.]+$/, '').replace(/[-_]/g, ' ');
-          const title = prompt('Enter a title for this photo:', defaultTitle) || defaultTitle;
-          const photoObj = {
-            src: e.target.result,
-            title: title,
-            category: 'Personal Collection',
-            desc: 'Curated Portrait • Signature Series',
-            isCustom: true,
-            id: 'p_' + Date.now() + '_' + Math.random().toString(36).substr(2, 5)
-          };
-
-          savedCustomPhotos.push(photoObj);
-          localStorage.setItem('mashrafi_custom_photos', JSON.stringify(savedCustomPhotos));
-          photosData.push(photoObj);
-          renderCustomPhotoCard(photoObj, photosData.length - 1);
-        };
-        reader.readAsDataURL(file);
-      });
-      event.target.value = '';
-    }
-
-    function renderCustomPhotoCard(item, idx) {
-      const grid = document.getElementById('curatedGrid');
-      if (!grid) return;
-
-      const card = document.createElement('div');
-      card.id = 'card_' + item.id;
-      card.className = 'apple-billboard-card p-6 h-[460px] flex flex-col justify-between group cursor-pointer text-center relative';
-      card.onclick = () => openLightboxImage(idx);
-
-      card.innerHTML = `
-        <div data-admin-only class="absolute top-4 right-4 z-20" onclick="event.stopPropagation()">
-          <button onclick="deleteCustomPhoto('${item.id}')" class="w-8 h-8 rounded-full bg-red-600/80 hover:bg-red-500 text-white flex items-center justify-center text-xs shadow-lg transition-transform hover:scale-110" title="Delete Photo">
-            🗑️
-          </button>
-        </div>
-        <div>
-          <h3 class="text-2xl font-bold text-white">${item.title}</h3>
-          <p class="text-appleSubtext text-xs mt-1">${item.desc}</p>
-          <span class="apple-link mt-2 inline-block">View Full &gt;</span>
-        </div>
-        <div class="h-72 rounded-2xl overflow-hidden mt-4">
-          <img src="${item.src}" alt="${item.title}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
-        </div>
-      `;
-
-      grid.appendChild(card);
-      applyAdminModeUI();
-    }
-
-    function deleteCustomPhoto(id) {
-      if (!confirm('Are you sure you want to delete this photo?')) return;
-      let savedCustomPhotos = JSON.parse(localStorage.getItem('mashrafi_custom_photos') || '[]');
-      savedCustomPhotos = savedCustomPhotos.filter(p => p.id !== id);
-      localStorage.setItem('mashrafi_custom_photos', JSON.stringify(savedCustomPhotos));
-      
-      const el = document.getElementById('card_' + id);
-      if (el) el.remove();
-
-      const idx = photosData.findIndex(p => p.id === id);
-      if (idx !== -1) photosData.splice(idx, 1);
-    }
-
-    function loadSavedCustomPhotos() {
-      const saved = JSON.parse(localStorage.getItem('mashrafi_custom_photos') || '[]');
-      saved.forEach((photo) => {
-        photosData.push(photo);
-        renderCustomPhotoCard(photo, photosData.length - 1);
-      });
-    }
-
-    // Load persisted data cleanly without stale placeholders
-    function loadSavedData() {
+    // Load persisted data cleanly
+    async function loadSavedData() {
       const savedCollege = localStorage.getItem('custom_college_name');
       if (savedCollege && !savedCollege.includes('Dhaka College')) {
-        document.getElementById('collegeNameText').innerText = savedCollege;
+        const el = document.getElementById('collegeNameText');
+        if (el) el.innerText = savedCollege;
       }
       const savedFFUid = localStorage.getItem('custom_ff_uid');
       if (savedFFUid && savedFFUid !== '2489105432') {
-        document.getElementById('ffUidText').innerText = savedFFUid;
+        const el = document.getElementById('ffUidText');
+        if (el) el.innerText = savedFFUid;
       }
       const savedQuote = localStorage.getItem('custom_reflection_quote');
       if (savedQuote && savedQuote.includes('Assalamu Alaikum')) {
-        document.getElementById('reflectionQuoteText').innerText = savedQuote;
+        const el = document.getElementById('reflectionQuoteText');
+        if (el) el.innerText = savedQuote;
       }
       const savedLogo = localStorage.getItem('college_logo');
       if (savedLogo) {
-        document.getElementById('collegeLogoImg').src = savedLogo;
+        const el = document.getElementById('collegeLogoImg');
+        if (el) el.src = savedLogo;
       }
-      loadSavedCustomPhotos();
-      loadReplacedSlotPhotos();
       loadSavedTitles();
+      await loadSectionsData();
+      renderAllSections();
     }
 
     loadSavedData();
@@ -1826,18 +2345,32 @@
   </script>
 
   <!-- Floating Developer Control Bar (Only appears when in Developer / Owner Mode) -->
-  <div id="adminBadge" class="fixed bottom-5 right-5 z-40 bg-[#161618]/95 border border-amber-500/50 backdrop-blur-xl px-4 py-2.5 rounded-full items-center gap-3 shadow-2xl text-xs font-mono hidden">
-    <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-    <span class="text-white font-semibold">👑 Developer Mode</span>
-    <button onclick="document.getElementById('newPhotoUploadInput').click()" class="px-3 py-1 rounded-full bg-blue-600 hover:bg-blue-500 text-white transition-all font-sans text-xs flex items-center gap-1">
-      <span>📷</span>
-      <span>Add Photos</span>
+  <div id="adminBadge" class="fixed bottom-5 right-5 z-40 bg-[#161618]/95 border border-amber-500/50 backdrop-blur-xl px-4 py-2.5 rounded-full items-center gap-2 sm:gap-3 shadow-2xl text-xs font-mono hidden flex-wrap">
+    <div class="flex items-center gap-1.5 mr-1">
+      <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+      <span class="text-white font-semibold">👑 Dev Mode</span>
+    </div>
+    <button onclick="openAddPhotoModal()" class="px-3 py-1.5 rounded-full bg-blue-600 hover:bg-blue-500 text-white transition-all font-sans text-xs flex items-center gap-1 shadow">
+      <span>➕</span>
+      <span>Add Photo</span>
     </button>
-    <button onclick="copyShareLink()" class="px-3 py-1 rounded-full bg-white/10 hover:bg-white/20 text-white transition-all font-sans text-xs" title="Link for father, friends, and visitors (View only)">
-      Copy Visitor Link 📋
+    <button onclick="exportSiteData()" class="px-3 py-1.5 rounded-full bg-white/10 hover:bg-white/20 text-white transition-all font-sans text-xs flex items-center gap-1" title="Download backup JSON of all photos">
+      <span>💾</span>
+      <span>Backup</span>
     </button>
-    <button onclick="copyDevLink()" class="px-3 py-1 rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/40 hover:bg-amber-500/30 transition-all font-sans text-xs" title="Your Developer admin link with edit options">
-      Copy Dev Link 🔑
+    <button onclick="document.getElementById('importBackupInput').click()" class="px-3 py-1.5 rounded-full bg-white/10 hover:bg-white/20 text-white transition-all font-sans text-xs flex items-center gap-1" title="Import backup JSON of photos">
+      <span>📂</span>
+      <span>Import</span>
+    </button>
+    <button onclick="resetPhotosToDefault()" class="px-3 py-1.5 rounded-full bg-red-600/30 hover:bg-red-600/50 text-red-300 border border-red-500/30 transition-all font-sans text-xs" title="Reset all sections to original default photos">
+      <span>🔄</span>
+      <span>Reset</span>
+    </button>
+    <button onclick="copyShareLink()" class="px-3 py-1.5 rounded-full bg-white/10 hover:bg-white/20 text-white transition-all font-sans text-xs" title="Visitor link (no edit controls)">
+      Visitor Link 📋
+    </button>
+    <button onclick="copyDevLink()" class="px-3 py-1.5 rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/40 hover:bg-amber-500/30 transition-all font-sans text-xs" title="Developer link with edit controls">
+      Dev Link 🔑
     </button>
     <button onclick="exitAdminMode()" class="text-appleSubtext hover:text-red-400 transition-colors font-sans text-xs ml-1" title="Switch to Visitor View">
       Exit
