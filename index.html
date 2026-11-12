@@ -344,11 +344,11 @@
       <div class="max-w-[1024px] mx-auto px-4 w-full">
         
         <h1 class="headline-large text-white mb-2">
-          Mashrafi Hossain.
+          Mashrafi Hossain
         </h1>
 
         <p class="headline-sub text-[#a1a1a6] mb-6 font-normal">
-          Student and Free Fire Gamer.
+          Student and Free Fire Gamer
         </p>
 
         <!-- Action Button -->
@@ -429,21 +429,25 @@
     <section id="section-billboard-2" class="apple-billboard pt-6 pb-12 text-center">
       <div class="max-w-[1024px] mx-auto px-4 w-full">
         
-        <div class="flex flex-col sm:flex-row items-center justify-between mb-8 gap-4">
-          <div class="text-center sm:text-left">
-            <span class="text-xs font-mono font-semibold uppercase tracking-widest text-appleBlue block mb-1">Celebrations &amp; Events</span>
-            <div class="flex items-center gap-2 flex-wrap justify-center sm:justify-start">
-              <h2 id="secTitleCelebration" class="headline-large text-white">Ceremonial Showcase.</h2>
-              
-            </div>
-            <p class="headline-sub text-appleSubtext mt-1">Lush decorative moments, traditional events and ceremonies.</p>
-          </div>
-          <div data-admin-only class="flex items-center gap-2">
-            <button onclick="openAddPhotoModal('celebration')" class="apple-btn-round text-xs py-2 px-4 bg-appleBlue hover:bg-appleBlueHover flex items-center gap-1.5 shadow-lg shadow-blue-500/20 font-medium">
-              <span>➕</span>
-              <span>Add Photo to Celebration</span>
-            </button>
-          </div>
+        <span class="text-xs font-mono font-semibold uppercase tracking-widest text-appleBlue mb-2 block">
+          Celebrations &amp; Events
+        </span>
+
+        <div class="flex items-center justify-center gap-3 mb-2 flex-wrap">
+          <h2 id="secTitleCelebration" class="headline-large text-white">
+            Ceremonial Showcase.
+          </h2>
+        </div>
+
+        <p class="headline-sub text-appleSubtext mb-4">
+          Lush decorative moments, traditional events and ceremonies.
+        </p>
+
+        <div data-admin-only class="flex items-center justify-center gap-3 mb-6">
+          <button onclick="openAddPhotoModal('celebration')" class="apple-btn-round text-xs py-2 px-4 bg-appleBlue hover:bg-appleBlueHover flex items-center gap-1.5 shadow-lg shadow-blue-500/20 font-medium">
+            <span>➕</span>
+            <span>Add Photo to Celebration</span>
+          </button>
         </div>
 
         <!-- Dynamic Grid for Celebration -->
@@ -1745,13 +1749,13 @@
       const list = sectionsData[section] || [];
       const item = list.find(p => p.id === id);
       const itemName = item ? item.title : 'this photo';
-      if (!confirm(`Are you sure you want to delete "${itemName}" from ${section}?`)) {
+      if (!confirm(`Remove this photo from your collection?\n\n"${itemName}"\n\nThis will only remove the photo — not the whole section.`)) {
         return;
       }
       sectionsData[section] = list.filter(p => p.id !== id);
       await saveSectionsData();
       renderAllSections();
-      showToast(`🗑️ Photo deleted from ${section}`);
+      showToast(`✅ Photo removed from collection`);
     }
 
     // --- Replace Single Photo Action ---
