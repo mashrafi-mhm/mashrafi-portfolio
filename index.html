@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en" class="scroll-smooth">
 <head>
   <meta charset="UTF-8">
@@ -911,7 +911,27 @@
 
       </div>
     </section>
-
+    <!-- ============================================================ -->
+    <!-- SIGN THE GUESTBOOK (Right below My Specification)            -->
+    <!-- ============================================================ -->
+    <section id="guestbook-section" class="apple-billboard py-12 border-t border-white/10">
+      <div class="max-w-lg mx-auto px-4 text-center">
+        <h3 class="text-white font-bold text-xl mb-1">&#x270D;&#xFE0F; Sign the Guestbook</h3>
+        <p class="text-appleSubtext text-xs mb-6">Leave your name &amp; email &#8212; Mashrafi will see who visited</p>
+        <div class="bg-[#161617] rounded-2xl p-5 border border-white/10 text-left">
+          <input id="gbName" type="text" placeholder="Your Name" maxlength="50"
+            class="w-full bg-black/50 border border-white/15 rounded-xl px-4 py-3 text-white text-sm placeholder-appleSubtext mb-3 outline-none focus:border-appleBlue transition-colors" />
+          <input id="gbEmail" type="email" placeholder="Your Email (e.g. example@gmail.com)" maxlength="80"
+            class="w-full bg-black/50 border border-white/15 rounded-xl px-4 py-3 text-white text-sm placeholder-appleSubtext mb-3 outline-none focus:border-appleBlue transition-colors" />
+          <input id="gbMessage" type="text" placeholder="A short message (optional)" maxlength="100"
+            class="w-full bg-black/50 border border-white/15 rounded-xl px-4 py-3 text-white text-sm placeholder-appleSubtext mb-4 outline-none focus:border-appleBlue transition-colors" />
+          <button onclick="submitGuestbook()" class="w-full apple-btn-round text-sm py-3 font-semibold">
+            Submit &#x2713;
+          </button>
+          <div id="gbSuccess" class="hidden mt-3 text-center text-emerald-400 text-sm font-semibold">&#x2705; Thank you! Your entry has been saved.</div>
+        </div>
+      </div>
+    </section>
     <!-- Modal for Editing College, Socials & Reflections -->
     <div id="quickEditModal" class="fixed inset-0 z-50 bg-black/85 backdrop-blur-xl hidden flex items-center justify-center p-4">
       <div class="apple-billboard-card max-w-lg w-full p-6 sm:p-8 border border-white/15">
@@ -1062,28 +1082,6 @@
 
   </div>
 
-  </div>
-
-  <!-- ============================================================ -->
-  <!-- GUESTBOOK SECTION (Visible to ALL visitors at bottom)        -->
-  <!-- ============================================================ -->
-  <div class="relative z-10 w-full bg-[#0d0d10] border-t border-white/10 py-10 px-4" id="guestbook-section">
-    <div class="max-w-lg mx-auto text-center">
-      <h3 class="text-white font-bold text-lg mb-1">✍️ Sign the Guestbook</h3>
-      <p class="text-appleSubtext text-xs mb-5">Leave your name & email — Mashrafi will see who visited</p>
-      <div class="bg-[#161617] rounded-2xl p-5 border border-white/10 text-left">
-        <input id="gbName" type="text" placeholder="Your Name" maxlength="50"
-          class="w-full bg-black/50 border border-white/15 rounded-xl px-4 py-3 text-white text-sm placeholder-appleSubtext mb-3 outline-none focus:border-appleBlue transition-colors" />
-        <input id="gbEmail" type="email" placeholder="Your Email (e.g. example@gmail.com)" maxlength="80"
-          class="w-full bg-black/50 border border-white/15 rounded-xl px-4 py-3 text-white text-sm placeholder-appleSubtext mb-3 outline-none focus:border-appleBlue transition-colors" />
-        <input id="gbMessage" type="text" placeholder="A short message (optional)" maxlength="100"
-          class="w-full bg-black/50 border border-white/15 rounded-xl px-4 py-3 text-white text-sm placeholder-appleSubtext mb-4 outline-none focus:border-appleBlue transition-colors" />
-        <button onclick="submitGuestbook()" class="w-full apple-btn-round text-sm py-3 font-semibold">
-          Submit ✓
-        </button>
-        <div id="gbSuccess" class="hidden mt-3 text-center text-emerald-400 text-sm font-semibold">✅ Thank you! Your entry has been saved.</div>
-      </div>
-    </div>
   </div>
 
   <!-- JavaScript: Lightbox, Carousel & Three.js 3D Background Engine -->
