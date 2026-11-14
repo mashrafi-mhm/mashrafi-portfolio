@@ -282,7 +282,11 @@
     <div class="max-w-4xl w-full text-center">
       <img id="lightboxImg" src="" alt="Enlarged" class="max-h-[72vh] mx-auto rounded-3xl object-contain shadow-2xl border border-white/10">
       <div class="mt-4">
-        <span id="lightboxCategory" class="text-xs uppercase tracking-widest text-appleGold font-mono"></span>
+        <div class="flex items-center justify-center gap-2 mb-1 flex-wrap">
+          <span id="lightboxCategory" class="text-xs uppercase tracking-widest text-appleGold font-mono"></span>
+          <span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 text-[11px] font-mono font-semibold">✓ Selected</span>
+          <span id="lightboxCounter" class="text-xs text-appleSubtext font-mono"></span>
+        </div>
         <div class="flex items-center justify-center gap-2 mt-1">
           <h3 id="lightboxTitle" class="text-white text-lg font-semibold"></h3>
           <button data-admin-only onclick="editCurrentLightboxPhotoTitle()" class="px-2.5 py-0.5 rounded-full bg-white/10 hover:bg-white/20 text-white text-xs font-mono" title="Rename this photo title">✏️ Rename</button>
@@ -292,6 +296,10 @@
 
       <!-- Developer Mode Only: Lightbox In-Place Photo Management -->
       <div data-admin-only class="mt-4 flex items-center justify-center gap-3 flex-wrap">
+        <button onclick="addPhotoToCurrentLightboxSection()" class="px-4 py-2 rounded-full bg-appleBlue hover:bg-appleBlueHover text-white text-xs font-semibold backdrop-blur-md transition-all shadow-lg flex items-center gap-1.5" title="Add new photo to this section">
+          <span>➕</span>
+          <span>Add Photo</span>
+        </button>
         <button onclick="deleteCurrentLightboxPhoto()" class="px-4 py-2 rounded-full bg-red-600/90 hover:bg-red-500 text-white text-xs font-semibold backdrop-blur-md transition-all shadow-lg flex items-center gap-1.5" title="Remove this photo from collection">
           <span>🗑️</span>
           <span>Remove This Photo</span>
@@ -1269,10 +1277,34 @@
       if (!photosData || photosData.length === 0) return;
       const item = photosData[currentPhotoIdx];
       if (!item) return;
-      document.getElementById('lightboxImg').src = item.src;
-      document.getElementById('lightboxTitle').innerText = item.title || '';
-      document.getElementById('lightboxCategory').innerText = item.category || item.tag || '';
-      document.getElementById('lightboxSubtitle').innerText = item.desc || '';
+      const img = document.getElementById('lightboxImg');
+      if (img) img.src = item.src;
+      const title = document.getElementById('lightboxTitle');
+      if (title) title.innerText = item.title || '';
+      const cat = document.getElementById('lightboxCategory');
+      if (cat) cat.innerText = item.category || item.tag || '';
+      const sub = document.getElementById('lightboxSubtitle');
+      if (sub) sub.innerText = item.desc || '';
+      const counter = document.getElementById('lightboxCounter');
+      if (counter) counter.innerText = `(${currentPhotoIdx + 1} of ${photosData.length})`;
+    }
+
+    function addPhotoToCurrentLightboxSection() {
+      if (!isAdmin) return;
+      let targetSec = 'gallery';
+      if (photosData && photosData.length > 0) {
+        const item = photosData[currentPhotoIdx];
+        if (item) {
+          for (const sec of ['hero', 'portraits', 'celebration', 'gallery']) {
+            if (sectionsData[sec] && sectionsData[sec].some(p => p.id === item.id)) {
+              targetSec = sec;
+              break;
+            }
+          }
+        }
+      }
+      closeLightbox();
+      openAddPhotoModal(targetSec);
     }
 
     function closeLightbox() {
