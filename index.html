@@ -270,21 +270,40 @@
 
   <!-- Interactive Lightbox Modal -->
   <div id="photoLightbox" class="fixed inset-0 z-50 bg-black/95 backdrop-blur-2xl hidden flex items-center justify-center p-4">
-    <button onclick="closeLightbox()" class="absolute top-6 right-6 w-11 h-11 rounded-full bg-white/10 text-white flex items-center justify-center text-xl hover:bg-white/20 transition-all z-20">
+    <button onclick="closeLightbox()" class="absolute top-6 right-6 w-11 h-11 rounded-full bg-white/10 text-white flex items-center justify-center text-xl hover:bg-white/20 transition-all z-20" title="Close (Esc)">
       ✕
     </button>
-    <button onclick="prevLightboxImage()" class="absolute left-6 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-white/10 text-white flex items-center justify-center text-xl hover:bg-white/20 transition-all z-20">
+    <button onclick="prevLightboxImage()" class="absolute left-4 sm:left-6 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-white/10 text-white flex items-center justify-center text-2xl hover:bg-white/20 transition-all z-20" title="Previous (Left Arrow)">
       ‹
     </button>
-    <button onclick="nextLightboxImage()" class="absolute right-6 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-white/10 text-white flex items-center justify-center text-xl hover:bg-white/20 transition-all z-20">
+    <button onclick="nextLightboxImage()" class="absolute right-4 sm:right-6 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-white/10 text-white flex items-center justify-center text-2xl hover:bg-white/20 transition-all z-20" title="Next (Right Arrow)">
       ›
     </button>
     <div class="max-w-4xl w-full text-center">
-      <img id="lightboxImg" src="" alt="Enlarged" class="max-h-[78vh] mx-auto rounded-3xl object-contain shadow-2xl border border-white/10">
+      <img id="lightboxImg" src="" alt="Enlarged" class="max-h-[72vh] mx-auto rounded-3xl object-contain shadow-2xl border border-white/10">
       <div class="mt-4">
         <span id="lightboxCategory" class="text-xs uppercase tracking-widest text-appleGold font-mono"></span>
-        <h3 id="lightboxTitle" class="text-white text-lg font-semibold mt-1"></h3>
+        <div class="flex items-center justify-center gap-2 mt-1">
+          <h3 id="lightboxTitle" class="text-white text-lg font-semibold"></h3>
+          <button data-admin-only onclick="editCurrentLightboxPhotoTitle()" class="px-2.5 py-0.5 rounded-full bg-white/10 hover:bg-white/20 text-white text-xs font-mono" title="Rename this photo title">✏️ Rename</button>
+        </div>
         <p id="lightboxSubtitle" class="text-appleSubtext text-xs mt-0.5"></p>
+      </div>
+
+      <!-- Developer Mode Only: Lightbox In-Place Photo Management -->
+      <div data-admin-only class="mt-4 flex items-center justify-center gap-3 flex-wrap">
+        <button onclick="deleteCurrentLightboxPhoto()" class="px-4 py-2 rounded-full bg-red-600/90 hover:bg-red-500 text-white text-xs font-semibold backdrop-blur-md transition-all shadow-lg flex items-center gap-1.5" title="Remove this photo from collection">
+          <span>🗑️</span>
+          <span>Remove This Photo</span>
+        </button>
+        <button onclick="replaceCurrentLightboxPhoto()" class="px-4 py-2 rounded-full bg-black/85 hover:bg-white hover:text-black border border-white/20 text-white text-xs font-semibold backdrop-blur-md transition-all shadow-lg flex items-center gap-1.5" title="Replace with another image">
+          <span>📷</span>
+          <span>Change Photo</span>
+        </button>
+        <button onclick="editCurrentLightboxPhoto()" class="px-4 py-2 rounded-full bg-black/85 hover:bg-white hover:text-black border border-white/20 text-white text-xs font-semibold backdrop-blur-md transition-all shadow-lg flex items-center gap-1.5" title="Edit title, description and category">
+          <span>✏️</span>
+          <span>Edit Details</span>
+        </button>
       </div>
     </div>
   </div>
@@ -343,13 +362,19 @@
     <section id="hero" class="apple-billboard pt-16 pb-12 text-center flex flex-col items-center">
       <div class="max-w-[1024px] mx-auto px-4 w-full">
         
-        <h1 class="headline-large text-white mb-2">
-          Mashrafi Hossain
-        </h1>
+        <div class="flex items-center justify-center gap-2 mb-2 flex-wrap">
+          <h1 id="heroNameHeading" class="headline-large text-white">
+            Mashrafi Hossain
+          </h1>
+          <button data-admin-only onclick="promptRenameSimple('heroNameHeading', 'Enter Name:', event)" class="px-2.5 py-1 rounded-full bg-white/10 hover:bg-white/20 text-white text-xs font-mono">✏️ Rename</button>
+        </div>
 
-        <p class="headline-sub text-[#a1a1a6] mb-6 font-normal">
-          Student and Free Fire Gamer
-        </p>
+        <div class="flex items-center justify-center gap-2 mb-6 flex-wrap">
+          <p id="heroTaglineHeading" class="headline-sub text-[#a1a1a6] font-normal">
+            Student and Free Fire Gamer
+          </p>
+          <button data-admin-only onclick="promptRenameSimple('heroTaglineHeading', 'Enter Tagline / Subtitle:', event)" class="px-2.5 py-1 rounded-full bg-white/10 hover:bg-white/20 text-white text-xs font-mono">✏️ Rename</button>
+        </div>
 
         <!-- Action Button -->
         <div class="flex items-center justify-center mb-10">
@@ -395,7 +420,7 @@
           <h2 id="secTitlePortraits" class="headline-large text-white">
             Portraits &amp; Signature Looks.
           </h2>
-          
+          <button data-admin-only onclick="promptRenameSimple('secTitlePortraits', 'Enter Section Title:', event)" class="px-2.5 py-1 rounded-full bg-white/10 hover:bg-white/20 text-white text-xs font-mono">✏️ Rename</button>
         </div>
 
         <p class="headline-sub text-appleSubtext mb-4">
@@ -437,6 +462,7 @@
           <h2 id="secTitleCelebration" class="headline-large text-white">
             Ceremonial Showcase.
           </h2>
+          <button data-admin-only onclick="promptRenameSimple('secTitleCelebration', 'Enter Section Title:', event)" class="px-2.5 py-1 rounded-full bg-white/10 hover:bg-white/20 text-white text-xs font-mono">✏️ Rename</button>
         </div>
 
         <p class="headline-sub text-appleSubtext mb-4">
@@ -469,7 +495,7 @@
             <span class="text-xs font-mono font-semibold uppercase tracking-widest text-appleGold block mb-1">Moments &amp; Highlights</span>
             <div class="flex items-center gap-2 flex-wrap">
               <h2 id="secTitleGallery" class="text-2xl sm:text-4xl font-bold text-white tracking-tight">Curated Gallery.</h2>
-              
+              <button data-admin-only onclick="promptRenameSimple('secTitleGallery', 'Enter Section Title:', event)" class="px-2.5 py-1 rounded-full bg-white/10 hover:bg-white/20 text-white text-xs font-mono">✏️ Rename</button>
             </div>
             <p class="text-appleSubtext text-xs mt-1">Scenic travels, family gatherings, and everyday authentic moments.</p>
           </div>
@@ -498,7 +524,10 @@
         <div class="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-4">
           <div>
             <span class="text-xs font-mono text-appleGold uppercase tracking-widest">Alma Mater</span>
-            <h2 class="text-3xl sm:text-5xl font-bold text-white mt-1 tracking-tight">College & Education.</h2>
+            <div class="flex items-center gap-2 flex-wrap mt-1">
+              <h2 id="secTitleCollege" class="text-3xl sm:text-5xl font-bold text-white tracking-tight">College & Education.</h2>
+              <button data-admin-only onclick="promptRenameSimple('secTitleCollege', 'Enter Section Title:', event)" class="px-2.5 py-1 rounded-full bg-white/10 hover:bg-white/20 text-white text-xs font-mono">✏️ Rename</button>
+            </div>
             <p class="text-appleSubtext text-sm mt-2">Where ambition meets knowledge and aspirations take flight.</p>
           </div>
           <button data-admin-only onclick="openInfoModal('college')" class="apple-btn-round-ghost text-xs self-start md:self-auto flex items-center gap-1.5">
@@ -618,7 +647,10 @@
         <div class="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-4">
           <div>
             <span class="text-xs font-mono text-appleGold uppercase tracking-widest">Digital Presence</span>
-            <h2 class="text-3xl sm:text-5xl font-bold text-white mt-1 tracking-tight">Socials & Free Fire ID.</h2>
+            <div class="flex items-center gap-2 flex-wrap mt-1">
+              <h2 id="secTitleSocials" class="text-3xl sm:text-5xl font-bold text-white tracking-tight">Socials & Free Fire ID.</h2>
+              <button data-admin-only onclick="promptRenameSimple('secTitleSocials', 'Enter Section Title:', event)" class="px-2.5 py-1 rounded-full bg-white/10 hover:bg-white/20 text-white text-xs font-mono">✏️ Rename</button>
+            </div>
             <p class="text-appleSubtext text-sm mt-2">Connect across official social platforms or join squad matches in Free Fire.</p>
           </div>
           <button data-admin-only onclick="openInfoModal('socials')" class="apple-btn-round-ghost text-xs self-start md:self-auto flex items-center gap-1.5">
@@ -802,9 +834,12 @@
           Personal Specification
         </span>
 
-        <h2 class="text-3xl sm:text-5xl font-bold text-white mb-8 tracking-tight">
-          My Specification.
-        </h2>
+        <div class="flex items-center justify-center gap-2 mb-8 flex-wrap">
+          <h2 id="secTitleReflections" class="text-3xl sm:text-5xl font-bold text-white tracking-tight">
+            My Specification.
+          </h2>
+          <button data-admin-only onclick="promptRenameSimple('secTitleReflections', 'Enter Section Title:', event)" class="px-2.5 py-1 rounded-full bg-white/10 hover:bg-white/20 text-white text-xs font-mono">✏️ Rename</button>
+        </div>
 
         <!-- Apple Keynote Quote Box -->
         <div class="apple-billboard-card p-8 sm:p-14 text-left relative overflow-hidden border-amber-500/20 shadow-2xl">
@@ -1521,12 +1556,16 @@
       grid.innerHTML = list.map((item, idx) => `
         <div class="apple-billboard-card p-6 h-[480px] flex flex-col justify-between group cursor-pointer relative" onclick="openLightboxByPhotoId('${item.id}')">
           <div data-admin-only class="absolute top-4 right-4 z-30 flex items-center gap-2" onclick="event.stopPropagation()">
-            <button onclick="openAddPhotoModal('portraits', event)" class="px-3 py-1.5 rounded-full bg-appleBlue hover:bg-appleBlueHover text-white text-xs font-semibold backdrop-blur-md transition-all shadow-lg flex items-center gap-1">➕ Add</button>
-            <button onclick="deletePhotoFromSection('portraits', '${item.id}', event)" class="px-3 py-1.5 rounded-full bg-red-600/90 hover:bg-red-500 text-white text-xs font-semibold transition-all shadow-lg flex items-center gap-1">🗑️ Remove</button>
+            <button onclick="openAddPhotoModal('portraits', event)" class="px-2.5 py-1.5 rounded-full bg-appleBlue hover:bg-appleBlueHover text-white text-xs font-semibold backdrop-blur-md transition-all shadow-lg flex items-center gap-1" title="Add photo to portraits">➕ Add</button>
+            <button onclick="triggerPhotoReplace('portraits', '${item.id}', event)" class="px-2.5 py-1.5 rounded-full bg-black/85 hover:bg-white hover:text-black border border-white/20 text-white text-xs font-semibold backdrop-blur-md transition-all shadow-lg flex items-center gap-1" title="Change photo file">📷 Change</button>
+            <button onclick="deletePhotoFromSection('portraits', '${item.id}', event)" class="px-2.5 py-1.5 rounded-full bg-red-600/90 hover:bg-red-500 text-white text-xs font-semibold transition-all shadow-lg flex items-center gap-1" title="Remove photo">🗑️ Remove</button>
           </div>
           <div>
             <span class="text-[11px] font-mono text-appleGold uppercase tracking-widest">${escapeHtml(item.tag || ('Portrait 0' + (idx + 1)))}</span>
-            <h3 class="text-2xl font-bold text-white mt-1">${escapeHtml(item.title)}</h3>
+            <div class="flex items-center gap-2 mt-1">
+              <h3 class="text-2xl font-bold text-white">${escapeHtml(item.title)}</h3>
+              <button data-admin-only onclick="promptRenameCard('portraits', '${item.id}', event)" class="px-2 py-0.5 rounded-full bg-white/10 hover:bg-white/20 text-white text-xs font-mono font-normal" title="Rename card">✏️</button>
+            </div>
             <p class="text-appleSubtext text-xs mt-1">${escapeHtml(item.desc || '')}</p>
           </div>
           <div class="h-80 rounded-2xl overflow-hidden mt-4">
@@ -1555,15 +1594,19 @@
       grid.innerHTML = list.map((item) => `
         <div class="apple-billboard-card relative ${isSingle ? 'h-[500px] sm:h-[580px]' : 'h-[460px] sm:h-[500px]'} group cursor-pointer" onclick="openLightboxByPhotoId('${item.id}')">
           <div data-admin-only class="absolute top-4 right-4 z-30 flex items-center gap-2" onclick="event.stopPropagation()">
-            <button onclick="openAddPhotoModal('celebration', event)" class="px-3 py-1.5 rounded-full bg-appleBlue hover:bg-appleBlueHover text-white text-xs font-semibold backdrop-blur-md transition-all shadow-lg flex items-center gap-1">➕ Add</button>
-            <button onclick="deletePhotoFromSection('celebration', '${item.id}', event)" class="px-3 py-1.5 rounded-full bg-red-600/90 hover:bg-red-500 text-white text-xs font-semibold transition-all shadow-lg flex items-center gap-1">🗑️ Remove</button>
+            <button onclick="openAddPhotoModal('celebration', event)" class="px-2.5 py-1.5 rounded-full bg-appleBlue hover:bg-appleBlueHover text-white text-xs font-semibold backdrop-blur-md transition-all shadow-lg flex items-center gap-1" title="Add photo to celebration">➕ Add</button>
+            <button onclick="triggerPhotoReplace('celebration', '${item.id}', event)" class="px-2.5 py-1.5 rounded-full bg-black/85 hover:bg-white hover:text-black border border-white/20 text-white text-xs font-semibold backdrop-blur-md transition-all shadow-lg flex items-center gap-1" title="Change photo file">📷 Change</button>
+            <button onclick="deletePhotoFromSection('celebration', '${item.id}', event)" class="px-2.5 py-1.5 rounded-full bg-red-600/90 hover:bg-red-500 text-white text-xs font-semibold transition-all shadow-lg flex items-center gap-1" title="Remove photo">🗑️ Remove</button>
           </div>
           <img src="${item.src}" alt="${escapeHtml(item.title)}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
           <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent"></div>
           <div class="absolute bottom-8 left-8 right-8 text-left flex items-end justify-between">
             <div>
               <span class="text-xs font-mono text-appleBlue uppercase tracking-widest">${escapeHtml(item.tag || 'Wedding & Celebration')}</span>
-              <h3 class="text-2xl sm:text-3xl font-bold text-white mt-1">${escapeHtml(item.title)}</h3>
+              <div class="flex items-center gap-2 mt-1">
+                <h3 class="text-2xl sm:text-3xl font-bold text-white">${escapeHtml(item.title)}</h3>
+                <button data-admin-only onclick="promptRenameCard('celebration', '${item.id}', event)" class="px-2 py-0.5 rounded-full bg-white/10 hover:bg-white/20 text-white text-xs font-mono font-normal" title="Rename card">✏️</button>
+              </div>
               <p class="text-appleSubtext text-sm mt-1 max-w-md">${escapeHtml(item.desc || '')}</p>
             </div>
             <span class="apple-btn-round text-xs font-medium">View Frame &gt;</span>
@@ -1588,12 +1631,16 @@
       grid.innerHTML = list.map((item) => `
         <div class="apple-billboard-card p-6 h-[460px] flex flex-col justify-between group cursor-pointer text-center relative" onclick="openLightboxByPhotoId('${item.id}')">
           <div data-admin-only class="absolute top-4 right-4 z-30 flex items-center gap-2" onclick="event.stopPropagation()">
-            <button onclick="openAddPhotoModal('gallery', event)" class="px-3 py-1.5 rounded-full bg-appleBlue hover:bg-appleBlueHover text-white text-xs font-semibold backdrop-blur-md transition-all shadow-lg flex items-center gap-1">➕ Add</button>
-            <button onclick="deletePhotoFromSection('gallery', '${item.id}', event)" class="px-3 py-1.5 rounded-full bg-red-600/90 hover:bg-red-500 text-white text-xs font-semibold transition-all shadow-lg flex items-center gap-1">🗑️ Remove</button>
+            <button onclick="openAddPhotoModal('gallery', event)" class="px-2.5 py-1.5 rounded-full bg-appleBlue hover:bg-appleBlueHover text-white text-xs font-semibold backdrop-blur-md transition-all shadow-lg flex items-center gap-1" title="Add photo to gallery">➕ Add</button>
+            <button onclick="triggerPhotoReplace('gallery', '${item.id}', event)" class="px-2.5 py-1.5 rounded-full bg-black/85 hover:bg-white hover:text-black border border-white/20 text-white text-xs font-semibold backdrop-blur-md transition-all shadow-lg flex items-center gap-1" title="Change photo file">📷 Change</button>
+            <button onclick="deletePhotoFromSection('gallery', '${item.id}', event)" class="px-2.5 py-1.5 rounded-full bg-red-600/90 hover:bg-red-500 text-white text-xs font-semibold transition-all shadow-lg flex items-center gap-1" title="Remove photo">🗑️ Remove</button>
           </div>
           <div>
             <span class="text-[11px] font-mono text-appleGold uppercase tracking-widest block mb-1">${escapeHtml(item.tag || 'Moment')}</span>
-            <h3 class="text-2xl font-bold text-white">${escapeHtml(item.title)}</h3>
+            <div class="flex items-center justify-center gap-2 mt-1">
+              <h3 class="text-2xl font-bold text-white">${escapeHtml(item.title)}</h3>
+              <button data-admin-only onclick="promptRenameCard('gallery', '${item.id}', event)" class="px-2 py-0.5 rounded-full bg-white/10 hover:bg-white/20 text-white text-xs font-mono font-normal" title="Rename card">✏️</button>
+            </div>
             <p class="text-appleSubtext text-xs mt-1">${escapeHtml(item.desc || '')}</p>
             <span class="apple-link mt-2 inline-block">View Photo &gt;</span>
           </div>
@@ -1749,13 +1796,127 @@
       const list = sectionsData[section] || [];
       const item = list.find(p => p.id === id);
       const itemName = item ? item.title : 'this photo';
-      if (!confirm(`Remove this photo from your collection?\n\n"${itemName}"\n\nThis will only remove the photo — not the whole section.`)) {
+
+      // If it is the last photo of the section, ask to replace instead of vanishing the card
+      if (list.length <= 1) {
+        if (confirm(`"${itemName}" is the only photo in this card.\n\nDo you want to replace it with a new photo? (Click Cancel to keep)`)) {
+          triggerPhotoReplace(section, id, event);
+        }
+        return;
+      }
+
+      if (!confirm(`Remove "${itemName}" from ${section}?\n\nThis will only remove this photo — all other cards remain untouched.`)) {
         return;
       }
       sectionsData[section] = list.filter(p => p.id !== id);
       await saveSectionsData();
       renderAllSections();
       showToast(`✅ Photo removed from collection`);
+    }
+
+    // --- Lightbox In-Place Photo Actions (Owner / Developer Mode) ---
+    async function deleteCurrentLightboxPhoto() {
+      if (!isAdmin) return;
+      if (!photosData || photosData.length === 0) return;
+      const item = photosData[currentPhotoIdx];
+      if (!item) return;
+
+      let foundSec = null;
+      for (const sec of ['hero', 'portraits', 'celebration', 'gallery']) {
+        if (sectionsData[sec] && sectionsData[sec].some(p => p.id === item.id)) {
+          foundSec = sec;
+          break;
+        }
+      }
+      if (!foundSec) {
+        showToast('Photo not found');
+        return;
+      }
+
+      const pTitle = item.title || 'this photo';
+      if (!confirm(`Delete "${pTitle}" from ${foundSec}?\n\nThis will remove only this individual photo.`)) {
+        return;
+      }
+
+      // If hero and only 1 photo, offer replace
+      if (foundSec === 'hero' && sectionsData.hero.length <= 1) {
+        triggerPhotoReplace('hero', item.id);
+        return;
+      }
+
+      sectionsData[foundSec] = sectionsData[foundSec].filter(p => p.id !== item.id);
+      await saveSectionsData();
+      renderAllSections();
+
+      if (photosData.length === 0) {
+        closeLightbox();
+      } else {
+        if (currentPhotoIdx >= photosData.length) {
+          currentPhotoIdx = photosData.length - 1;
+        }
+        updateLightbox();
+      }
+      showToast('🗑️ Photo removed from collection');
+    }
+
+    function replaceCurrentLightboxPhoto() {
+      if (!isAdmin) return;
+      if (!photosData || photosData.length === 0) return;
+      const item = photosData[currentPhotoIdx];
+      if (!item) return;
+      for (const sec of ['hero', 'portraits', 'celebration', 'gallery']) {
+        if (sectionsData[sec] && sectionsData[sec].some(p => p.id === item.id)) {
+          triggerPhotoReplace(sec, item.id);
+          return;
+        }
+      }
+    }
+
+    function editCurrentLightboxPhoto() {
+      if (!isAdmin) return;
+      if (!photosData || photosData.length === 0) return;
+      const item = photosData[currentPhotoIdx];
+      if (!item) return;
+      for (const sec of ['hero', 'portraits', 'celebration', 'gallery']) {
+        if (sectionsData[sec] && sectionsData[sec].some(p => p.id === item.id)) {
+          openEditPhotoModal(sec, item.id);
+          return;
+        }
+      }
+    }
+
+    function editCurrentLightboxPhotoTitle() {
+      if (!isAdmin) return;
+      if (!photosData || photosData.length === 0) return;
+      const item = photosData[currentPhotoIdx];
+      if (!item) return;
+      for (const sec of ['hero', 'portraits', 'celebration', 'gallery']) {
+        if (sectionsData[sec] && sectionsData[sec].some(p => p.id === item.id)) {
+          promptRenameCard(sec, item.id);
+          const updated = sectionsData[sec].find(p => p.id === item.id);
+          if (updated) {
+            item.title = updated.title;
+            const titleEl = document.getElementById('lightboxTitle');
+            if (titleEl) titleEl.innerText = updated.title;
+          }
+          return;
+        }
+      }
+    }
+
+    function promptRenameCard(section, id, event) {
+      if (event) event.stopPropagation();
+      if (!isAdmin) return;
+      const list = sectionsData[section] || [];
+      const item = list.find(p => p.id === id);
+      if (!item) return;
+      const newName = prompt('Enter new card / photo title:', item.title);
+      if (newName !== null && newName.trim() !== '') {
+        item.title = newName.trim();
+        saveSectionsData();
+        renderAllSections();
+        showToast('✓ Title updated!');
+      }
     }
 
     // --- Replace Single Photo Action ---
@@ -1912,7 +2073,16 @@
     }
 
     function loadSavedTitles() {
-      const titleIds = ['secTitlePortraits', 'secTitleCelebration', 'secTitleGallery'];
+      const titleIds = [
+        'heroNameHeading',
+        'heroTaglineHeading',
+        'secTitlePortraits',
+        'secTitleCelebration',
+        'secTitleGallery',
+        'secTitleCollege',
+        'secTitleSocials',
+        'secTitleReflections'
+      ];
       titleIds.forEach(id => {
         const saved = localStorage.getItem('custom_text_' + id);
         if (saved) {
